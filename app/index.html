@@ -22,10 +22,10 @@
 		src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body>
-	<ul class="menu">
-		<li><a href="#/view1">view1</a></li>
-		<li><a href="#/view2">view2</a></li>
-	</ul>
+
+    <div ng-controller="MenuController">
+	    <app-menu items="menu_main"></app-menu>
+    </div>
 
 	<!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -37,12 +37,19 @@
 		Angular seed app: v<span app-version></span>
 	</div>
 
+
+<!-- JavaScript -->
 	<!-- In production use: <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script> -->
 	<script src="bower_components/angular/angular.js"></script>
 	<script src="bower_components/angular-route/angular-route.js"></script>
+	
+	<!-- App -->
 	<script src="app.js"></script>
 	<script src="view1/view1.js"></script>
 	<script src="view2/view2.js"></script>
+	
+	<!-- Components -->
+    <script src="components/app-menu/app-menu-directive.js"></script>
 	<script src="components/version/version.js"></script>
 	<script src="components/version/version-directive.js"></script>
 	<script src="components/version/interpolate-filter.js"></script>
