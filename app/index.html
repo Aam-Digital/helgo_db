@@ -29,6 +29,8 @@
     <link href="bower_components/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
     <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.min.css">
+
     <!-- Custom App CSS -->
 	<link rel="stylesheet" href="app.css">
 
@@ -47,7 +49,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">HDB</a>
+                <a class="navbar-brand" href="#/">HDB</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -142,13 +144,15 @@
 	<!-- In production use: <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script> -->
 	<script src="bower_components/angular/angular.js"></script>
 	<script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/ng-table/dist/ng-table.js"></script>
+
 	
 	<!-- App -->
 	<script src="app.js"></script>
 	<script src="navigation.js"></script>
 	<script src="alerts.js"></script>
 	<script src="view/dashboard/dashboard.js"></script>
-	<script src="view/view2/view2.js"></script>
+	<script src="view/child/child.js"></script>
 	
 	<!-- Components -->
     <script src="components/app-menu/app-menu-directive.js"></script>

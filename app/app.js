@@ -4,7 +4,7 @@
 angular.module('myApp', [
   'ngRoute',
   'myApp.view.dashboard',
-  'myApp.view.view2',
+  'myApp.view.child',
   'myApp.version',
   'myApp.navigation',
   'myApp.alerts',
