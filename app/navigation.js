@@ -3,7 +3,7 @@ angular.module('myApp.navigation', [])
 
 .controller('NavigationController', ['$scope', function($scope) {
     $scope.menu_main = [
-        { url: '/', icon: 'fa-home', title: 'Dashboard', },
+        { url: '/', icon: 'fa-home', title: 'Overview', },
         { url: '/child', icon: 'fa-child', title: 'Children', },
         { url: '', icon: 'fa-sitemap', title: 'More', submenu: [
             { url: '/', title: 'Sub 1', },
