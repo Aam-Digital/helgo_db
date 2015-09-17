@@ -6,17 +6,18 @@ angular.module('myApp', [
   'myApp.view1',
   'myApp.view2',
   'myApp.version',
-  'myApp.app-menu',
+  'myApp.navigation',
+  'myApp.alerts',
 ])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/view1'});
-}])
-
-.controller('MenuController', ['$scope', function($scope) {
-    $scope.menu_main = [
-        { url: 'view1', title: 'View 1', },
-        { url: 'view2', title: 'View 2', },
-    ];
 }]);
 
+
+
+angular.module('myApp.version', [
+  'myApp.version.version-directive',
+])
+
+.value('version', '0.1');

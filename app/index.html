@@ -8,50 +8,156 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>My AngularJS App</title>
+	<title>HELGO DB - Alpha</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	
+
+<!-- CSS -->
+    <!-- HTML5 Boilerplate CSS -->
 	<link rel="stylesheet"
 		href="bower_components/html5-boilerplate/dist/css/normalize.css">
 	<link rel="stylesheet"
 		href="bower_components/html5-boilerplate/dist/css/main.css">
-	<link rel="stylesheet" href="app.css">
-	
 	<script
 		src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- startbootstrap SB Admin Theme CSS -->
+    <link href="bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <link href="bower_components/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom App CSS -->
+	<link rel="stylesheet" href="app.css">
+
 </head>
+
 <body>
 
-    <div ng-controller="MenuController">
-	    <app-menu items="menu_main"></app-menu>
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">HELGO DB</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown" ng-controller="AlertController">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+<!-- App Alert Control -->
+                    <ul class="dropdown-menu dropdown-alerts">
+                        <li ng-repeat="info in alerts">
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-comment fa-fw"></i> {{ info.title }}
+                                    <span class="pull-right text-muted small">{{ info.time }}</span>
+                                </div>
+                            </a>
+                            <p class="divider"></p>
+                        </li>
+
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>See All Alerts</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-alerts -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu" ng-controller="NavigationController">
+<!-- App Navigation Menu Control -->
+                        <li ng-repeat="item in menu_main">
+                            <a href="{{ item.url }}"><i class="fa {{ item.icon }} fa-fw"></i> {{ item.title }}<span class="fa arrow" ng-if="item.submenu.length > 0" /></a>
+                            <ul class="nav nav-second-level" ng-if="item.submenu.length > 0">
+                                <li ng-repeat="sub in item.submenu">
+                                    <a href="{{ sub.url }}"> {{ sub.title }}</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+
+        <!-- Main Page -->
+        <div id="page-wrapper" ng-view></div>
+
+
+        <!-- Footer -->
+	    <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <a href="#">Project HELGO DB (v<span app-version></span>)</a>
+                </div>
+            </div>
+        </footer>
+
     </div>
+    <!-- /#wrapper -->
 
-	<!--[if lt IE 7]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-  <![endif]-->
 
-	<div ng-view></div>
-
-	<div>
-		Angular seed app: v<span app-version></span>
-	</div>
+	
 
 
 <!-- JavaScript -->
+
 	<!-- In production use: <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script> -->
 	<script src="bower_components/angular/angular.js"></script>
 	<script src="bower_components/angular-route/angular-route.js"></script>
 	
 	<!-- App -->
 	<script src="app.js"></script>
+	<script src="navigation.js"></script>
+	<script src="alerts.js"></script>
 	<script src="view1/view1.js"></script>
 	<script src="view2/view2.js"></script>
 	
 	<!-- Components -->
     <script src="components/app-menu/app-menu-directive.js"></script>
-	<script src="components/version/version.js"></script>
 	<script src="components/version/version-directive.js"></script>
-	<script src="components/version/interpolate-filter.js"></script>
+
+    <!-- Bootstrap Theme JavaScript -->
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
 </body>
 </html>
