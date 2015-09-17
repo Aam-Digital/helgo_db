@@ -102,10 +102,10 @@
                     <ul class="nav" id="side-menu" ng-controller="NavigationController">
 <!-- App Navigation Menu Control -->
                         <li ng-repeat="item in menu_main">
-                            <a href="{{ item.url }}"><i class="fa {{ item.icon }} fa-fw"></i> {{ item.title }}<span class="fa arrow" ng-if="item.submenu.length > 0" /></a>
+                            <a href="#{{ item.url }}"><i class="fa {{ item.icon }} fa-fw"></i> {{ item.title }}<span class="fa arrow" ng-if="item.submenu.length > 0" /></a>
                             <ul class="nav nav-second-level" ng-if="item.submenu.length > 0">
                                 <li ng-repeat="sub in item.submenu">
-                                    <a href="{{ sub.url }}"> {{ sub.title }}</a>
+                                    <a href="#{{ sub.url }}"> {{ sub.title }}</a>
                                 </li>
                             </ul>
                         </li>
@@ -147,8 +147,8 @@
 	<script src="app.js"></script>
 	<script src="navigation.js"></script>
 	<script src="alerts.js"></script>
-	<script src="view1/view1.js"></script>
-	<script src="view2/view2.js"></script>
+	<script src="view/dashboard/dashboard.js"></script>
+	<script src="view/view2/view2.js"></script>
 	
 	<!-- Components -->
     <script src="components/app-menu/app-menu-directive.js"></script>
