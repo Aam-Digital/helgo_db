@@ -39,6 +39,11 @@ angular.module('myApp.child', [
 
     .factory('childrenManager', ['pouchDB', '$q', 'Child', function (pouchDB, $q, Child) {
         var db = pouchDB('hdb');
+        var rep = db.replicate.sync('http://localhost:5984/hdb', {
+            live: true,
+            retry: true
+        });
+
 
         var childrenManager = {
             _pool: {},
@@ -88,7 +93,6 @@ angular.module('myApp.child', [
                 db.allDocs({include_docs: true, descending: true})
                     .then(function (dataArray) {
                         var items = [];
-                        console.log(dataArray);
                         dataArray.rows.forEach(function (row) {
                             var data = row.doc;
                             var o = scope._retrieveInstance(data._id, data);
