@@ -1,15 +1,16 @@
 {
-  "name": "angular-seed",
-  "description": "A starter project for AngularJS",
-  "version": "0.0.0",
-  "homepage": "https://github.com/angular/angular-seed",
-  "license": "MIT",
+  "name": "hdb",
+  "description": "HELGO DB: A simple database system for a NGO",
+  "version": "0.1.0",
+  "homepage": "https://github.com/sebastian-leidig/helgo_db",
   "private": true,
   "dependencies": {
     "angular": "~1.4.0",
-    "angular-route": "~1.4.0",
     "angular-loader": "~1.4.0",
     "angular-mocks": "~1.4.0",
-    "html5-boilerplate": "~5.2.0"
+    "angular-pouchdb": "~3.0.0",
+    "angular-route": "~1.4.0",
+    "html5-boilerplate": "~5.2.0",
+    "startbootstrap-sb-admin-2": "~1.0.7"
   }
 }

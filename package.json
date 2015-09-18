@@ -1,10 +1,10 @@
 {
-  "name": "angular-seed",
-  "private": true,
-  "version": "0.0.0",
-  "description": "A starter project for AngularJS",
-  "repository": "https://github.com/angular/angular-seed",
+  "name": "hdb",
+  "description": "HELGO DB: A simple database system for a NGO",
+  "version": "0.1.0",
+  "repository": "https://github.com/sebastian-leidig/helgo_db",
   "license": "MIT",
+  "private": true,
   "devDependencies": {
     "bower": "^1.3.1",
     "http-server": "^0.6.1",
