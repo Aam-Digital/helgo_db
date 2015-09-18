@@ -39,7 +39,7 @@ angular.module('myApp.child', [
 
     .factory('childrenManager', ['pouchDB', '$q', 'Child', function (pouchDB, $q, Child) {
         var db = pouchDB('hdb');
-        var rep = db.replicate.sync('http://localhost:5984/hdb', {
+        var rep = db.replicate.sync(DB_REMOTE+'/hdb', {
             live: true,
             retry: true
         });

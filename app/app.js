@@ -1,4 +1,5 @@
 'use strict';
+var DB_REMOTE = "http://185.101.92.214:5984"; 
 
 // Declare app level module which depends on views, and components
 var app = angular.module('myApp', [
