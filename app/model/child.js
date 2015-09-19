@@ -1,10 +1,8 @@
 angular.module('myApp.child', [
-    'pouchdb',
+    'myApp.appDB',
 ])
 
-    .factory('Child', function ($log, pouchDB) {
-        var db = pouchDB('hdb');
-
+    .factory('Child', ['appDB', function ($log, appDB) {
         function Child(childData) {
             if (childData) {
                 this.setData(childData);
@@ -18,15 +16,15 @@ angular.module('myApp.child', [
                 return this;
             },
             delete: function () {
-                db.delete(this);
+                appDB.delete(this);
             },
             update: function () {
-                db.put(this);
+                appDB.put(this);
             },
         };
 
         Child.load = function (pn) {
-            return db.get(pn)
+            return appDB.get(pn)
                 .then(function (data) {
                     return new Child(data);
                 },
@@ -34,17 +32,10 @@ angular.module('myApp.child', [
         };
 
         return Child;
-    })
+    }])
 
 
-    .factory('childrenManager', ['pouchDB', '$q', 'Child', function (pouchDB, $q, Child) {
-        var db = pouchDB('hdb');
-        var rep = db.replicate.sync(DB_REMOTE+'/hdb', {
-            live: true,
-            retry: true
-        });
-
-
+    .factory('childrenManager', ['appDB', '$q', 'Child', function (appDB, $q, Child) {
         var childrenManager = {
             _pool: {},
             _retrieveInstance: function (pn, data) {
@@ -64,7 +55,7 @@ angular.module('myApp.child', [
             },
             _load: function (pn, deferred) {
                 var scope = this;
-                db.get(pn)
+                appDB.get(pn)
                     .then(
                     function (data) {
                         var child = scope._retrieveInstance(data.pn, data);
@@ -90,7 +81,7 @@ angular.module('myApp.child', [
             getAll: function () {
                 var deferred = $q.defer();
                 var scope = this;
-                db.allDocs({include_docs: true, descending: true})
+                appDB.allDocs({include_docs: true, descending: true})
                     .then(function (dataArray) {
                         var items = [];
                         dataArray.rows.forEach(function (row) {
