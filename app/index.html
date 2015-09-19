@@ -3,7 +3,7 @@
 <!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html lang="en" ng-app="myApp" class="no-js">
+<html lang="en" ng-app="myApp" class="no-js" manifest="manifest.appcache">
 <!--<![endif]-->
 <head>
 	<meta charset="utf-8">
@@ -13,23 +13,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- CSS -->
-    <!-- HTML5 Boilerplate CSS -->
-	<link rel="stylesheet"
-		href="bower_components/html5-boilerplate/dist/css/normalize.css">
-	<link rel="stylesheet"
-		href="bower_components/html5-boilerplate/dist/css/main.css">
-	<script
-		src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
-
     <!-- Bootstrap Core CSS -->
-    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="lib/bootstrap.min.css" rel="stylesheet">
 
     <!-- startbootstrap SB Admin Theme CSS -->
-    <link href="bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
-    <link href="bower_components/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
-    <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="lib/metisMenu.min.css" rel="stylesheet">
+    <link href="lib/sb-admin-2.css" rel="stylesheet">
+    <link href="lib/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.min.css">
+    <link rel="stylesheet" href="lib/ng-table.min.css">
 
     <!-- Custom App CSS -->
 	<link rel="stylesheet" href="app.css">
@@ -142,11 +134,11 @@
 <!-- JavaScript -->
 
 	<!-- In production use: <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script> -->
-	<script src="bower_components/angular/angular.js"></script>
-	<script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/ng-table/dist/ng-table.js"></script>
-    <script src="bower_components/angular-pouchdb/angular-pouchdb.js"></script>
-    <script src="bower_components/pouchdb/dist/pouchdb.min.js"></script>
+	<script src="lib/angular.min.js"></script>
+	<script src="lib/angular-route.min.js"></script>
+    <script src="lib/ng-table.min.js"></script>
+    <script src="lib/angular-pouchdb.min.js"></script>
+    <script src="lib/pouchdb.min.js"></script>
 
 	
 	<!-- App -->
@@ -161,9 +153,9 @@
 	<script src="components/version/version-directive.js"></script>
 
     <!-- Bootstrap Theme JavaScript -->
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
+    <script src="lib/metisMenu.min.js"></script>
 
 </body>
 </html>

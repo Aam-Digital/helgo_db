@@ -6,6 +6,7 @@
 bower_components/*
 node_modules/*
 
+build/*
 logs/*
 !.gitkeep
 tmp
