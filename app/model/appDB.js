@@ -13,38 +13,12 @@ angular.module('myApp.appDB', [
     })
 
     .service('appDB', function ($log, pouchDB) {
-        var user = {
-            name: 'admin',
-            password: 'DKtVM2i7ajhj'
-        };
-
         var remoteDB = pouchDB(DB_REMOTE + '/hdb', {skipSetup: true});
-        var ajaxOpts = {
-            ajax: {
-                headers: {
-                    Authorization: 'Basic ' + window.btoa(user.name + ':' + user.password)
-                }
-            }
-        };
-        remoteDB.login(user.name, user.password, ajaxOpts).then(function () {
-            db.replicate.sync(remoteDB, {
-                live: true,
-                retry: true
-            });
-            db._loggedIn = true;
-        }).catch(function (error) {
-            console.error("Could not log in to the remote database.");
-            console.error(error);
-            db._loggedIn = false;
-        });
 
         var db = pouchDB('hdb');
         db.remoteDB = remoteDB;
-        db.isLoggedIn = function () {
-            console.log("isLoggedIn?");
-            console.log(db);
-            console.log(db._loggedIn);
 
+        db.isLoggedIn = function () {
             db.remoteDB.getSession()
                 .then(function (session) {
                     if (session.ok) {
@@ -61,6 +35,39 @@ angular.module('myApp.appDB', [
 
             // return previous known status immediately
             return db._loggedIn;
+        };
+
+        db.login = function (username, password) {
+            var ajaxOpts = {
+                ajax: {
+                    headers: {
+                        Authorization: 'Basic ' + window.btoa(username + ':' + password),
+                    }
+                }
+            };
+            return db.remoteDB.login(username, password, ajaxOpts)
+                .then(
+                function () {
+                    db.replicate.sync(remoteDB, {
+                        live: true,
+                        retry: true
+                    });
+                    db._loggedIn = true;
+                    return {ok: true};
+                },
+                function (error) {
+                    $log.error("Could not log in to the remote database. (" + error.message + ")");
+                    db._loggedIn = false;
+                    return {ok: false, info: error};
+                });
+        };
+
+        db.logout = function () {
+            return db.remoteDB.logout().then(
+                function (res) {
+                    db._loggedIn = false;
+                }
+            );
         };
 
         return db;

@@ -11,7 +11,7 @@ var app = angular.module('myApp', [
     'myApp.navigation',
     'myApp.alerts',
     'myApp.child',
-//    'myApp.user'
+    'myApp.user',
 ])
 
     .config(['$routeProvider', function ($routeProvider) {
