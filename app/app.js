@@ -11,11 +11,21 @@ var app = angular.module('myApp', [
     'myApp.navigation',
     'myApp.alerts',
     'myApp.child',
-    'pouchdb'
+//    'myApp.user'
 ])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.otherwise({redirectTo: '/'});
+    }])
+
+    .run(['$rootScope', '$location', '$log', 'appDB', function ($rootScope, $location, $log, appDB) {
+        $rootScope.$on('$locationChangeStart', function (event, next, current) {
+            // redirect to login page if not logged in and trying to access a restricted page
+            var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
+            if (restrictedPage && !appDB.isLoggedIn()) {
+                $location.path('/login');
+            }
+        });
     }]);
 
 

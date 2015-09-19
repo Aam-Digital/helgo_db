@@ -31,12 +31,37 @@ angular.module('myApp.appDB', [
                 live: true,
                 retry: true
             });
+            db._loggedIn = true;
         }).catch(function (error) {
             console.error("Could not log in to the remote database.");
             console.error(error);
+            db._loggedIn = false;
         });
 
-        db = pouchDB('hdb');
+        var db = pouchDB('hdb');
+        db.remoteDB = remoteDB;
+        db.isLoggedIn = function () {
+            console.log("isLoggedIn?");
+            console.log(db);
+            console.log(db._loggedIn);
+
+            db.remoteDB.getSession()
+                .then(function (session) {
+                    if (session.ok) {
+                        db._loggedIn = true;
+                    }
+                    else {
+                        db._loggedIn = false;
+                    }
+                })
+                .catch(function (err) {
+                    $log.error(err);
+                    db._loggedIn = false;
+                });
+
+            // return previous known status immediately
+            return db._loggedIn;
+        };
 
         return db;
     });
