@@ -99,10 +99,8 @@ angular.module('myApp.appDB', [
             getAll: function () {
                 var deferred = $q.defer();
                 var scope = this;
-                console.log(this._prefix);
                 appDB.allDocs({include_docs: true, startkey: this._prefix, endkey: this._prefix+"\ufff0"})
                     .then(function (dataArray) {
-                        console.log(dataArray);
                         var items = [];
                         dataArray.rows.forEach(function (row) {
                             var data = row.doc;
