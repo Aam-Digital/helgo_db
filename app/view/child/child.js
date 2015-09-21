@@ -3,7 +3,6 @@
 angular.module('myApp.view.child', [
     'ngRoute',
     'ngTable',
-    'pouchdb',
 ])
 
     .config(['$routeProvider', function ($routeProvider) {
