@@ -1,5 +1,5 @@
 'use strict';
-var DB_REMOTE = "http://185.101.92.214:5984"; 
+var DB_REMOTE = "http://185.101.92.214:5984";
 
 // Declare app level module which depends on views, and components
 var app = angular.module('myApp', [
@@ -7,6 +7,7 @@ var app = angular.module('myApp', [
     'myApp.appDB',
     'myApp.view.dashboard',
     'myApp.view.child',
+    'myApp.view.user',
     'myApp.version',
     'myApp.navigation',
     'myApp.alerts',
@@ -18,11 +19,11 @@ var app = angular.module('myApp', [
         $routeProvider.otherwise({redirectTo: '/'});
     }])
 
-    .run(['$rootScope', '$location', '$log', 'appDB', function ($rootScope, $location, $log, appDB) {
+    .run(['$rootScope', '$location', '$log', 'userManager', function ($rootScope, $location, $log, userManager) {
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
             // redirect to login page if not logged in and trying to access a restricted page
             var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
-            if (restrictedPage && !appDB.isLoggedIn()) {
+            if (restrictedPage && !userManager.isLoggedIn()) {
                 $location.path('/login');
             }
         });

@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('myApp.user', [
+angular.module('myApp.view.user', [
     'ngRoute',
-    'myApp.appDB',
+    'myApp.user',
 ])
 
     .config(['$routeProvider', function ($routeProvider) {
@@ -17,17 +17,22 @@ angular.module('myApp.user', [
             });
     }])
 
-    .controller('LoginController', ['$scope', '$location', 'appDB', function ($scope, $location, appDB) {
+    .controller('LoginController', ['$scope', '$location', 'userManager', function ($scope, $location, userManager) {
         $scope.login = function login() {
-            appDB.login($scope.user.name, $scope.user.password).then(
+            userManager.login($scope.user.name, $scope.user.password).then(
                 function (status) {
+                    console.log()
                     if (status.ok) {
                         $location.path("/");
                     }
                     else {
                         $scope.error = status.info.message;
                     }
-                });
+                },
+                function (err) {
+                    $scope.error = err.message;
+                }
+            );
         };
     }])
 
