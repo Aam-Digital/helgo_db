@@ -23,6 +23,12 @@ angular.module('myApp.child', [
             update: function () {
                 appDB.put(this);
             },
+
+            age: function () {
+                var now = new Date();
+                var diff = now.getTime() - this.dateOfBirth.getTime();
+                return Math.ceil(diff / (1000 * 3600 * 24 * 365));
+            },
         };
 
         return Child;

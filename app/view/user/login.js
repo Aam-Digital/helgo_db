@@ -21,7 +21,6 @@ angular.module('myApp.view.user', [
         $scope.login = function login() {
             userManager.login($scope.user.name, $scope.user.password).then(
                 function (status) {
-                    console.log()
                     if (status.ok) {
                         $location.path("/");
                     }

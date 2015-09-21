@@ -6,6 +6,7 @@
   "private": true,
   "dependencies": {
     "angular": "~1.4.0",
+    "angular-bootstrap": "~0.13.4",
     "angular-loader": "~1.4.0",
     "angular-mocks": "~1.4.0",
     "angular-pouchdb": "~3.0.0",

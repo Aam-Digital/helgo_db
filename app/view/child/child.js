@@ -3,6 +3,7 @@
 angular.module('myApp.view.child', [
     'ngRoute',
     'ngTable',
+    'ui.bootstrap',
 ])
 
     .config(['$routeProvider', function ($routeProvider) {
@@ -12,13 +13,13 @@ angular.module('myApp.view.child', [
                 controller: 'ChildListController'
             })
             .when('/child/:pn', {
-                templateUrl: 'view/child/child-list.html',
-                controller: 'ChildListController'
+                templateUrl: 'view/child/child-details.html',
+                controller: 'ChildDetailsController'
             });
     }])
 
-    .controller('ChildListController', ['$scope', '$location', '$log', 'ngTableParams', 'Child', 'childrenManager', function ($scope, $location, $log, ngTableParams, Child, childrenManager) {
 
+    .controller('ChildListController', ['$scope', '$location', '$log', 'ngTableParams', 'Child', 'childrenManager', function ($scope, $location, $log, ngTableParams, Child, childrenManager) {
         $scope.tableParams = new ngTableParams(
             {
                 count: 25,
@@ -39,5 +40,68 @@ angular.module('myApp.view.child', [
         $scope.showChild = function (pn) {
             $location.path("/child/" + pn);
         };
-    }]);
+    }])
+
+
+    .controller('ChildDetailsController', ['$scope', '$location', '$log', '$routeParams', 'ngTableParams', 'childrenManager',
+        function ($scope, $location, $log, $routeParams, ngTableParams, childrenManager) {
+
+            childrenManager.get($routeParams.pn).then(function (child) {
+                $scope.child = child;
+
+                $scope.save = function () {
+                    child.update();
+                };
+
+                $scope.tableFamily = new ngTableParams(
+                    {
+                        count: 25,
+                    },
+                    {
+                        getData: function ($defer, params) {
+                            var data = [];
+                            $scope.items = data;
+                            params.total(data.length);
+                            $defer.resolve(data);
+                        },
+                    }
+                );
+
+                $scope.tableCoaching = new ngTableParams(
+                    {
+                        count: 25,
+                    },
+                    {
+                        getData: function ($defer, params) {
+                            var data = [];
+                            $scope.items = data;
+                            params.total(data.length);
+                            $defer.resolve(data);
+                        },
+                    }
+                );
+
+                $scope.showFamilyMember = function (familyMemberId) {
+                    $location.path("/child/" + pn + "/family/" + familyMemberId);
+                };
+            });
+
+
+            $scope.socialworkers = [
+                //TODO: use userManager to get list of all social workers
+                {name: 'Jaya',},
+                {name: 'Anjan',},
+                {name: 'Faheem',},
+            ];
+
+            $scope.centers = ['Tikiapara', 'Liluah'];
+
+            $scope.schools = [
+                //TODO: schoolManager to get list of all schools
+                {name: 'St. Joseph Day School',},
+                {name: 'Blooming Dale International Academy',},
+            ];
+
+        }]);
+;
 
