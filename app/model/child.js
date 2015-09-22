@@ -26,7 +26,8 @@ angular.module('myApp.child', [
 
             age: function () {
                 var now = new Date();
-                var diff = now.getTime() - this.dateOfBirth.getTime();
+                var birth = new Date(this.dateOfBirth);
+                var diff = now.getTime() - birth.getTime();
                 return Math.ceil(diff / (1000 * 3600 * 24 * 365));
             },
         };
