@@ -23,6 +23,7 @@ angular.module('myApp.user', [
             update: function () {
                 appDB.put(this);
             },
+
             authenticate: function(password) {
                 return (hashFnv32a(password) == this.password);
             },
@@ -63,16 +64,27 @@ angular.module('myApp.user', [
                 );
                 return deferred.promise;
             },
-
             logout: function() {
                 appDB.logout();
                 this._currentUser = null;
             },
-
             isLoggedIn: function () {
                 return (this._currentUser != null);
             },
 
+            getAllSocialworkers: function () {
+                return this.getAll().then(
+                    function (users) {
+                        var socialworkers = [];
+                        users.forEach(function (user) {
+                            if (user.socialworker) {
+                                socialworkers.push(user);
+                            }
+                        });
+                        return socialworkers;
+                    }
+                );
+            },
         });
 
         return manager;

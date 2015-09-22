@@ -43,8 +43,8 @@ angular.module('myApp.view.child', [
     }])
 
 
-    .controller('ChildDetailsController', ['$scope', '$location', '$log', '$routeParams', 'ngTableParams', 'childrenManager',
-        function ($scope, $location, $log, $routeParams, ngTableParams, childrenManager) {
+    .controller('ChildDetailsController', ['$scope', '$location', '$log', '$routeParams', 'ngTableParams', 'childrenManager', 'userManager',
+        function ($scope, $location, $log, $routeParams, ngTableParams, childrenManager, userManager) {
 
             childrenManager.get($routeParams.pn).then(function (child) {
                 $scope.child = child;
@@ -87,12 +87,9 @@ angular.module('myApp.view.child', [
             });
 
 
-            $scope.socialworkers = [
-                //TODO: use userManager to get list of all social workers
-                {name: 'Jaya',},
-                {name: 'Anjan',},
-                {name: 'Faheem',},
-            ];
+            userManager.getAllSocialworkers().then(function (users) {
+                $scope.socialworkers = users;
+            });
 
             $scope.centers = ['Tikiapara', 'Liluah'];
 
