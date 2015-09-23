@@ -90,7 +90,7 @@ module.exports = function(grunt) {
       gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d',
       globalReplace: false,
       prereleaseName: false,
-      regExp: false
+      regExp: new RegExp('([\'|\"]?version[\'|\"]?[ ]*[:|,][ ]*[\'|\"]?)(\\d+\\.\\d+\\.\\d+(-<%= bump.options.prereleaseName %>\\.\\d+)?(-\\d+)?)[\\d||A-a|.|-]*([\'|\"]?)', 'i'),
     }
   },
   });
