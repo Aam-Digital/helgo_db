@@ -225,9 +225,9 @@
                 </div>
                 <div class="col-lg-6 form-group">
                     <label>School</label>
-                    <select class="form-control" ng-model="child.school.name">
-                        <option ng-repeat="school in schools">{{ school.name }}</option>
-                    </select>
+                    <input type="text" class="form-control" placeholder="Search School ..."
+                           ng-model="child.school"
+                           typeahead="school as school.toString() for school in schools | filter:$viewValue | limitTo:8">
                 </div>
                 <div class="col-lg-4 form-group">
                     <label>Medium</label>

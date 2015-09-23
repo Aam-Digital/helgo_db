@@ -5,6 +5,9 @@ angular.module('myApp.view.child', [
     'ngTable',
     'ui.bootstrap',
     'myApp.search',
+    'myApp.school',
+    'myApp.view.school',
+    'myApp.user',
 ])
 
     .config(['$routeProvider', function ($routeProvider) {
@@ -60,8 +63,8 @@ angular.module('myApp.view.child', [
     }])
 
 
-    .controller('ChildDetailsController', ['$scope', '$location', '$log', '$routeParams', 'ngTableParams', 'childrenManager', 'userManager',
-        function ($scope, $location, $log, $routeParams, ngTableParams, childrenManager, userManager) {
+    .controller('ChildDetailsController', ['$scope', '$location', '$log', '$routeParams', 'ngTableParams', 'childrenManager', 'userManager', 'schoolManager',
+        function ($scope, $location, $log, $routeParams, ngTableParams, childrenManager, userManager, schoolManager) {
 
             childrenManager.get($routeParams.pn).then(function (child) {
                 $scope.child = child;
@@ -110,11 +113,9 @@ angular.module('myApp.view.child', [
 
             $scope.centers = ['Tikiapara', 'Liluah'];
 
-            $scope.schools = [
-                //TODO: schoolManager to get list of all schools
-                {name: 'St. Joseph Day School',},
-                {name: 'Blooming Dale International Academy',},
-            ];
+            schoolManager.getAll().then(function (schools) {
+                $scope.schools = schools;
+            });
 
         }]);
 ;
