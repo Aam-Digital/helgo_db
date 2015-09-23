@@ -1,5 +1,5 @@
 'use strict';
-var DB_REMOTE = "http://185.101.92.214:5984";
+var DB_REMOTE = "https://hdb.sinnfragen.org/db/";
 
 // Declare app level module which depends on views, and components
 var app = angular.module('myApp', [
@@ -13,6 +13,8 @@ var app = angular.module('myApp', [
     'myApp.alerts',
     'myApp.child',
     'myApp.user',
+    'myApp.school',
+    'myApp.view.school',
 ])
 
     .config(['$routeProvider', function ($routeProvider) {
