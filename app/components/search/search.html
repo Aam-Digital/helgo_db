@@ -1,6 +1,6 @@
 <div class="input-group custom-search-form">
     <input type="text" class="form-control" placeholder="Search..."
-           ng-model="searchText" typeahead="label(item) for item in items | filter:$viewValue | limitTo:8"
+           ng-model="searchText" typeahead="item as item.toString() for item in items | filter:$viewValue | limitTo:8"
            typeahead-on-select="searchExecute($item, $model, $label)">
         <span class="input-group-btn">
             <div class="btn btn-default">

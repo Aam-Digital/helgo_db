@@ -22,12 +22,11 @@ angular.module('myApp.view.child', [
     .directive('searchChild', ['$location', 'childrenManager', function($location, childrenManager) {
         return {
             restrict: 'E',
-            template: '<search items="children" item-formater="childFormater" item-execute="openChild"></search>',
+            template: '<search items="children" item-execute="openChild"></search>',
 
             link: function(scope, element, attrs) {
                 childrenManager.getAll().then(function(data) {
                     scope.children = data;
-                    scope.childFormater = function(child) { return (child.name+' ['+child.pn+']'); };
                     scope.openChild = function(child) {
                         $location.path("/child/" + child.pn);
                     };

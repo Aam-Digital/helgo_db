@@ -16,6 +16,10 @@ angular.module('myApp.child', [
         Child.prefix = prefix;
 
         Child.prototype = angular.extend(AbstractModel.prototype, {
+            toString: function() {
+                return child.name+' ['+child.pn+']';
+            },
+
             age: function () {
                 var now = new Date();
                 var birth = new Date(this.dateOfBirth);
