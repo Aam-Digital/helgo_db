@@ -4,6 +4,7 @@ angular.module('myApp.view.child', [
     'ngRoute',
     'ngTable',
     'ui.bootstrap',
+    'myApp.search',
 ])
 
     .config(['$routeProvider', function ($routeProvider) {
@@ -16,6 +17,23 @@ angular.module('myApp.view.child', [
                 templateUrl: 'view/child/child-details.html',
                 controller: 'ChildDetailsController'
             });
+    }])
+
+    .directive('searchChild', ['$location', 'childrenManager', function($location, childrenManager) {
+        return {
+            restrict: 'E',
+            template: '<search items="children" item-formater="childFormater" item-execute="openChild"></search>',
+
+            link: function(scope, element, attrs) {
+                childrenManager.getAll().then(function(data) {
+                    scope.children = data;
+                    scope.childFormater = function(child) { return (child.name+' ['+child.pn+']'); };
+                    scope.openChild = function(child) {
+                        $location.path("/child/" + child.pn);
+                    };
+                });
+            },
+        };
     }])
 
 

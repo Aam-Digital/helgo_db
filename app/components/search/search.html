@@ -1,0 +1,10 @@
+<div class="input-group custom-search-form">
+    <input type="text" class="form-control" placeholder="Search..."
+           ng-model="searchText" typeahead="label(item) for item in items | filter:$viewValue | limitTo:8"
+           typeahead-on-select="searchExecute($item, $model, $label)">
+        <span class="input-group-btn">
+            <div class="btn btn-default">
+                <i class="fa fa-search"></i>
+            </div>
+        </span>
+</div>
