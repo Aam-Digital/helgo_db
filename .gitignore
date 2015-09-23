@@ -5,6 +5,8 @@
 
 bower_components/*
 node_modules/*
+app/lib
+app/fonts
 
 build/*
 logs/*
