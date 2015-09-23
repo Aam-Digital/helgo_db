@@ -1,16 +1,19 @@
-PREFIX_USER = "user:";
 
 angular.module('myApp.user', [
     'myApp.appDB',
 ])
 
     .factory('User', ['AbstractModel', function (AbstractModel) {
+        var prefix = "user:";
+
         function User(data) {
             if (data) {
                 this.setData(data);
-                this._id = PREFIX_USER+data.name;
+                this._id = prefix + data.name;
             }
         };
+
+        User.prefix = prefix;
 
         User.prototype = angular.extend(AbstractModel.prototype, {
             authenticate: function(password) {
@@ -23,8 +26,7 @@ angular.module('myApp.user', [
 
 
     .factory('userManager', ['appDB', 'DbManager', '$q', 'User', function (appDB, DbManager, $q, User) {
-        var prefix = PREFIX_USER;
-        var manager = new DbManager(PREFIX_USER, User);
+        var manager = new DbManager(User);
 
         angular.extend(manager, {
             _currentUser: null,

@@ -71,8 +71,8 @@ angular.module('myApp.appDB', [
     }])
 
     .factory('DbManager', ['$log', '$q', 'appDB', function ($log, $q, appDB) {
-        function DbManager(prefix, Model) {
-            this._prefix = prefix;
+        function DbManager(Model) {
+            this._prefix = Model.prefix;
             this._model = Model;
         };
 

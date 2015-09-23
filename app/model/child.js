@@ -1,16 +1,19 @@
-PREFIX_CHILD = "child:";
 
 angular.module('myApp.child', [
     'myApp.appDB',
 ])
 
     .factory('Child', ['AbstractModel', function (AbstractModel) {
+        var prefix = "child:";
+
         function Child(childData) {
             if (childData) {
                 this.setData(childData);
-                this._id = PREFIX_CHILD+childData.pn;
+                this._id = prefix + childData.pn;
             }
         };
+
+        Child.prefix = prefix;
 
         Child.prototype = angular.extend(AbstractModel.prototype, {
             age: function () {
@@ -26,7 +29,7 @@ angular.module('myApp.child', [
 
 
     .factory('childrenManager', ['DbManager', 'Child', function (DbManager, Child) {
-        var manager = new DbManager(PREFIX_CHILD, Child);
+        var manager = new DbManager(Child);
 
         angular.extend(manager, {
             // add functions/fields to extend baseManager here
