@@ -101,8 +101,8 @@ angular.module('myApp.appDB', [
                         var object = scope._retrieveInstance(id, data);
                         deferred.resolve(object);
                     },
-                    function () {
-                        deferred.reject();
+                    function (err) {
+                        deferred.reject(err);
                     });
             },
 

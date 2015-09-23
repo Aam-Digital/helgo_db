@@ -9,6 +9,14 @@
 </div>
 
 
+<div class="alert alert-success" ng-if="new">
+    Creating a new child record.
+</div>
+<div class="alert alert-danger" ng-if="error">
+    {{ error }}
+</div>
+
+
 <div class="panel panel-default">
     <div class="panel-heading">
         Basic Information
@@ -173,7 +181,7 @@
                 Family & Guardians
                 <div class="pull-right">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-xs" ng-click="showFamilyMember();">
+                        <button type="button" class="btn btn-default btn-xs" ng-click="showFamilyMember('new');">
                             Add Family Member
                         </button>
                     </div>

@@ -63,48 +63,67 @@ angular.module('myApp.view.child', [
     }])
 
 
-    .controller('ChildDetailsController', ['$scope', '$location', '$log', '$routeParams', 'ngTableParams', 'childrenManager', 'userManager', 'schoolManager',
-        function ($scope, $location, $log, $routeParams, ngTableParams, childrenManager, userManager, schoolManager) {
+    .controller('ChildDetailsController', ['$scope', '$location', '$log', '$routeParams', 'ngTableParams', 'childrenManager', 'Child', 'userManager', 'schoolManager',
+        function ($scope, $location, $log, $routeParams, ngTableParams, childrenManager, Child, userManager, schoolManager) {
+            var param = $routeParams.pn;
+            if (param === "new") {
+                $scope.child = {};
+                $scope.new = true;
+            }
+            else {
+                childrenManager.get(param).then(
+                    function (child) {
+                        $scope.child = child;
 
-            childrenManager.get($routeParams.pn).then(function (child) {
-                $scope.child = child;
+                        $scope.tableFamily = new ngTableParams(
+                            {
+                                count: 25,
+                            },
+                            {
+                                getData: function ($defer, params) {
+                                    var data = [];
+                                    $scope.items = data;
+                                    params.total(data.length);
+                                    $defer.resolve(data);
+                                },
+                            }
+                        );
 
-                $scope.save = function () {
-                    child.update();
-                };
+                        $scope.tableCoaching = new ngTableParams(
+                            {
+                                count: 25,
+                            },
+                            {
+                                getData: function ($defer, params) {
+                                    var data = [];
+                                    $scope.items = data;
+                                    params.total(data.length);
+                                    $defer.resolve(data);
+                                },
+                            }
+                        );
 
-                $scope.tableFamily = new ngTableParams(
-                    {
-                        count: 25,
+                        $scope.showFamilyMember = function (familyMemberId) {
+                            $location.path("/child/" + pn + "/family/" + familyMemberId);
+                        };
                     },
-                    {
-                        getData: function ($defer, params) {
-                            var data = [];
-                            $scope.items = data;
-                            params.total(data.length);
-                            $defer.resolve(data);
-                        },
+                    function (err) {
+                        $scope.error = "The given child could not be loaded.";
+
+                        $scope.child = {};
+                        $scope.new = true;
                     }
                 );
+            }
 
-                $scope.tableCoaching = new ngTableParams(
-                    {
-                        count: 25,
-                    },
-                    {
-                        getData: function ($defer, params) {
-                            var data = [];
-                            $scope.items = data;
-                            params.total(data.length);
-                            $defer.resolve(data);
-                        },
-                    }
-                );
 
-                $scope.showFamilyMember = function (familyMemberId) {
-                    $location.path("/child/" + pn + "/family/" + familyMemberId);
-                };
-            });
+            $scope.save = function () {
+                var child = $scope.child;
+                if ($scope.new) {
+                    child = new Child(child);
+                }
+                child.update();
+            };
 
 
             userManager.getAllSocialworkers().then(function (users) {

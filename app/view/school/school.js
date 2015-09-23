@@ -66,13 +66,35 @@ angular.module('myApp.view.school', [
     }])
 
 
-    .controller('SchoolDetailsController', ['$scope', '$location', '$routeParams', '$log', 'ngTableParams', 'schoolManager', 'childrenManager',
-        function ($scope, $location, $routeParams, $log, ngTableParams, schoolManager, childrenManager) {
+    .controller('SchoolDetailsController', ['$scope', '$location', '$routeParams', '$log', 'ngTableParams', 'schoolManager', 'School', 'childrenManager',
+        function ($scope, $location, $routeParams, $log, ngTableParams, schoolManager, School, childrenManager) {
+            var param = $routeParams.name;
+            if (param === "new") {
+                $scope.school = {};
+                $scope.new = true;
+            }
+            else {
+                schoolManager.get(param).then(
+                    function (school) {
+                        $scope.school = school;
+                    },
+                    function (err) {
+                        $scope.error = "The given school could not be loaded.";
 
-            console.log($routeParams);
-            schoolManager.get($routeParams.name).then(function (school) {
-                $scope.school = school;
-            });
+                        $scope.school = {};
+                        $scope.new = true;
+                    }
+                );
+            }
+
+
+            $scope.save = function () {
+                var school = $scope.school;
+                if ($scope.new) {
+                    school = new School(school);
+                }
+                school.update();
+            };
 
 
             $scope.tableStudents = new ngTableParams(

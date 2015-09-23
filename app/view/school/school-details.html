@@ -3,9 +3,17 @@
         <h1 class="page-header section-school"><i class="fa fa-university fa-fw"></i> {{ school.name }}</h1>
     </div>
     <div class="col-lg-2">
-        <div type="button" class="page-header btn btn-success" ng-click="school.update();">Save</div>
+        <div type="button" class="page-header btn btn-success" ng-click="save();">Save</div>
     </div>
     <!-- /.col-lg-12 -->
+</div>
+
+
+<div class="alert alert-success" ng-if="new">
+    Creating a new school record.
+</div>
+<div class="alert alert-danger" ng-if="error">
+    {{ error }}
 </div>
 
 
@@ -67,6 +75,6 @@
 
 <div class="row">
     <div class="col-lg-12" style="text-align:center; padding:20px;">
-        <button type="button" class="btn btn-success" ng-click="school.update();">Save</button>
+        <button type="button" class="btn btn-success" ng-click="save();">Save</button>
     </div>
 </div>
