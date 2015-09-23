@@ -4,7 +4,7 @@ angular.module('myApp.user', [
     'myApp.appDB',
 ])
 
-    .factory('User', ['appDB', function ($log, appDB) {
+    .factory('User', ['AbstractModel', function (AbstractModel) {
         function User(data) {
             if (data) {
                 this.setData(data);
@@ -12,22 +12,11 @@ angular.module('myApp.user', [
             }
         };
 
-        User.prototype = {
-            setData: function (data) {
-                angular.extend(this, data);
-                return this;
-            },
-            delete: function () {
-                appDB.delete(this);
-            },
-            update: function () {
-                appDB.put(this);
-            },
-
+        User.prototype = angular.extend(AbstractModel.prototype, {
             authenticate: function(password) {
                 return (hashFnv32a(password) == this.password);
             },
-        };
+        });
 
         return User;
     }])

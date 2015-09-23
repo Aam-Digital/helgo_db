@@ -47,6 +47,29 @@ angular.module('myApp.appDB', [
     })
 
 
+    .factory('AbstractModel', ['$log', 'appDB', function ($log, appDB) {
+        function AbstractModel(data) {
+            if (data) {
+                this.setData(data);
+            }
+        };
+
+        AbstractModel.prototype = {
+            setData: function (data) {
+                angular.extend(this, data);
+                return this;
+            },
+            delete: function () {
+                appDB.delete(this);
+            },
+            update: function () {
+                appDB.put(this);
+            },
+        };
+
+        return AbstractModel;
+    }])
+
     .factory('DbManager', ['$log', '$q', 'appDB', function ($log, $q, appDB) {
         function DbManager(prefix, Model) {
             this._prefix = prefix;
