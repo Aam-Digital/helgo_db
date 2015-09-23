@@ -74,12 +74,32 @@ module.exports = function(grunt) {
         dest: 'build/manifest.appcache'
       }
     },
+
+  bump: {
+    options: {
+      files: ['package.json', 'bower.json', 'app/app.js'],
+      updateConfigs: [],
+      commit: true,
+      commitMessage: 'Release v%VERSION%',
+      commitFiles: ['package.json'],
+      createTag: true,
+      tagName: 'v%VERSION%',
+      tagMessage: 'Version %VERSION%',
+      push: true,
+      pushTo: 'origin',
+      gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d',
+      globalReplace: false,
+      prereleaseName: false,
+      regExp: new RegExp('([\'|\"]?version[\'|\"]?[ ]*[:|,][ ]*[\'|\"]?)(\\d+\\.\\d+\\.\\d+(-<%= bump.options.prereleaseName %>\\.\\d+)?(-\\d+)?)[\\d||A-a|.|-]*([\'|\"]?)', 'i'),
+    }
+  },
   });
 
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-manifest');
+  grunt.loadNpmTasks('grunt-bump');
 
   // Default task(s).
   grunt.registerTask('default', ['concat', 'uglify', 'copy', 'manifest']);
