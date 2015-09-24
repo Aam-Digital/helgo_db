@@ -1,5 +1,5 @@
 'use strict';
-var DB_REMOTE = "https://hdb.sinnfragen.org/db/";
+var DB_REMOTE = "https://hdb.sinnfragen.org/db";
 
 // Declare app level module which depends on views, and components
 var app = angular.module('myApp', [
@@ -8,7 +8,7 @@ var app = angular.module('myApp', [
     'myApp.view.dashboard',
     'myApp.view.child',
     'myApp.view.user',
-    'myApp.version',
+    'version',
     'myApp.navigation',
     'myApp.alerts',
     'myApp.child',
@@ -26,14 +26,7 @@ var app = angular.module('myApp', [
             // redirect to login page if not logged in and trying to access a restricted page
             var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
             if (restrictedPage && !userManager.isLoggedIn()) {
-                $location.path('/login');
+//                $location.path('/login');
             }
         });
     }]);
-
-
-angular.module('myApp.version', [
-    'myApp.version.version-directive',
-])
-
-    .value('version', '0.2.1');

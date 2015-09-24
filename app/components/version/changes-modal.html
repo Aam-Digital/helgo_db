@@ -1,0 +1,16 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{ release.tag_name }}<span ng-if="release.name">: {{ release.name }}</span></h3>
+</div>
+
+<div class="modal-body">
+    <p class="version-changes-date" style="font-style:italic;">{{ release.published_at | date }}</p>
+
+    <p>
+        {{ release.body }}
+    </p>
+</div>
+
+<div class="modal-footer">
+    <a class="btn btn-primary" type="button" target="_blank" href="{{ release.html_url }}">More Information</a>
+    <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+</div>

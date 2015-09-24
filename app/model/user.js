@@ -1,6 +1,7 @@
 
 angular.module('myApp.user', [
     'myApp.appDB',
+    'version',
 ])
 
     .factory('User', ['AbstractModel', function (AbstractModel) {
@@ -10,6 +11,10 @@ angular.module('myApp.user', [
             if (data) {
                 this.setData(data);
                 this._id = prefix + data.name;
+
+                if (this.settings === undefined) {
+                    this.settings = {};
+                }
             }
         };
 
@@ -25,7 +30,7 @@ angular.module('myApp.user', [
     }])
 
 
-    .factory('userManager', ['appDB', 'DbManager', '$q', 'User', function (appDB, DbManager, $q, User) {
+    .factory('userManager', ['appDB', 'DbManager', '$q', 'User', 'latestChanges', 'appInfo', function (appDB, DbManager, $q, User, latestChanges, appInfo) {
         var manager = new DbManager(User);
 
         angular.extend(manager, {
@@ -43,6 +48,16 @@ angular.module('myApp.user', [
                     function(user) {
                         if(user.authenticate(password)) {
                             scope._currentUser = user;
+
+                            latestChanges.check(user.settings.lastKnownVersion);
+                            appInfo.then(function (info) {
+                                if (user.settings.lastKnownVersion != info.version) {
+                                    user.settings.lastKnownVersion = info.version;
+                                    user.update();
+                                    console.log("updated");
+                                }
+                            });
+
                             deferred.resolve({ok: true});
                         }
                         else {
