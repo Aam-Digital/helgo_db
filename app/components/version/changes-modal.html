@@ -5,9 +5,7 @@
 <div class="modal-body">
     <p class="version-changes-date" style="font-style:italic;">{{ release.published_at | date }}</p>
 
-    <p>
-        {{ release.body }}
-    </p>
+    <p ng-bind-html="release.body | newlines"></p>
 </div>
 
 <div class="modal-footer">

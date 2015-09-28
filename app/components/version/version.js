@@ -1,5 +1,6 @@
 angular.module('version', [
     'ui.bootstrap',
+    'ngSanitize',
 ])
 
     .factory('appInfo', ['$q', '$http', '$log', function ($q, $http, $log) {
@@ -67,6 +68,13 @@ angular.module('version', [
             },
         };
     }])
+
+
+    .filter('newlines', function() {
+        return function (text) {
+            return text.replace(/\n/g, '<br/>');
+        };
+    })
 
 
     .controller('ChangesModalController', function ($scope, $modalInstance) {

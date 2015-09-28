@@ -43,7 +43,7 @@ module.exports = function(grunt) {
           flatten: true,
           src: ['bower_components/bootstrap/dist/css/bootstrap.min.css', 'bower_components/metisMenu/dist/metisMenu.min.css', 'bower_components/ng-table/dist/ng-table.min.css', 'bower_components/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css', 'bower_components/font-awesome/css/font-awesome.min.css',
                 'bower_components/angular/angular.min.js', 'bower_components/angular-route/angular-route.min.js', 'bower_components/ng-table/dist/ng-table.min.js', 'bower_components/angular-pouchdb/angular-pouchdb.min.js', 'bower_components/pouchdb/dist/pouchdb.min.js', 'bower_components/pouchdb-authentication/dist/pouchdb.authentication.min.js',
-            'bower_components/jquery/dist/jquery.min.js', 'bower_components/bootstrap/dist/js/bootstrap.min.js', 'bower_components/metisMenu/dist/metisMenu.min.js', 'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'],
+            'bower_components/jquery/dist/jquery.min.js', 'bower_components/bootstrap/dist/js/bootstrap.min.js', 'bower_components/metisMenu/dist/metisMenu.min.js', 'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js', 'bower_components/angular-sanitize/angular-sanitize.min.js'],
           dest: 'build/lib/'
         },
         {
