@@ -48,19 +48,13 @@ angular.module('myApp.appDB', [
 
 
     .factory('AbstractModel', ['$log', 'appDB', function ($log, appDB) {
-        function AbstractModel(data) {
-            if (data) {
-                this.setData(data);
-            }
-        };
-
-        AbstractModel.prototype = {
+        AbstractModel = {
             setData: function (data) {
                 angular.extend(this, data);
                 return this;
             },
             delete: function () {
-                appDB.delete(this);
+                appDB.remove(this);
             },
             update: function () {
                 appDB.put(this);
@@ -79,6 +73,12 @@ angular.module('myApp.appDB', [
         DbManager.prototype = {
             _pool: {},
             _retrieveInstance: function (id, data) {
+                var idParts = id.split(":");
+                var prefixParts = this._prefix.split(":");
+                if(idParts.length != prefixParts.length) {
+                    return null;
+                }
+
                 var instance = this._pool[id];
 
                 if (instance) {
@@ -108,8 +108,13 @@ angular.module('myApp.appDB', [
 
             /* Public Methods */
             get: function (name) {
-                var id = this._prefix+name;
                 var deferred = $q.defer();
+
+                var id = this._prefix+name;
+                if(name.startsWith(this._prefix)) {
+                    id = name;
+                }
+
                 var o = this._search(id);
                 if (o) {
                     deferred.resolve(o);
@@ -128,7 +133,9 @@ angular.module('myApp.appDB', [
                         dataArray.rows.forEach(function (row) {
                             var data = row.doc;
                             var o = scope._retrieveInstance(data._id, data);
-                            items.push(o);
+                            if(o != null) {
+                                items.push(o);
+                            }
                         });
 
                         deferred.resolve(items);

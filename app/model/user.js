@@ -20,7 +20,7 @@ angular.module('myApp.user', [
 
         User.prefix = prefix;
 
-        User.prototype = angular.extend(AbstractModel.prototype, {
+        User.prototype = angular.extend({}, AbstractModel, {
             authenticate: function(password) {
                 return (hashFnv32a(password) == this.password);
             },

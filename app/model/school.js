@@ -14,7 +14,7 @@ angular.module('myApp.school', [
 
         School.prefix = prefix;
 
-        School.prototype = angular.extend(AbstractModel.prototype, {
+        School.prototype = angular.extend({}, AbstractModel, {
             toString: function () {
                 var extMedium = "";
                 if (this.medium) {

@@ -15,9 +15,9 @@ angular.module('myApp.child', [
 
         Child.prefix = prefix;
 
-        Child.prototype = angular.extend(AbstractModel.prototype, {
+        Child.prototype = angular.extend({}, AbstractModel, {
             toString: function() {
-                return child.name+' ['+child.pn+']';
+                return this.name+' ['+this.pn+']';
             },
 
             age: function () {
@@ -26,8 +26,8 @@ angular.module('myApp.child', [
                 var diff = now.getTime() - birth.getTime();
                 return Math.ceil(diff / (1000 * 3600 * 24 * 365));
             },
-        });
 
+        });
         return Child;
     }])
 
