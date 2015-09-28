@@ -1,0 +1,58 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{ release.tag_name }}<span ng-if="release.name">: {{ release.name }}</span></h3>
+</div>
+
+
+<form role="form" name="updateEnrollment">
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-lg-6 form-group">
+            <label>From</label>
+            <p class="input-group">
+                <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="selectedEnrollment.from" is-open="dateFrom.opened" required/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="dateFrom.opened=true">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                </span>
+            </p>
+        </div>
+        <div class="col-lg-6 form-group">
+            <label>Until</label>
+            <p class="input-group">
+                <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="selectedEnrollment.until" is-open="dateUntil.opened"/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="dateUntil.opened=true">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-2 form-group">
+            <label>Class</label>
+            <input class="form-control" ng-model="selectedEnrollment.grade" required>
+        </div>
+        <div class="col-lg-6 form-group">
+            <label>School</label>
+            <select class="form-control" ng-model="selectedEnrollment.school"
+                    ng-options="school as school.toString() for school in schools track by school._id"></select>
+        </div>
+        <div class="col-lg-4 form-group">
+            <label>Medium</label>
+            <input class="form-control" ng-model="selectedEnrollment.school.medium" disabled>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal-footer">
+    <input class="btn btn-warning" type="button" ng-click="cancel();" value="Cancel" />
+    <input class="btn btn-danger" type="button" ng-if="!newEnrollment" ng-click="deleteEnrollment();" value="Delete" />
+    <input class="btn btn-primary" type="submit" ng-click="saveEnrollment();" value="Save" />
+</div>
+
+</form>

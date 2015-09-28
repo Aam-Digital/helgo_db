@@ -209,7 +209,7 @@
                         <td title="'Remarks'" sortable="'remarks'">
                             {{fam.remarks}}
                         </td>
-                        </a></tr>
+                    </tr>
                 </table>
             </div>
             <!-- /.panel-body -->
@@ -221,41 +221,33 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        School & Coaching
+        School
+        <div class="pull-right">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-xs" ng-click="showEnrollment('new');">
+                    Update Class/School
+                </button>
+            </div>
+        </div>
     </div>
     <!-- /.panel-heading -->
     <div class="panel-body">
-        <form role="form">
-            <div class="row">
-                <div class="col-lg-2 form-group">
-                    <label>Class</label>
-                    <input class="form-control" ng-model="child.school.grade">
-                </div>
-                <div class="col-lg-6 form-group">
-                    <label>School</label>
-                    <input type="text" class="form-control" placeholder="Search School ..."
-                           ng-model="child.school"
-                           typeahead="school as school.toString() for school in schools | filter:$viewValue | limitTo:8">
-                </div>
-                <div class="col-lg-4 form-group">
-                    <label>Medium</label>
-                    <input class="form-control" ng-model="child.school.medium" disabled>
-                </div>
-            </div>
-        </form>
-
-        <table ng-table="tableCoaching" class="table" show-filter="true">
-            <tr ng-repeat="coaching in $data" ng-click="showCoaching(coaching.id)" class="link-row">
-                <td title="'Timing'" sortable="'timing'">
-                    {{coaching.timing}}
+        <table ng-table="tableEnrollments" class="table" show-filter="true">
+            <tr ng-repeat="enrollment in $data" ng-click="showEnrollment(enrollment)" class="link-row">
+                <td title="'Date'" sortable="'from'">
+                    {{enrollment.from | date:'MM/yyyy' }}
+                    <span ng-if="enrollment.until"> - {{ enrollment.until | date:'MM/yyyy' }}</span>
                 </td>
-                <td title="'Teacher'" sortable="'teacher'">
-                    {{coaching.teacher}}
+                <td title="'Class'" sortable="'grade'">
+                    {{enrollment.grade}}
                 </td>
-                <td title="'Subject'" sortable="'subject'">
-                    {{coaching.subject}}
+                <td title="'School'" sortable="'school.name'">
+                    {{enrollment.school.name}}
                 </td>
-                </a></tr>
+                <td title="'Medium'" sortable="'school.medium'">
+                    {{enrollment.school.medium}}
+                </td>
+            </tr>
         </table>
     </div>
     <!-- /.panel-body School -->
