@@ -45,8 +45,9 @@ angular.module('myApp.child', [
 
 
             getEnrollments: function () {
-                var enrollmentPrefix = this._id+":enrollment:";
                 var deferred = $q.defer();
+
+                var enrollmentPrefix = this._id+":enrollment:";
                 var scope = this;
                 appDB.allDocs({include_docs: true, startkey: enrollmentPrefix, endkey: enrollmentPrefix+"\ufff0"})
                     .then(function (dataArray) {
@@ -62,6 +63,29 @@ angular.module('myApp.child', [
                     function (err) {
                         deferred.reject();
                     });
+
+                return deferred.promise;
+            },
+
+            getCurrentEnrollment: function () {
+                var deferred = $q.defer();
+
+                var enrollments = this.getEnrollments().then(
+                    function(data) {
+                        var now = new Date();
+                        data.forEach(function (enrollment) {
+                            if(enrollment.until === undefined || enrollment.until.getTime() > now.getTime()) {
+                                deferred.resolve(enrollment);
+                            }
+                        });
+                        deferred.resolve(undefined); //no enrollment currently
+                    },
+                    function(err) {
+                        $log.error("Error getCurrentEnrollment: "+err.message);
+                        deferred.reject();
+                    }
+                );
+
                 return deferred.promise;
             },
         });
@@ -70,11 +94,43 @@ angular.module('myApp.child', [
     }])
 
 
-    .factory('childrenManager', ['DbManager', 'Child', function (DbManager, Child) {
+    .factory('childrenManager', ['$q', 'DbManager', 'Child', function ($q, DbManager, Child) {
         var manager = new DbManager(Child);
 
         angular.extend(manager, {
-            // add functions/fields to extend baseManager here
+            getStudentsOfSchool: function(school) {
+                var deferred = $q.defer();
+
+                var scope = this;
+                this.getAll().then(
+                    function(data) {
+                        var students = [];
+                        var promises = [];
+                        data.forEach(function (child) {
+                            promises.push(child.getCurrentEnrollment().then(
+                                function (currentEnrollment) {
+                                    if (currentEnrollment !== undefined && currentEnrollment.school._id == school._id) {
+                                        students.push(child);
+                                    }
+                                }
+                            ));
+                        });
+
+                        // wait for all child.getCurrentEnrollment() to finish
+                        $q.all(promises).then(
+                            function() {
+                                deferred.resolve(students);
+                            }
+                        );
+                    },
+                    function(err) {
+                        $log.error("Error getStudentsOfSchool: "+err.message);
+                        deferred.reject();
+                    }
+                );
+
+                return deferred.promise;
+            },
         });
 
         return manager;
@@ -97,13 +153,10 @@ angular.module('myApp.child', [
 
         Enrollment.prototype = angular.extend({}, AbstractModel, {
             update: function () {
-                console.log(this);
                 var data = angular.copy(this);
                 data.school = this.school._id;
 
-                console.log(this);
                 appDB.put(data);
-                console.log(this);
             },
 
             setData: function (data) {

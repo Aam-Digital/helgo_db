@@ -66,8 +66,9 @@ angular.module('myApp.view.school', [
     }])
 
 
-    .controller('SchoolDetailsController', ['$scope', '$location', '$routeParams', '$log', 'ngTableParams', 'schoolManager', 'School', 'childrenManager',
-        function ($scope, $location, $routeParams, $log, ngTableParams, schoolManager, School, childrenManager) {
+    .controller('SchoolDetailsController', ['$scope', '$location', '$filter', '$routeParams', '$log', 'ngTableParams', 'schoolManager', 'School', 'childrenManager',
+        function ($scope, $location, $filter, $routeParams, $log, ngTableParams, schoolManager, School, childrenManager) {
+
             var param = $routeParams.name;
             if (param === "new") {
                 $scope.school = {};
@@ -77,6 +78,23 @@ angular.module('myApp.view.school', [
                 schoolManager.get(param).then(
                     function (school) {
                         $scope.school = school;
+
+                        $scope.tableStudents = new ngTableParams(
+                            {
+                                count: 25,
+                            },
+                            {
+                                getData: function ($defer, params) {
+                                    childrenManager.getStudentsOfSchool(school).then(
+                                        function(data) {
+                                            $scope.items = data;
+                                            params.total(data.length);
+                                            $defer.resolve($filter('orderBy')(data, params.orderBy()));
+                                        }
+                                    );
+                                },
+                            }
+                        );
                     },
                     function (err) {
                         $scope.error = "The given school could not be loaded.";
@@ -95,22 +113,6 @@ angular.module('myApp.view.school', [
                 }
                 school.update();
             };
-
-
-            $scope.tableStudents = new ngTableParams(
-                {
-                    count: 25,
-                },
-                {
-                    getData: function ($defer, params) {
-                        childrenManager.getAll().then(function (data) {
-                            $scope.items = data;
-                            params.total(data.length);
-                            $defer.resolve(data);
-                        });
-                    },
-                }
-            );
             $scope.showChild = function (pn) {
                 $location.path("/child/" + pn);
             };
