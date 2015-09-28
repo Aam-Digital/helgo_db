@@ -1,7 +1,7 @@
 {
   "name": "hdb",
   "description": "HELGO DB: A simple database system for a NGO",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "repository": "https://github.com/sebastian-leidig/helgo_db",
   "license": "MIT",
   "private": true,
