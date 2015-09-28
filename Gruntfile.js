@@ -77,11 +77,11 @@ module.exports = function(grunt) {
 
   bump: {
     options: {
-      files: ['package.json', 'bower.json', 'app/app.js'],
+      files: ['package.json', 'bower.json', 'app/app-info.json'],
       updateConfigs: [],
       commit: true,
       commitMessage: 'Release v%VERSION%',
-      commitFiles: ['package.json'],
+      commitFiles: ['package.json', 'bower.json', 'app/app-info.json'],
       createTag: true,
       tagName: 'v%VERSION%',
       tagMessage: 'Version %VERSION%',
@@ -90,7 +90,6 @@ module.exports = function(grunt) {
       gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d',
       globalReplace: false,
       prereleaseName: false,
-      regExp: new RegExp('([\'|\"]?version[\'|\"]?[ ]*[:|,][ ]*[\'|\"]?)(\\d+\\.\\d+\\.\\d+(-<%= bump.options.prereleaseName %>\\.\\d+)?(-\\d+)?)[\\d||A-a|.|-]*([\'|\"]?)', 'i'),
     }
   },
   });
