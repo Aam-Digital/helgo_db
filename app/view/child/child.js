@@ -39,7 +39,7 @@ angular.module('myApp.view.child', [
     }])
 
 
-    .controller('ChildListController', ['$scope', '$location', '$log', 'ngTableParams', 'Child', 'childrenManager', function ($scope, $location, $log, ngTableParams, Child, childrenManager) {
+    .controller('ChildListController', ['$scope', '$location', '$filter', '$log', 'ngTableParams', 'Child', 'childrenManager', function ($scope, $location, $filter, $log, ngTableParams, Child, childrenManager) {
         $scope.tableParams = new ngTableParams(
             {
                 count: 25,
@@ -50,7 +50,7 @@ angular.module('myApp.view.child', [
                         function (data) {
                             $scope.items = data;
                             params.total(data.length);
-                            $defer.resolve(data);
+                            $defer.resolve($filter('orderBy')(data, params.orderBy()));
                         },
                         $log.error);
                 },

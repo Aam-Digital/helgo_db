@@ -42,7 +42,7 @@ angular.module('myApp.view.school', [
     }])
 
 
-    .controller('SchoolListController', ['$scope', '$location', '$log', 'ngTableParams', 'schoolManager', function ($scope, $location, $log, ngTableParams, schoolManager) {
+    .controller('SchoolListController', ['$scope', '$location', '$filter', '$log', 'ngTableParams', 'schoolManager', function ($scope, $location, $filter, $log, ngTableParams, schoolManager) {
         $scope.tableParams = new ngTableParams(
             {
                 count: 25,
@@ -53,7 +53,7 @@ angular.module('myApp.view.school', [
                         function (data) {
                             $scope.items = data;
                             params.total(data.length);
-                            $defer.resolve(data);
+                            $defer.resolve($filter('orderBy')(data, params.orderBy()));
                         },
                         $log.error);
                 },
