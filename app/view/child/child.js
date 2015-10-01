@@ -88,7 +88,33 @@ angular.module('myApp.view.child', [
                     },
                 }
             );
-        }
+        };
+
+        var loadFamily = function (child) {
+            $scope.tableFamily = new ngTableParams(
+                {
+                    count: 25,
+                    sorting: {
+                        isGuardian: 'asc'
+                    }
+                },
+                {
+                    getData: function ($defer, params) {
+                        var data = child.getFamilyMembers().then(
+                            function(data) {
+                                $scope.items = data;
+                                params.total(data.length);
+                                $defer.resolve($filter('orderBy')(data, params.orderBy()));
+                            },
+                            function(err) {
+                                $log.error("Could not load enrollment information. ("+err.message+")");
+                            }
+                        );
+                    },
+                }
+            );
+        };
+
 
         var param = $routeParams.pn;
         if (param === "new") {
@@ -100,25 +126,8 @@ angular.module('myApp.view.child', [
                 function (child) {
                     $scope.child = child;
 
-                    $scope.tableFamily = new ngTableParams(
-                        {
-                            count: 25,
-                        },
-                        {
-                            getData: function ($defer, params) {
-                                var data = [];
-                                $scope.items = data;
-                                params.total(data.length);
-                                $defer.resolve(data);
-                            },
-                        }
-                    );
-
+                    loadFamily(child);
                     loadEnrollments(child);
-
-                    $scope.showFamilyMember = function (familyMemberId) {
-                        $location.path("/child/" + pn + "/family/" + familyMemberId);
-                    };
                 },
                 function (err) {
                     $scope.error = "The given child could not be loaded.";
@@ -182,6 +191,20 @@ angular.module('myApp.view.child', [
         };
 
 
+        $scope.showFamilyMember = function (familyMember) {
+            var modalScope = $scope.$new(true);
+            modalScope.selectedFamilyMember = familyMember;
+            modalScope.selectedChild = $scope.child;
+
+            var modalInstance = $modal.open({
+                animation: false,
+                templateUrl: 'view/child/familymember-modal.html',
+                controller: 'FamilyMemberModalController',
+                scope: modalScope,
+            });
+
+            modalInstance.result.then(function (res) {
+                loadFamily($scope.child);
             });
         };
 
@@ -227,5 +250,50 @@ angular.module('myApp.view.child', [
         schoolManager.getAll().then(function (schools) {
             $scope.schools = schools;
         });
+    }])
+
+
+    .controller('FamilyMemberModalController', ['$scope', '$modalInstance', 'FamilyMember', function ($scope, $modalInstance, FamilyMember) {
+        if($scope.selectedFamilyMember === "new") {
+            $scope.selectedFamilyMember = {};
+            $scope.newFamilyMember = true;
+        }
+
+        $scope.saveFamilyMember = function () {
+            if(!$scope.formUpdateFamilyMember.$valid) {
+                return;
+            }
+
+            if($scope.newFamilyMember) {
+                $scope.selectedFamilyMember = new FamilyMember($scope.selectedFamilyMember, $scope.selectedChild);
+
+                $scope.selectedChild.familyMembers.push($scope.selectedFamilyMember._id);
+                $scope.selectedChild.update();
+            }
+            $scope.selectedFamilyMember.update().then(
+                function() {},
+                function(err) {
+                    $log.error("Error saving family member ("+$scope.selectedFamilyMember._id+"): "+err.message);
+                }
+            );
+            $modalInstance.close();
+        };
+
+        $scope.deleteFamilyMember = function () {
+            for(var i = 0; i < $scope.selectedChild.familyMembers.length; i++) {
+                if($scope.selectedChild.familyMembers[i] == $scope.selectedFamilyMember._id) {
+                    $scope.selectedChild.familyMembers.splice(i,1);
+                    break;
+                }
+            }
+            $scope.selectedChild.update();
+
+            $scope.selectedFamilyMember.delete();
+
+            $modalInstance.close();
+        };
+        $scope.cancel = function () {
+            $modalInstance.dismiss();
+        };
     }]);
 

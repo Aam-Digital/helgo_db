@@ -190,18 +190,18 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <table ng-table="tableFamily" class="table" show-filter="true">
-                    <tr ng-repeat="fam in $data" ng-click="showFamilyMember(fam.id)" class="link-row">
+                    <tr ng-repeat="fam in $data" ng-click="showFamilyMember(fam)" class="link-row">
                         <td title="'Name'" sortable="'name'">
                             {{fam.name}}
                         </td>
                         <td title="'Guardian'" sortable="'isGuardian'">
-                            {{fam.isGuardian}}
+                            <input type="checkbox" ng-checked="fam.isGuardian" disabled/>
                         </td>
                         <td title="'Relationship'" sortable="'relationship'">
                             {{fam.relationship}}
                         </td>
-                        <td title="'Age'" sortable="'age'">
-                            {{fam.age}}
+                        <td title="'Age'" sortable="'age()'">
+                            {{fam.age()}}
                         </td>
                         <td title="'Mobile No.'" sortable="'mobile'">
                             {{fam.mobile}}

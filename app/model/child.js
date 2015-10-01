@@ -3,7 +3,7 @@ angular.module('myApp.child', [
     'myApp.appDB',
 ])
 
-    .factory('Child', ['AbstractModel', '$q', 'appDB', 'Enrollment', function (AbstractModel, $q, appDB, Enrollment) {
+    .factory('Child', ['AbstractModel', '$log', '$q', '$rootScope', 'appDB', 'Enrollment', 'FamilyMember', function (AbstractModel, $log, $q, $rootScope, appDB, Enrollment, FamilyMember) {
         var prefix = "child:";
 
         function Child(childData) {
@@ -11,6 +11,10 @@ angular.module('myApp.child', [
                 if(this._id === undefined) {
                     this._id = prefix + childData.pn;
                 }
+                if(childData.familyMembers === undefined) {
+                    childData.familyMembers = [];
+                }
+
                 this.setData(childData);
             }
         };
@@ -87,6 +91,44 @@ angular.module('myApp.child', [
                         deferred.reject();
                     }
                 );
+
+                return deferred.promise;
+            },
+
+
+            getFamilyMember: function (id) {
+                var deferred = $q.defer();
+
+                var self = this;
+                appDB.get(id).then(
+                    function(data) {
+                        var familyMember = new FamilyMember(data, self);
+                        deferred.resolve(familyMember); //no enrollment currently
+                    },
+                    function(err) {
+                        $log.error("Error getFamilyMember("+id+"): "+err.message);
+                        deferred.reject();
+                    }
+                );
+
+                return deferred.promise;
+            },
+
+            getFamilyMembers: function() {
+                var deferred = $q.defer();
+
+                var promises = [];
+                var family = [];
+                for (i = 0; i < this.familyMembers.length; i++) {
+                    promises.push(this.getFamilyMember(this.familyMembers[i]).then(
+                        function(member) {
+                            family.push(member);
+                        }
+                    ));
+                }
+                $q.all(promises).then(function() {
+                    deferred.resolve(family);
+                })
 
                 return deferred.promise;
             },
@@ -178,4 +220,32 @@ angular.module('myApp.child', [
         });
 
         return Enrollment;
+    }])
+
+
+    .factory('FamilyMember', ['AbstractModel', 'appDB', function (AbstractModel, appDB) {
+        function FamilyMember(data, child) {
+            if (data) {
+                this.setData(data);
+                if(!this._id) {
+                    var prefix = child._id+"familyMember:";
+                    this._id =  prefix + data.name;
+                }
+            }
+        };
+
+        FamilyMember.prototype = angular.extend({}, AbstractModel, {
+            age: function () {
+                var now = new Date();
+                var birth = new Date(this.dateOfBirth);
+                var diff = now.getTime() - birth.getTime();
+                var age = Math.ceil(diff / (1000 * 3600 * 24 * 365));
+                if(isNaN(age)) {
+                    age = "";
+                }
+                return age;
+            },
+        });
+
+        return FamilyMember;
     }]);
