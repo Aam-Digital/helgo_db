@@ -139,37 +139,49 @@ angular.module('myApp.view.child', [
         };
 
         $scope.showEnrollment = function (enrollment) {
-            var msg = $sce.trustAsHtml('<p>These "enrollments" are designed to show the complete school life of the child. Please check carefully whether you really need to edit or delete this entry. ' +
+            if(enrollment == "new") {
+                showEnrollmentModal(enrollment);
+            }
+            else {
+                var msg = $sce.trustAsHtml('<p>These "enrollments" are designed to show the complete school life of the child. Please check carefully whether you really need to edit or delete this entry. ' +
                     'Often it is more appropriate to add an additional entry through the "Update Class/School" button on the upper right of the section.</p>' +
                     '<p><em>Edit only to correct errors. If the child did go to this school and class sometime, you should not edit or delete the entry but rather add a new one.</em></p>' +
                     '<p>Continue to edit the entry?</p>');
 
-            var confirmScope = $scope.$new(true);
-            confirmScope.dialog = {
-                title: "Do you really want to edit?",
-                body: msg,
-            };
-            var confirmationModal = $modal.open({
-                animation: true,
-                templateUrl: 'view/confirmation-modal.html',
-                scope: confirmScope,
+                var confirmScope = $scope.$new(true);
+                confirmScope.dialog = {
+                    title: "Do you really want to edit?",
+                    body: msg,
+                };
+                var confirmationModal = $modal.open({
+                    animation: true,
+                    templateUrl: 'view/confirmation-modal.html',
+                    scope: confirmScope,
+                });
+                confirmationModal.result.then(function (res) {
+                    showEnrollmentModal(enrollment);
+                });
+            }
+        };
+
+        var showEnrollmentModal = function(enrollment) {
+            var modalScope = $scope.$new(true);
+            modalScope.selectedEnrollment = enrollment;
+            modalScope.selectedChild = $scope.child;
+
+            var modalInstance = $modal.open({
+                animation: false,
+                templateUrl: 'view/child/enrollment-modal.html',
+                controller: 'EnrollmentModalController',
+                scope: modalScope,
             });
-            confirmationModal.result.then(function (res) {
 
-                var modalScope = $scope.$new(true);
-                modalScope.selectedEnrollment = enrollment;
-                modalScope.selectedChild = $scope.child;
+            modalInstance.result.then(function (res) {
+                loadEnrollments($scope.child);
+            });
+        };
 
-                var modalInstance = $modal.open({
-                    animation: false,
-                    templateUrl: 'view/child/enrollment-modal.html',
-                    controller: 'EnrollmentModalController',
-                    scope: modalScope,
-                });
 
-                modalInstance.result.then(function (res) {
-                    loadEnrollments($scope.child);
-                });
             });
         };
 
