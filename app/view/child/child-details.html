@@ -32,7 +32,7 @@
                     </div>
                     <div class="form-group">
                         <label>Project Status</label>
-                        <input class="form-control" ng-model="child.currentStatus.status">
+                        <input class="form-control" ng-model="child.currentStatus.projectStatus">
                     </div>
                     <div class="form-group">
                         <label>Responsible Social Worker</label>
@@ -154,18 +154,18 @@
                 <form role="form">
                     <div class="form-group">
                         <label>Present Address</label>
-                        <textarea class="form-control" rows="3" ng-model="child.address"></textarea>
+                        <textarea class="form-control" rows="3" ng-model="child.currentStatus.address.text"></textarea>
 
                         <p class="help-block">address proof type and document</p>
 
                     </div>
                     <div class="form-group">
                         <label>Parents/Guardians are available for home visits best at which time?</label>
-                        <input class="form-control" ng-model="child.address_availability">
+                        <input class="form-control" ng-model="child.currentStatus.address.visit">
                     </div>
                     <div class="form-group">
                         <label>Village Address</label>
-                        <textarea class="form-control" rows="3" ng-model="child.villageAddress"></textarea>
+                        <textarea class="form-control" rows="3" ng-model="child.currentStatus.villageAddress"></textarea>
                     </div>
                 </form>
             </div>

@@ -3,7 +3,7 @@ angular.module('myApp.child', [
     'myApp.appDB',
 ])
 
-    .factory('Child', ['AbstractModel', '$log', '$q', '$rootScope', 'appDB', 'Enrollment', 'FamilyMember', function (AbstractModel, $log, $q, $rootScope, appDB, Enrollment, FamilyMember) {
+    .factory('Child', ['AbstractModel', '$log', '$q', 'appDB', 'Enrollment', 'FamilyMember', function (AbstractModel, $log, $q, appDB, Enrollment, FamilyMember) {
         var prefix = "child:";
 
         function Child(childData) {
@@ -38,6 +38,21 @@ angular.module('myApp.child', [
 
 
             /* Public Methods */
+            update: function () {
+                var data = angular.copy(this);
+                appDB.put(data);
+
+                this.saveStatus();
+            },
+
+            setData: function (data) {
+                angular.extend(this, data);
+
+                return this;
+            },
+
+
+
             toString: function() {
                 return this.name+' ['+this.pn+']';
             },
@@ -132,7 +147,73 @@ angular.module('myApp.child', [
 
                 return deferred.promise;
             },
+
+
+            getStatus: function (id) {
+                var deferred = $q.defer();
+
+                //if no parameter given, get current status
+                if(id === undefined) {
+                    id = this._id+":status:previous";
+                }
+
+                appDB.get(id).then(
+                    function(data) {
+                        deferred.resolve(data); //no enrollment currently
+                    },
+                    function(err) {
+                        $log.error("Error Child.getStatus("+id+"): "+err.message);
+                        deferred.reject(err);
+                    }
+                );
+
+                return deferred.promise;
+            },
+
+            saveStatus: function() {
+                var status = this.currentStatus;
+                //check if anything changed
+                var self = this;
+                this.getStatus().then(
+                    function(lastStatus) {
+                        if(!self._statusEqual(status, lastStatus)) {
+                            lastStatus._id = self._id+":status:"+lastStatus.changed;
+                            self._writeStatus(lastStatus);
+
+                            status._rev = lastStatus._rev;
+                            status.changed = (new Date()).toISOString();
+                            self._writeStatus(status);
+                        }
+                    },
+                    function(err) {
+                        if(err.status == 404) {
+                            self._writeStatus(status);
+                        }
+                    }
+                );
+            },
+            _statusEqual: function(status1, status2) {
+                return status1.projectStatus == status2.projectStatus &&
+                        status1.socialworker == status2.socialworker &&
+                        status1.photo == status2.photo &&
+                        ((status1.address === undefined && status2.address == undefined) || (status1.address.text == status2.address.text && status1.address.visit == status2.address.visit)) &&
+                        status1.villageAddress == status2.villageAddress;
+            },
+            _writeStatus: function(status) {
+                if(status._id === undefined) {
+                    status._id = this._id+":status:previous";
+                    status.changed = (new Date()).toISOString();
+                }
+                appDB.put(status).then(
+                    function() {},
+                    function(err) {
+                        $log.error("Error writing child's status ("+status._id+"): "+err.message);
+                    }
+                );
+            },
+
         });
+
 
         return Child;
     }])
