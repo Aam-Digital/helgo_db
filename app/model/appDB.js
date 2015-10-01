@@ -54,10 +54,10 @@ angular.module('myApp.appDB', [
                 return this;
             },
             delete: function () {
-                appDB.remove(this);
+                return appDB.remove(this);
             },
             update: function () {
-                appDB.put(this);
+                return appDB.put(this);
             },
         };
 

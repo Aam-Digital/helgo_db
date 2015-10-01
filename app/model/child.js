@@ -8,8 +8,10 @@ angular.module('myApp.child', [
 
         function Child(childData) {
             if (childData) {
+                if(this._id === undefined) {
+                    this._id = prefix + childData.pn;
+                }
                 this.setData(childData);
-                this._id = prefix + childData.pn;
             }
         };
 
