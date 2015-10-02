@@ -26,9 +26,11 @@
         <form role="form">
             <div class="row">
                 <div class="col-lg-2">
-                    <div class="form-group">
-                        <img class="form-foto" ng-if="child.currentStatus.photo" ng-src="child.currentStatus.photo">
-                        <img class="form-foto" ng-if="!child.currentStatus.photo" src="view/child/child.png">
+                    <div class="form-group" ng-mouseover="photoEditLink=true" ng-mouseleave="photoEditLink=false">
+                        <img class="form-foto" ng-if="childPhoto" data-ng-src="{{childPhoto}}"/>
+                        <img class="form-foto" ng-if="!childPhoto" src="view/child/child.png"/>
+                        <input type="file" class="form-foto-edit" ng-if="photoEditLink"
+                               onchange="angular.element(this).scope().changePhoto(this);"/>
                     </div>
                     <div class="form-group">
                         <label>Project Status</label>

@@ -63,7 +63,7 @@ footer {
 }
 
 .form-foto {
-  height: 200px;
+  width: 160px;
   display: block;
   margin: 0px auto;
 
@@ -75,4 +75,15 @@ footer {
   line-height: 1.42857;
   padding: 6px 12px;
   transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+}
+
+.form-foto-edit {
+  position: absolute;
+  top: 140px;
+  margin: 0px auto;
+
+  background-color: lightgray;
+  border-radius: 4px;
+  padding: 10px;
+  width: 220px;
 }

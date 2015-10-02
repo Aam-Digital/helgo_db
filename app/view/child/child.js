@@ -125,6 +125,9 @@ angular.module('myApp.view.child', [
             childrenManager.get(param).then(
                 function (child) {
                     $scope.child = child;
+                    child.getPhoto().then(function (photo) {
+                        $scope.childPhoto = photo;
+                    });
 
                     loadFamily(child);
                     loadEnrollments(child);
@@ -137,6 +140,19 @@ angular.module('myApp.view.child', [
                 }
             );
         }
+
+        $scope.changePhoto = function (fileInput) {
+            var photo = fileInput.files[0];
+
+            //display photo immediately
+            var reader = new FileReader();
+            reader.readAsDataURL(photo);
+            reader.onload = function (oFREvent) {
+                $scope.childPhoto = oFREvent.target.result;
+            };
+
+            $scope.child.changePhoto(photo);
+        };
 
 
         $scope.save = function () {
