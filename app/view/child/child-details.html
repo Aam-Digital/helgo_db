@@ -132,8 +132,15 @@
 
                             <div class="form-group">
                                 <label>Birth Certificate</label>
+                                <select class="form-control" ng-model="child.birthCertificate"
+                                        ng-options="cert for cert in birthCertificateType"></select>
 
-                                <p class="form-control-static">type and document link</p>
+                                <p class="form-control-static" ng-if="child.birthCertificate">
+                                    <a ng-if="birthCertificate" ng-href="{{birthCertificate}}"
+                                       download="{{child.pn}}_{{child.name}}_birth_certificate">Download Document</a>
+                                    <input type="file"
+                                           onchange="angular.element(this).scope().child.setBirthCertificate(this.files[0]);"/>
+                                </p>
                             </div>
                         </div>
                     </div>

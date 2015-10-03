@@ -10,7 +10,7 @@ angular.module('myApp.view.child', [
     'myApp.user',
 ])
 
-    .config(['$routeProvider', function ($routeProvider) {
+    .config(['$routeProvider', '$compileProvider', function ($routeProvider, $compileProvider) {
         $routeProvider
             .when('/child', {
                 templateUrl: 'view/child/child-list.html',
@@ -20,6 +20,8 @@ angular.module('myApp.view.child', [
                 templateUrl: 'view/child/child-details.html',
                 controller: 'ChildDetailsController'
             });
+
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|blob):/);
     }])
 
     .directive('searchChild', ['$location', 'childrenManager', function($location, childrenManager) {
@@ -126,7 +128,12 @@ angular.module('myApp.view.child', [
                 function (child) {
                     $scope.child = child;
                     child.getPhoto().then(function (photo) {
+                        console.log(photo);
                         $scope.childPhoto = photo;
+                    });
+                    child.getBirthCertificate().then(function (file) {
+                        console.log(file);
+                        $scope.birthCertificate = file;
                     });
 
                     loadFamily(child);
@@ -230,6 +237,7 @@ angular.module('myApp.view.child', [
         });
 
         $scope.centers = ['Tikiapara', 'Liluah'];
+        $scope.birthCertificateType = ['None', 'Gram Panchayat', 'Municipal Corporation', 'Court Affidavit', 'School Headmaster / Principal'];
 
     }])
 

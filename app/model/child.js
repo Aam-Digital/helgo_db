@@ -263,6 +263,33 @@ angular.module('myApp.child', [
                 return deferred.promise;
             },
 
+
+            setBirthCertificate: function (file) {
+                appDB.putAttachment(this._id, 'birthCertificate', this._rev, file, file.type)
+                    .catch(function (err) {
+                        $log.error("Could not save birth certificate to database: " + err.message);
+                    });
+            },
+
+            getBirthCertificate: function () {
+                var deferred = $q.defer();
+
+                appDB.getAttachment(this._id, 'birthCertificate').then(
+                    function (blob) {
+                        var url = URL.createObjectURL(blob);
+                        deferred.resolve(url);
+                    },
+                    function (err) {
+                        if (err.status != 404) {
+                            $log.error("Could not load birth certificate attachment (" + this._id + "): " + err.message);
+                        }
+                        deferred.reject(err);
+                    }
+                );
+
+                return deferred.promise;
+            }
+
         });
 
 
