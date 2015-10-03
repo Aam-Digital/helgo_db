@@ -11,11 +11,4 @@ angular.module('myApp.navigation', [])
             { url: '/', title: 'Sub 2', },
         ]},
     ];
-}])
-
-
-
-angular.element(document).ready(function () {
-    // trigger metisMenu again after ng-repeat directives of the menu are completed
-    $('#side-menu').metisMenu();
-});
+}]);

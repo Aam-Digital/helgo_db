@@ -14,18 +14,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- CSS -->
-    <!-- Bootstrap Core CSS -->
+    <!-- Libraries -->
     <link href="lib/bootstrap.min.css" rel="stylesheet">
-
-    <!-- startbootstrap SB Admin Theme CSS -->
-    <link href="lib/metisMenu.min.css" rel="stylesheet">
-    <link href="lib/sb-admin-2.css" rel="stylesheet">
     <link href="lib/font-awesome.min.css" rel="stylesheet" type="text/css">
-
     <link rel="stylesheet" href="lib/ng-table.min.css">
 
     <!-- Custom App CSS -->
 	<link rel="stylesheet" href="app.css">
+    <link href="sb-admin-2.css" rel="stylesheet">
 
 </head>
 
@@ -47,22 +43,21 @@
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown" ng-controller="AlertController">
-                    <a class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                <li class="dropdown" ng-controller="AlertController" dropdown>
+                    <a id="btn-dropdown-alerts" dropdown-toggle>
+                        <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
-<!-- App Alert Control -->
-                    <ul class="dropdown-menu dropdown-alerts">
-                        <li ng-repeat="info in alerts">
+
+                    <ul class="dropdown-menu dropdown-alerts" role="menu" aria-labelledby="btn-dropdown-alerts">
+                        <li role="menuitem" ng-repeat="info in alerts">
                             <a href="#">
                                 <div>
                                     <i class="fa fa-comment fa-fw"></i> {{ info.title }}
                                     <span class="pull-right text-muted small">{{ info.time }}</span>
                                 </div>
                             </a>
-                            <p class="divider"></p>
                         </li>
-
+                        <li class="divider"></li>
                         <li>
                             <a class="text-center" href="#">
                                 <strong>See All Alerts</strong>
@@ -71,19 +66,25 @@
                         </li>
                     </ul>
                     <!-- /.dropdown-alerts -->
+                    <!-- App Alert Control -->
                 </li>
                 <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown">
+
+                <li class="dropdown" dropdown>
+                    <a id="btn-dropdown-user" dropdown-toggle>
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+
+                    <ul class="dropdown-menu dropdown-user" role="menu" aria-labelledby="btn-dropdown-alerts">
+                        <li role="menuitem">
+                            <a href="#"><i class="fa fa-user fa-fw"></i> User Account</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li role="menuitem">
+                            <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="#/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li role="menuitem">
+                            <a href="#/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -98,11 +99,6 @@
 <!-- App Navigation Menu Control -->
                         <li ng-repeat="item in menu_main">
                             <a href="#{{ item.url }}"><i class="fa {{ item.icon }} fa-fw"></i> {{ item.title }}<span class="fa arrow" ng-if="item.submenu.length > 0" /></a>
-                            <ul class="nav nav-second-level" ng-if="item.submenu.length > 0">
-                                <li ng-repeat="sub in item.submenu">
-                                    <a href="#{{ sub.url }}"> {{ sub.title }}</a>
-                                </li>
-                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -161,11 +157,6 @@
 	<!-- Components -->
     <script src="components/version/version.js"></script>
     <script src="components/search/search-directive.js"></script>
-
-    <!-- Bootstrap Theme JavaScript -->
-    <script src="lib/jquery.min.js"></script>
-    <script src="lib/bootstrap.min.js"></script>
-    <script src="lib/metisMenu.min.js"></script>
 
 </body>
 </html>
