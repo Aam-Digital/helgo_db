@@ -98,7 +98,7 @@ angular.module('myApp.child', [
                     function(data) {
                         var now = new Date();
                         data.forEach(function (enrollment) {
-                            if(enrollment.until === undefined || enrollment.until.getTime() > now.getTime()) {
+                            if(enrollment.until === undefined || (new Date(enrollment.until)).getTime() > now.getTime()) {
                                 deferred.resolve(enrollment);
                             }
                         });

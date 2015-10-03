@@ -303,6 +303,24 @@ table.dataTable thead .sorting:after {
     font-size: 40px;
 }
 
+.panel-blue {
+    border-color: #337ab7;
+}
+
+.panel-blue .panel-heading {
+    border-color: #337ab7;
+    color: #fff;
+    background-color: #337ab7;
+}
+
+.panel-blue a {
+    color: #337ab7;
+}
+
+.panel-blue a:hover {
+    color: #23527c;
+}
+
 .panel-green {
     border-color: #5cb85c;
 }
