@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.view.user', [
+angular.module('myApp.view.login', [
     'ngRoute',
     'myApp.user',
 ])
@@ -25,7 +25,7 @@ angular.module('myApp.view.user', [
                         $location.path("/");
                     }
                     else {
-                        $scope.error = status.info.message;
+                        $scope.error = status.message;
                     }
                 },
                 function (err) {

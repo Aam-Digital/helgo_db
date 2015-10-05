@@ -54,14 +54,14 @@ angular.module('myApp.user', [
                                 if (user.settings.lastKnownVersion != info.version) {
                                     user.settings.lastKnownVersion = info.version;
                                     user.update();
-                                    console.log("updated");
+                                    $log.info("Updated to new version.");
                                 }
                             });
 
                             deferred.resolve({ok: true});
                         }
                         else {
-                            deferred.resolve({ok: false, info: "Username or password wrong."});
+                            deferred.reject({ok: false, message: "Username or password wrong."});
                         }
                     },
                     function(err) {
@@ -76,6 +76,36 @@ angular.module('myApp.user', [
             },
             isLoggedIn: function () {
                 return (this._currentUser != null);
+            },
+
+            changePassword: function (user, newPassword) {
+                var deferred = $q.defer();
+
+                appDB.remoteDB.changePassword(user.name, newPassword).then(
+                    function (response) {
+                        user.password = hashFnv32a(newPassword);
+                        user.update().then(
+                            function () {
+                                deferred.resolve();
+                            },
+                            function (err) {
+                                $log.error("Failed to save local user after password change: " + err.message);
+                                deferred.reject(err);
+                            }
+                        );
+
+                    },
+                    function (err) {
+                        $log.error("Failed to change remote password: " + err.message);
+                        deferred.reject(err);
+                    }
+                );
+
+                return deferred.promise;
+            },
+
+            getCurrentUser: function () {
+                return this._currentUser;
             },
 
             getAllSocialworkers: function () {

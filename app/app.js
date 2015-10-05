@@ -7,6 +7,7 @@ var app = angular.module('myApp', [
     'myApp.appDB',
     'myApp.view.dashboard',
     'myApp.view.child',
+    'myApp.view.login',
     'myApp.view.user',
     'version',
     'myApp.navigation',
