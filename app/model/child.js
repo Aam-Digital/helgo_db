@@ -313,7 +313,12 @@ angular.module('myApp.child', [
                             promises.push(child.getCurrentEnrollment().then(
                                 function (currentEnrollment) {
                                     if (currentEnrollment !== undefined && currentEnrollment.school._id == school._id) {
-                                        students.push(child);
+                                        students.push({
+                                            '_id': child._id,
+                                            'pn': child.pn,
+                                            'name': child.name,
+                                            'grade': currentEnrollment.grade
+                                        });
                                     }
                                 }
                             ));

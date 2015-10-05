@@ -198,7 +198,8 @@
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
-                <table ng-table="tableFamily" class="table" show-filter="true">
+                <table ng-table="tableFamily" class="table table-condensed table-bordered table-striped"
+                       show-filter="true">
                     <tr ng-repeat="fam in $data" ng-click="showFamilyMember(fam)" class="link-row">
                         <td title="'Name'" sortable="'name'">
                             {{fam.name}}
@@ -241,7 +242,8 @@
     </div>
     <!-- /.panel-heading -->
     <div class="panel-body">
-        <table ng-table="tableEnrollments" class="table" show-filter="true">
+        <table ng-table="tableEnrollments" class="table table-condensed table-bordered table-striped"
+               show-filter="true">
             <tr ng-repeat="enrollment in $data" ng-click="showEnrollment(enrollment)" class="link-row">
                 <td title="'Date'" sortable="'from'">
                     {{enrollment.from | date:'MM/yyyy' }}

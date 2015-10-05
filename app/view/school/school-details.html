@@ -57,7 +57,7 @@
     </div>
     <!-- /.panel-heading -->
     <div class="panel-body">
-        <table ng-table="tableStudents" class="table" show-filter="true">
+        <table ng-table="tableStudents" class="table table-condensed table-bordered table-striped" show-filter="true">
             <tr ng-repeat="child in $data" ng-click="showChild(child.pn)" class="link-row">
                 <td title="'Name'" sortable="'name'">
                     {{child.name}}
