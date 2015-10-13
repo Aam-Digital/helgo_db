@@ -31,8 +31,3 @@ var app = angular.module('myApp', [
             }
         });
     }]);
-
-
-String.prototype.startsWith = function (str) {
-    return this.slice(0, str.length) == str;
-};
