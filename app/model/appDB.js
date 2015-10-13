@@ -12,10 +12,14 @@ angular.module('myApp.appDB', [
         pouchDBProvider.methods = angular.extend({}, POUCHDB_METHODS, authMethods);
     })
 
-    .service('appDB', function ($log, pouchDB) {
-        var remoteDB = pouchDB(DB_REMOTE + '/hdb', {skipSetup: true, ajax: {rejectUnauthorized: false}});
+    .service('appDB', ['$log', 'pouchDB', 'appConfig', function ($log, pouchDB, appConfig) {
 
-        var db = pouchDB('hdb');
+        var remoteDB = pouchDB(appConfig.database.remote_url + appConfig.database.name, {
+            skipSetup: true,
+            ajax: {rejectUnauthorized: false}
+        });
+
+        var db = pouchDB(appConfig.database.name);
         db.remoteDB = remoteDB;
 
         db.login = function (username, password) {
@@ -44,7 +48,7 @@ angular.module('myApp.appDB', [
         };
 
         return db;
-    })
+    }])
 
 
     .factory('AbstractModel', ['$log', 'appDB', function ($log, appDB) {

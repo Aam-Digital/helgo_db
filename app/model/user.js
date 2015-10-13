@@ -30,7 +30,7 @@ angular.module('myApp.user', [
     }])
 
 
-    .factory('userManager', ['appDB', 'DbManager', '$q', '$log', 'User', 'latestChanges', 'appInfo', function (appDB, DbManager, $q, $log, User, latestChanges, appInfo) {
+    .factory('userManager', ['appDB', 'DbManager', '$q', '$log', 'User', 'latestChanges', 'appConfig', function (appDB, DbManager, $q, $log, User, latestChanges, appConfig) {
         var manager = new DbManager(User);
 
         angular.extend(manager, {
@@ -50,13 +50,11 @@ angular.module('myApp.user', [
                             scope._currentUser = user;
 
                             latestChanges.check(user.settings.lastKnownVersion);
-                            appInfo.then(function (info) {
-                                if (user.settings.lastKnownVersion != info.version) {
-                                    user.settings.lastKnownVersion = info.version;
-                                    user.update();
-                                    $log.info("Updated to new version.");
-                                }
-                            });
+                            if (user.settings.lastKnownVersion != appConfig.version) {
+                                user.settings.lastKnownVersion = appConfig.version;
+                                user.update();
+                                $log.info("Updated to new version.");
+                            }
 
                             deferred.resolve({ok: true});
                         }

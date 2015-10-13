@@ -1,8 +1,8 @@
 'use strict';
-var DB_REMOTE = "https://hdb.sinnfragen.org/db";
 
 // Declare app level module which depends on views, and components
 var app = angular.module('myApp', [
+    'myApp.config',
     'ngRoute',
     'myApp.appDB',
     'myApp.view.dashboard',
