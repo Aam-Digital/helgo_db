@@ -30,7 +30,7 @@ angular.module('myApp.user', [
     }])
 
 
-    .factory('userManager', ['appDB', 'DbManager', '$q', 'User', 'latestChanges', 'appInfo', function (appDB, DbManager, $q, User, latestChanges, appInfo) {
+    .factory('userManager', ['appDB', 'DbManager', '$q', '$log', 'User', 'latestChanges', 'appInfo', function (appDB, DbManager, $q, $log, User, latestChanges, appInfo) {
         var manager = new DbManager(User);
 
         angular.extend(manager, {

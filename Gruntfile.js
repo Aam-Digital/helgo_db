@@ -41,6 +41,7 @@ module.exports = function(grunt) {
             '**/*.html',
             '**/*.ico',
             '**/*.png',
+            '**/*.json',
           ],
           dest: 'build/'
         },
