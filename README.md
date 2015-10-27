@@ -65,6 +65,9 @@ Represents a school. Schools are linked to children through `Enrollment` instanc
 Represents staff - i.e. users of the database app as well as social field workers. This is also used to manage login of the app user.
 
 
+## More Information
+For a project outline, free demo system, etc. visit [ngo-db.sinnfragen.org](http://ngo-db.sinnfragen.org/)
+
 
 [ng]: https://docs.angularjs.org/api
 [ng-seed]: https://github.com/angular/angular-seed
