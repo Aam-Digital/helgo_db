@@ -33,10 +33,23 @@ angular.module('myApp.appDB', [
             return db.remoteDB.login(username, password, ajaxOpts)
                 .then(
                 function () {
+                    $log.debug("Remote login succesfull. Trying to sync with remoteDB ...");
                     db.replicate.sync(remoteDB, {
                         live: true,
                         retry: true
-                    });
+                    }).then(
+                        function () {
+                            $log.debug("successfully syncing with remoteDB");
+                        },
+                        function (err) {
+                            $log.error("failed to sync with remoteDB");
+                            $log.error(err);
+                        },
+                        function (note) {
+                            $log.debug("trying to sync remoteDB: ");
+                            $log.debug(note);
+                        }
+                    );
                 },
                 function (error) {
                     $log.error("Could not log in to the remote database. (" + error.message + ")");
