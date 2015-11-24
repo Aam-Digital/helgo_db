@@ -1,5 +1,9 @@
 # HELGO DB
-Create a simple, offline/sync management system for a small educational NGO.
+Empowering NGOs' social workers with simple to use (database) software.
+
+For a project outline, free demo system, etc. visit [ngo-db.sinnfragen.org](http://ngo-db.sinnfragen.org/)
+
+
 
 ### Pre-installation
 Before proceeding with the installation steps, please check if the following two folder are owned by $USER and not the 'root' user:
@@ -40,6 +44,23 @@ All code directly written for the web app itself is in the `/app` folder.
 
 Be sure to open `app/index.html` instead of `build/index.html` in your browser for testing during development. Any changes to the code will only appear for `build/` after running `grunt` again (because this copies the scripts from the `/app` directory to the `/build` directory. To prepare the required libraries running `grunt` is still necessary.
 
+### Configuration
+The system connects to a remote database server in order to have automatic synchronization of the data between multiple users on different computers. The remote server location is configure in `app/app-config.js` which defines a JSON object containing configuration information.
+The `remote_url` should define the CouchDB server address with a trailing slash but without the database name (which is defined separately as `name`). e.g. 
+``
+    'database': {
+        'name': "dev",
+        'remote_url': "http://demo-db.sinnfragen.org/db/",
+    }
+``
+
+For logging into the remote CouchDB server the system uses the username/password credentials entered by the user on the login screen. (To make login possible while offline, the same user credentials are also kept in the database itself and used independently for local authentication.) 
+
+There is an openly available demo database server (see default settings in `app/app-config.js` in the repository). Login is possible as
+
+- username: demo
+- password: pass
+
 
 
 ## Architecture
@@ -74,9 +95,6 @@ Represents a school. Schools are linked to children through `Enrollment` instanc
 #### User
 Represents staff - i.e. users of the database app as well as social field workers. This is also used to manage login of the app user.
 
-
-## More Information
-For a project outline, free demo system, etc. visit [ngo-db.sinnfragen.org](http://ngo-db.sinnfragen.org/)
 
 
 [ng]: https://docs.angularjs.org/api
