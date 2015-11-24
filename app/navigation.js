@@ -6,10 +6,11 @@ angular.module('myApp.navigation', [
     $scope.menu_main = [
         { url: '/', icon: 'fa-home', title: 'Overview', },
         { url: '/child', icon: 'fa-child', title: 'Children', },
-        {url: '/school', icon: 'fa-university', title: 'Schools',},
+        { url: '/school', icon: 'fa-university', title: 'Schools',},
     ];
 
-        $scope.$watch(function () {
+        $scope.$watch(
+            function () {
                 return userManager.isLoggedIn();
             },
             function (value) {
