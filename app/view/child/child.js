@@ -44,15 +44,17 @@ angular.module('myApp.view.child', [
     .controller('ChildListController', ['$scope', '$location', '$filter', '$log', 'ngTableParams', 'Child', 'childrenManager', function ($scope, $location, $filter, $log, ngTableParams, Child, childrenManager) {
         $scope.tableParams = new ngTableParams(
             {
-                count: 25,
+                page: 1, // initial paginated page to show
+                count: 5 // number of rows to show
             },
             {
+                counts: [5,10,20], // this here if left empty leads to the default size of pagination.
                 getData: function ($defer, params) {
                     childrenManager.getAll().then(
                         function (data) {
-                            $scope.items = data;
                             params.total(data.length);
-                            $defer.resolve($filter('orderBy')(data, params.orderBy()));
+                            $scope.items = data.slice((params.page() - 1) * params.count(), params.page() * params.count());
+                            $defer.resolve($filter('orderBy')($scope.items, params.orderBy()));
                         },
                         $log.error);
                 },

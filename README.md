@@ -1,6 +1,13 @@
 # HELGO DB
 Create a simple, offline/sync management system for a small educational NGO.
 
+### Pre-installation
+Before proceeding with the installation steps, please check if the following two folder are owned by $USER and not the 'root' user:
+`~/.cache` & `~/.config`
+If they're owned by root, change the ownership to $USER by running:
+`sudo chown -R $USER ~/.cache`
+`sudo chown -R $USER ~/.config`
+Now, you can proceed with the following commands. (You don't need sudo for any of the commands below.)
 
 ## Install
 
@@ -67,6 +74,9 @@ Represents a school. Schools are linked to children through `Enrollment` instanc
 #### User
 Represents staff - i.e. users of the database app as well as social field workers. This is also used to manage login of the app user.
 
+
+## More Information
+For a project outline, free demo system, etc. visit [ngo-db.sinnfragen.org](http://ngo-db.sinnfragen.org/)
 
 
 [ng]: https://docs.angularjs.org/api

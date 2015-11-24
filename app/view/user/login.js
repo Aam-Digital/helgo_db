@@ -35,9 +35,8 @@ angular.module('myApp.view.login', [
         };
     }])
 
-    .controller('LogoutController', ['$location', 'appDB', function ($location, appDB) {
-        appDB.logout();
-
+    .controller('LogoutController', ['$location', 'userManager', function ($location, userManager) {
+        userManager.logout();
         $location.path("/login");
     }]);
 
