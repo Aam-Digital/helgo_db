@@ -37,6 +37,9 @@ Be sure to open `app/index.html` instead of `build/index.html` in your browser f
 
 ## Architecture
 
+### System Overview
+![](doc/system_overview.png)
+
 ### Overview of Frameworks and Libraries
 - JavaScript Web App based on [AngularJS][ng]
   - Started using [Angular Seed project][ng-seed]
