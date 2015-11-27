@@ -13,7 +13,18 @@ If they're owned by root, change the ownership to $USER by running:
 `sudo chown -R $USER ~/.config`
 Now, you can proceed with the following commands. (You don't need sudo for any of the commands below.)
 
+If you previously experienced problems with npm it may be a good idea to remove nodejs and npm completely before the installation. This can be done with
+`sudo apt-get purge nodejs && sudo rm -r /usr/lib/node_modules && rm -r ~/.npm ~/.node-gyp`
+
 ## Install
+
+### Installing NodeJS and Requirements (Ubuntu)
+First, we need to install some requirements as we need g++ to compile some node modules and ruby to install the compass module for compiling our SASS code: `sudo apt-get install build-essential ruby ruby-dev`. After that install compass using the package manager of ruby: `sudo gem install compass`.
+
+Installing NodeJS is fairly easy, as there is an official script available which can be found [here](https://github.com/nodesource/distributions#debinstall). The script adds the repository to your sources and you can install using apt-get: `sudo apt-get install nodejs`. NodeJS 5.x should work fine, but if you still encounter any problems you can try to switch to 4.x. 
+
+After NodeJS has been installed, update npm with `sudo npm update -g` and install bower und grunt globally: `sudo npm install -g bower grunt-cli`. The last step is to install [Yeoman](http://yeoman.io/) and a generator for angular projects: `sudo npm install -g yo generator-angular generator-karma`.
+
 
 ### First Steps
 You can simply clone this repository and install the dependencies through [npm](https://www.npmjs.org/) and [bower](http://bower.io):
