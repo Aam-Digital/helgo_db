@@ -5,58 +5,40 @@ For a project outline, free demo system, etc. visit [ngo-db.sinnfragen.org](http
 
 
 
-### Pre-installation
-Before proceeding with the installation steps, please check if the following two folder are owned by $USER and not the 'root' user:
-`~/.cache` & `~/.config`
-If they're owned by root, change the ownership to $USER by running:
-`sudo chown -R $USER ~/.cache`
-`sudo chown -R $USER ~/.config`
-Now, you can proceed with the following commands. (You don't need sudo for any of the commands below.)
+## Installation
 
+### Pre-installation
+The project depends on a couple of tools which are required for development. Please go through the following "pre-installation" steps if you don't have the following tools already installed:
+
+- [npm (NodeJS)](https://www.npmjs.org/)
+- [bower](http://bower.io)
+- [grunt](http://gruntjs.com/)
+- [Yeoman](http://yeoman.io/) (and its AngularJS generator)
+
+#### Installing NodeJS and Requirements (Ubuntu)
 If you previously experienced problems with npm it may be a good idea to remove nodejs and npm completely before the installation. This can be done with
 `sudo apt-get purge nodejs && sudo rm -r /usr/lib/node_modules && rm -r ~/.npm ~/.node-gyp`
 
-## Install
-
-### Installing NodeJS and Requirements (Ubuntu)
 First, we need to install some requirements as we need g++ to compile some node modules and ruby to install the compass module for compiling our SASS code: `sudo apt-get install build-essential ruby ruby-dev`. After that install compass using the package manager of ruby: `sudo gem install compass`.
 
 Installing NodeJS is fairly easy, as there is an official script available which can be found [here](https://github.com/nodesource/distributions#debinstall). The script adds the repository to your sources and you can install using apt-get: `sudo apt-get install nodejs`. NodeJS 5.x should work fine, but if you still encounter any problems you can try to switch to 4.x. 
 
 After NodeJS has been installed, update npm with `sudo npm update -g` and install bower und grunt globally: `sudo npm install -g bower grunt-cli`. The last step is to install [Yeoman](http://yeoman.io/) and a generator for angular projects: `sudo npm install -g yo generator-angular generator-karma`.
 
-
-### First Steps
-You can simply clone this repository and install the dependencies through [npm](https://www.npmjs.org/) and [bower](http://bower.io):
+### Install Libraries
+You can simply clone this repository to get all the code with its configuration and requirements.
+Install the dependencies with
 ```
 npm install
 ```
 
-To prepare all necessary files, we are using [grunt](http://gruntjs.com/). The tool was install when running `npm install`. You can directly execute it from the command line:
-```
-grunt
-```
-
-Now you are ready to go. `grunt` has generated a subfolder `/build` that holds all necessary files. If you have a local webserver (e.g. Apache), you can open the web app at `/build/index.html` or `/app/index.html` on your localhost. Otherwise you can start a local server using through `npm`: 
-```
-npm start
-```
-The web app is then available in your browser at `http://localhost:8000/app/index.html`
-
-If you need more detailed instructions, please follow the steps from [angular-seed][ng-seed].
-
-### Tools
-`npm` and `bower` automatically manage dependencies (i.e. any libraries the project is using).
-
-`grunt` runs the commands configured in `Gruntfile.js`, generating the appcache.manifest (needed to make the app available offline) and minifying the script files.
-
-### Development
-All code directly written for the web app itself is in the `/app` folder.
-
-Be sure to open `app/index.html` instead of `build/index.html` in your browser for testing during development. Any changes to the code will only appear for `build/` after running `grunt` again (because this copies the scripts from the `/app` directory to the `/build` directory. To prepare the required libraries running `grunt` is still necessary.
-
 ### Configuration
-The system connects to a remote database server in order to have automatic synchronization of the data between multiple users on different computers. The remote server location is configure in `app/app-config.js` which defines a JSON object containing configuration information.
+The needs some basic custom settings to run. These are defined in the file `app/app-config.js`. You can copy the default settings file `app/app-config.js.example` in the repository.
+The file defines an AngularJS object which returns a simple JSON structure containing the settings.
+
+#### Remote Server Location
+The web app connects to a remote database server in order to have automatic synchronization of the data between multiple users on different computers.
+The remote server location is one of the settings configured in `app/app-config.js`.
 The `remote_url` should define the CouchDB server address with a trailing slash but without the database name (which is defined separately as `name`). e.g. 
 ``
     'database': {
@@ -65,14 +47,36 @@ The `remote_url` should define the CouchDB server address with a trailing slash 
     }
 ``
 
-For logging into the remote CouchDB server the system uses the username/password credentials entered by the user on the login screen. (To make login possible while offline, the same user credentials are also kept in the database itself and used independently for local authentication.) 
+For logging into the remote CouchDB server the system uses the username/password credentials entered by the user on the login screen.
+(To make login possible while offline, the same user credentials are also kept in the database itself and used independently for local authentication.) 
 
 There is an openly available demo database server (see default settings in `app/app-config.js` in the repository). Login is possible as
 
 - username: demo
 - password: pass
 
+### Run
+You can then directly use grunt to start a local webserver to serve the web app and dynamically reload after files were changed:
+```
+grunt serve
+```
 
+
+
+## Development
+All code directly written for the web app itself is in the `/app` folder.
+
+### Tools
+`npm` and `bower` automatically manage dependencies (i.e. any libraries the project is using).
+
+`grunt` runs the commands configured in `Gruntfile.js`, generating the appcache.manifest (needed to make the app available offline) and minifying the script files.
+
+`yo` (yeoman) can generate new AngularJS script files and add them into the project to ease development and keep a clear structure.
+
+
+
+
+# Technical & Design Details
 
 ## Architecture
 

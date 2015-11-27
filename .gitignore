@@ -1,10 +1,15 @@
+app/app-config.js
+
+/node_modules
+/dist
+/.tmp
+/.sass-cache
+/bower_components
+
 .project
 .idea
 .settings/*
 .tern-project
-
-bower_components/*
-node_modules/*
 
 build/*
 logs/*
