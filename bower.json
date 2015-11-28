@@ -1,20 +1,44 @@
 {
-  "name": "hdb",
-  "description": "HELGO DB: A simple database system for a NGO",
-  "version": "1.0.0",
-  "homepage": "https://github.com/sebastian-leidig/helgo_db",
-  "private": true,
-  "dependencies": {
-    "angular": "~1.4.0",
-    "angular-bootstrap": "~0.13.4",
-    "angular-loader": "~1.4.0",
-    "angular-mocks": "~1.4.0",
-    "angular-pouchdb": "~3.0.0",
-    "angular-route": "~1.4.0",
-    "angular-sanitize": "~1.4.6",
-    "ng-table": "~0.8.3",
-    "pouchdb-authentication": "~0.4.1",
-    "bootstrap": "~3.3.5",
-    "font-awesome": "~4.4.0"
-  }
+    "name": "hdb",
+    "description": "HELGO DB: A simple database system for a NGO",
+    "version": "1.0.0",
+    "homepage": "https://github.com/sebastian-leidig/helgo_db",
+    "private": true,
+    "dependencies": {
+        "angular": "~1.4.0",
+        "angular-bootstrap": "~0.13.4",
+        "angular-loader": "~1.4.0",
+        "angular-mocks": "~1.4.0",
+        "angular-pouchdb": "~3.0.0",
+        "angular-route": "~1.4.0",
+        "angular-sanitize": "~1.4.6",
+        "ng-table": "~0.8.3",
+        "pouchdb-authentication": "~0.4.1",
+        "bootstrap": "~3.3.4",
+        "font-awesome": "~4.4.0"
+    },
+    "overrides": {
+        "bootstrap": {
+            "main": [
+                "less/bootstrap.less",
+                "dist/css/bootstrap.css",
+                "dist/css/bootstrap-theme.css",
+                "dist/js/bootstrap.js",
+                "dist/fonts/glyphicons-halflings-regular.eot",
+                "dist/fonts/glyphicons-halflings-regular.svg",
+                "dist/fonts/glyphicons-halflings-regular.ttf",
+                "dist/fonts/glyphicons-halflings-regular.woff"
+            ]
+        },
+        "font-awesome": {
+            "main": [
+                "less/font-awesome.less",
+                "scss/font-awesome.scss",
+                "css/font-awesome.css",
+                "fonts/fontawesome-webfont.tff",
+                "fonts/fontawesome-webfont.woff",
+                "fonts/fontawesome-webfont.woff2"
+            ]
+        }
+    }
 }
