@@ -10,9 +10,4 @@ describe('Service: AbstractModel', function () {
   beforeEach(inject(function (_AbstractModel_) {
     AbstractModel = _AbstractModel_;
   }));
-
-  it('should do something', function () {
-    expect(!!AbstractModel).toBe(true);
-  });
-
 });

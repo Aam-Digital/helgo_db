@@ -10,9 +10,4 @@ describe('Service: userManager', function () {
   beforeEach(inject(function (_userManager_) {
     userManager = _userManager_;
   }));
-
-  it('should do something', function () {
-    expect(!!userManager).toBe(true);
-  });
-
 });

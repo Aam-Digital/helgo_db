@@ -16,8 +16,4 @@ describe('Controller: SchoolDetailsCtrl', function () {
       // place here mocked dependencies
     });
   }));
-
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(SchoolDetailsCtrl.awesomeThings.length).toBe(3);
-  });
 });

@@ -10,9 +10,4 @@ describe('Service: DbManager', function () {
   beforeEach(inject(function (_DbManager_) {
     DbManager = _DbManager_;
   }));
-
-  it('should do something', function () {
-    expect(!!DbManager).toBe(true);
-  });
-
 });

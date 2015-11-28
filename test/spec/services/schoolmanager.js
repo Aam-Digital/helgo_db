@@ -10,9 +10,4 @@ describe('Service: schoolManager', function () {
   beforeEach(inject(function (_schoolManager_) {
     schoolManager = _schoolManager_;
   }));
-
-  it('should do something', function () {
-    expect(!!schoolManager).toBe(true);
-  });
-
 });

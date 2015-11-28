@@ -10,9 +10,4 @@ describe('Service: appConfig', function () {
   beforeEach(inject(function (_appConfig_) {
     appConfig = _appConfig_;
   }));
-
-  it('should do something', function () {
-    expect(!!appConfig).toBe(true);
-  });
-
 });

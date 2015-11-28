@@ -10,9 +10,4 @@ describe('Service: Child', function () {
   beforeEach(inject(function (_Child_) {
     Child = _Child_;
   }));
-
-  it('should do something', function () {
-    expect(!!Child).toBe(true);
-  });
-
 });

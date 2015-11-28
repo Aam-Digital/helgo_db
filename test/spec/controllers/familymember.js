@@ -16,8 +16,4 @@ describe('Controller: FamilymemberCtrl', function () {
       // place here mocked dependencies
     });
   }));
-
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(FamilymemberCtrl.awesomeThings.length).toBe(3);
-  });
 });

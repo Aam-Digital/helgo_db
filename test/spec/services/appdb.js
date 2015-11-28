@@ -10,9 +10,4 @@ describe('Service: appDb', function () {
   beforeEach(inject(function (_appDb_) {
     appDb = _appDb_;
   }));
-
-  it('should do something', function () {
-    expect(!!appDb).toBe(true);
-  });
-
 });

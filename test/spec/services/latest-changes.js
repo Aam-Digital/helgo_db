@@ -10,9 +10,4 @@ describe('Service: latestChanges', function () {
   beforeEach(inject(function (_latestChanges_) {
     latestChanges = _latestChanges_;
   }));
-
-  it('should do something', function () {
-    expect(!!latestChanges).toBe(true);
-  });
-
 });

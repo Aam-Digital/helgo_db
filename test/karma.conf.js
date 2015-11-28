@@ -21,6 +21,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      './node_modules/phantomjs-polyfill/bind-polyfill.js',
       // bower:js
       'bower_components/jquery/dist/jquery.js',
       'bower_components/angular/angular.js',
@@ -56,13 +57,15 @@ module.exports = function(config) {
     // - PhantomJS
     // - IE (only Windows)
     browsers: [
-      "PhantomJS"
+      "Chrome"
     ],
 
     // Which plugins to enable
     plugins: [
-      "karma-phantomjs-launcher",
-      "karma-jasmine"
+      'karma-chrome-launcher',
+      'karma-firefox-launcher',
+      'karma-jasmine',
+      'karma-junit-reporter'
     ],
 
     // Continuous Integration mode
@@ -74,6 +77,11 @@ module.exports = function(config) {
     // level of logging
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
     logLevel: config.LOG_INFO,
+
+    junitReporter : {
+      outputFile: 'test_out/unit.xml',
+      suite: 'unit'
+    }
 
     // Uncomment the following lines if you are using grunt's server to run the tests
     // proxies: {

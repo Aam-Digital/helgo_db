@@ -10,9 +10,4 @@ describe('Service: childManager', function () {
   beforeEach(inject(function (_childManager_) {
     childManager = _childManager_;
   }));
-
-  it('should do something', function () {
-    expect(!!childManager).toBe(true);
-  });
-
 });

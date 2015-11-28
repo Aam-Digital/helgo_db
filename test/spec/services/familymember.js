@@ -10,9 +10,4 @@ describe('Service: FamilyMember', function () {
   beforeEach(inject(function (_FamilyMember_) {
     FamilyMember = _FamilyMember_;
   }));
-
-  it('should do something', function () {
-    expect(!!FamilyMember).toBe(true);
-  });
-
 });

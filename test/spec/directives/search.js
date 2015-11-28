@@ -11,10 +11,4 @@ describe('Directive: search', function () {
   beforeEach(inject(function ($rootScope) {
     scope = $rootScope.$new();
   }));
-
-  it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<search></search>');
-    element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the search directive');
-  }));
 });

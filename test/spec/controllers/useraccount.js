@@ -16,8 +16,4 @@ describe('Controller: UseraccountCtrl', function () {
       // place here mocked dependencies
     });
   }));
-
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(UseraccountCtrl.awesomeThings.length).toBe(3);
-  });
 });
