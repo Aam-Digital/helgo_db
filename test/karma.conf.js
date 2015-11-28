@@ -34,7 +34,7 @@ module.exports = function(config) {
       'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/ng-table/dist/ng-table.min.js',
       'bower_components/pouchdb-authentication/dist/pouchdb.authentication.js',
-      'bower_components/bootstrap/dist/js/bootstrap.js',
+      'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js',
       // endbower
       "app/scripts/**/*.js",
       "test/mock/**/*.js",
