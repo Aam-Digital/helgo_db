@@ -1,9 +1,18 @@
-angular.module('ngoDb', [])
+'use strict';
+
+/**
+ * @ngdoc service
+ * @name hdbApp.appConfig
+ * @description
+ * # appConfig
+ * The custom app settings.
+ */
+angular.module('hdbApp')
     .factory('appConfig', function () {
         return {
             'version': "1.0.0",
             'github': {
-                'user': "NGO-DB",
+                'user': "sebastian-leidig",
                 'repository': "helgo_db"
             },
             'database': {
@@ -12,4 +21,3 @@ angular.module('ngoDb', [])
             }
         };
     });
-
