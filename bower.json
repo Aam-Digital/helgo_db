@@ -16,17 +16,5 @@
         "pouchdb-authentication": "~0.4.1",
         "bootstrap-sass-official": "~3.3.6",
         "font-awesome": "~4.4.0"
-    },
-    "overrides": {
-        "font-awesome": {
-            "main": [
-                "less/font-awesome.less",
-                "scss/font-awesome.scss",
-                "css/font-awesome.css",
-                "fonts/fontawesome-webfont.tff",
-                "fonts/fontawesome-webfont.woff",
-                "fonts/fontawesome-webfont.woff2"
-            ]
-        }
     }
 }

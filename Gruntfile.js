@@ -434,6 +434,14 @@ module.exports = function (grunt) {
                 cwd: '<%= yeoman.app %>/styles',
                 dest: '.tmp/styles/',
                 src: '{,*/}*.css'
+            },
+            fonts: {
+                expand: true,
+                flatten: true,
+                cwd: '.',
+                src: ['bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*', 'bower_components/font-awesome/fonts/*'],
+                dest: '.tmp/fonts/',
+                filter: 'isFile'
             }
         },
 
@@ -470,6 +478,7 @@ module.exports = function (grunt) {
         grunt.task.run([
             'clean:server',
             'wiredep',
+            'copy:fonts',
             'concurrent:server',
             'postcss:server',
             'connect:livereload',
