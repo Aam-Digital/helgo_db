@@ -8,7 +8,7 @@
  * Controller of the hdbApp
  */
 angular.module('hdbApp')
-    .controller('LoginCtrl', ['$scope', '$location', 'userManager', function ($scope, $location, userManager) {
+    .controller('LoginCtrl', ['$scope', '$location', '$log', 'userManager', 'appDB', function ($scope, $location, $log, userManager, appDB) {
 
         console.log("ctrl");
 
@@ -18,15 +18,53 @@ angular.module('hdbApp')
             userManager.login($scope.user.name, $scope.user.password).then(
                 function (status) {
                     if (status.ok) {
+                        $log.debug("Login success");
+                        appDB.login($scope.user.name, $scope.user.password).then(
+                            function () {
+                                appDB.sync();
+                            }
+                        );
                         $location.path("/");
+                    } else {
+                        _loginFailed($scope, $log, appDB, $scope.user.name, $scope.user.password);
                     }
-                    else {
-                        $scope.error = status.message;
-                    }
-                },
-                function (err) {
-                    $scope.error = err.message;
+                }, function (err) {
+                    _loginFailed($scope, $log, appDB, $scope.user.name, $scope.user.password);
                 }
             );
+
         };
     }]);
+
+function _loginFailed(scope, log, appDB, user, password) {
+    log.debug("Login failed");
+
+    appDB.login(user, password).then(
+        function () {
+            log.debug("Trying to sync...");
+            appDB.sync().then(
+                function () {
+                    userManager.login(user, password).then(
+                        function (status) {
+                            if (status.ok) {
+                                $location.path("/");
+                            }
+                            else {
+                                scope.error = status.message;
+                            }
+                        },
+                        function (err) {
+                            scope.error = err.message;
+                        }
+                    )
+                },
+                function (err) {
+                    scope.error = err.message;
+                }
+            )
+        },
+        function (err) {
+            scope.error = err.message;
+        }
+    );
+}

@@ -38,29 +38,37 @@ angular.module('hdbApp')
                 }
             };
             return db.remoteDB.login(username, password, ajaxOpts)
-                .then(
-                function () {
-                    $log.debug("Remote login succesfull. Trying to sync with remoteDB ...");
-                    db.replicate.sync(remoteDB, {
-                        live: true,
-                        retry: true
-                    }).then(
-                        function () {
-                            $log.debug("successfully syncing with remoteDB");
-                        },
-                        function (err) {
-                            $log.error("failed to sync with remoteDB");
-                            $log.error(err);
-                        },
-                        function (note) {
-                            $log.debug("trying to sync remoteDB: ");
-                            $log.debug(note);
-                        }
-                    );
-                },
-                function (error) {
-                    $log.error("Could not log in to the remote database. (" + error.message + ")");
-                });
+                .then(function () {
+                        $log.debug("Remote login successful.");
+                    },
+                    function (error) {
+                        $log.error("Could not log in to the remote database. (" + error.message + ")");
+                    });
+        };
+
+        db.sync = function () {
+            $log.debug("sync()");
+
+            return PouchDB.sync(db, remoteDB, {
+                live: true,
+                retry: true
+            }).on('change', function (info) {
+                $log.debug("trying to sync remoteDB: change");
+                $log.debug(info);
+            }).on('paused', function () {
+                $log.debug("successfully syncing with remoteDB");
+            }).on('active', function () {
+                $log.debug("successfully syncing with remoteDB");
+            }).on('denied', function (info) {
+                $log.debug("trying to sync remoteDB: ");
+                $log.debug(info);
+            }).on('complete', function (info) {
+                $log.debug("trying to sync remoteDB: complete");
+                $log.debug(info);
+            }).on('error', function (err) {
+                $log.error("failed to sync with remoteDB");
+                $log.error(err);
+            });
         };
 
         db.logout = function () {

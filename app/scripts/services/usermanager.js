@@ -19,8 +19,6 @@ angular.module('hdbApp')
                 var deferred = $q.defer();
                 var scope = this;
 
-                appDB.login(username, password);
-
                 this.get(username).then(
                     function (user) {
                         if (user.authenticate(password)) {
