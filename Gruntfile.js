@@ -27,6 +27,7 @@ module.exports = function (grunt) {
 
     // Define the configuration for all the tasks
     grunt.initConfig({
+        pkg: grunt.file.readJSON('package.json'),
 
         // Project settings
         yeoman: appConfig,
@@ -466,6 +467,43 @@ module.exports = function (grunt) {
                 configFile: 'test/karma.conf.js',
                 singleRun: true
             }
+        },
+
+        manifest: {
+            generate: {
+                options: {
+                    basePath: './dist/',
+                    headcomment: " <%= pkg.name %> v<%= pkg.version %>",
+                    verbose: true,
+                    timestamp: true,
+                    hash: true,
+                },
+                src: [
+                    '**/**.html',
+                    '**/**.js',
+                    '**/**.css',
+                    '**/**.ttf'
+                ],
+                dest: 'dist/manifest.appcache'
+            }
+        },
+
+        bump: {
+            options: {
+                files: ['package.json', 'bower.json', 'app/app-config.js', 'app/app-config.js.example'],
+                updateConfigs: [],
+                commit: true,
+                commitMessage: 'Release v%VERSION%',
+                commitFiles: ['package.json', 'bower.json', 'app/app-config.js.example'],
+                createTag: true,
+                tagName: 'v%VERSION%',
+                tagMessage: 'Version %VERSION%',
+                push: true,
+                pushTo: 'origin',
+                gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d',
+                globalReplace: false,
+                prereleaseName: false,
+            }
         }
     });
 
@@ -515,7 +553,8 @@ module.exports = function (grunt) {
         'uglify',
         'filerev',
         'usemin',
-        'htmlmin'
+        'htmlmin',
+        'manifest'
     ]);
 
     grunt.registerTask('default', [
