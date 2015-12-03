@@ -8,8 +8,8 @@
  * Controller of the hdbApp
  */
 angular.module('hdbApp')
-    .controller('SchoolDetailsCtrl', ['$scope', '$location', '$filter', '$routeParams', '$log', 'ngTableParams', 'schoolManager', 'School', 'childManager',
-        function ($scope, $location, $filter, $routeParams, $log, ngTableParams, schoolManager, School, childManager) {
+    .controller('SchoolDetailsCtrl', ['$scope', '$location', '$filter', '$routeParams', '$log', 'ngTableParams', 'schoolManager', 'School', 'childManager', '$timeout',
+        function ($scope, $location, $filter, $routeParams, $log, ngTableParams, schoolManager, School, childManager, $timeout) {
 
             var param = $routeParams.name;
             if (param === "new") {
@@ -53,7 +53,13 @@ angular.module('hdbApp')
                 if ($scope.new) {
                     school = new School(school);
                 }
+
                 school.update();
+
+                $scope.savedMsg = true;
+                $timeout(function () {
+                    $scope.savedMsg = false;
+                }, 3000);
             };
             $scope.showChild = function (pn) {
                 $location.path("/child/" + pn);
