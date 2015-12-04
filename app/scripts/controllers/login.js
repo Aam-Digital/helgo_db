@@ -26,17 +26,17 @@ angular.module('hdbApp')
                         );
                         $location.path("/");
                     } else {
-                        _loginFailed($scope, $log, appDB, $scope.user.name, $scope.user.password);
+                        _loginFailed($scope, $log, userManager, $location, appDB, $scope.user.name, $scope.user.password);
                     }
                 }, function (err) {
-                    _loginFailed($scope, $log, appDB, $scope.user.name, $scope.user.password);
+                    _loginFailed($scope, userManager, $location, $log, appDB, $scope.user.name, $scope.user.password);
                 }
             );
 
         };
     }]);
 
-function _loginFailed(scope, log, appDB, user, password) {
+function _loginFailed(scope, userManager, location, log, appDB, user, password) {
     log.debug("Login failed");
 
     appDB.login(user, password).then(
@@ -47,7 +47,9 @@ function _loginFailed(scope, log, appDB, user, password) {
                     userManager.login(user, password).then(
                         function (status) {
                             if (status.ok) {
-                                $location.path("/");
+                                log.debug("Second login successful");
+                                location.path("/");
+                                appDB.syncLive();
                             }
                             else {
                                 scope.error = status.message;
