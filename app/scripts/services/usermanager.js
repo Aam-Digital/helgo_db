@@ -58,7 +58,8 @@ angular.module('hdbApp')
 
                 appDB.remoteDB.changePassword(user.name, newPassword).then(
                     function (response) {
-                        user.password = hashFnv32a(newPassword);
+                        user.password = CryptoJS.PBKDF2(password, appConfig.crypto.salt,
+                            {keySize: appConfig.crypto.keysize, iterations: appConfig.crypto.iterations});
                         user.update().then(
                             function () {
                                 deferred.resolve();
