@@ -21,7 +21,7 @@ angular.module('hdbApp')
                         $log.debug("Login success");
                         appDB.login($scope.user.name, $scope.user.password).then(
                             function () {
-                                appDB.sync();
+                                appDB.syncLive();
                             }
                         );
                         $location.path("/");
