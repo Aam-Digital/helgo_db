@@ -19,7 +19,7 @@
                                    ng-model="user.password" value="">
                         </div>
                         <!-- Change this to a button or input when using this as a form -->
-                        <button class="btn btn-lg btn-success btn-block" ng-click="login()">Login</button>
+                        <button class="btn btn-lg btn-success btn-block" ng-disabled="isLoginBtnDisabled" ng-click="login()"><span ng-show="isLoginBtnDisabled">Logging In ...</span><span ng-hide="isLoginBtnDisabled">Login</span></button>
                     </fieldset>
                 </form>
             </div>

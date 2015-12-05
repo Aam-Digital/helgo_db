@@ -10,11 +10,10 @@
 angular.module('hdbApp')
     .controller('LoginCtrl', ['$scope', '$location', '$log', 'userManager', 'appDB', function ($scope, $location, $log, userManager, appDB) {
 
-        console.log("ctrl");
+        $scope.isLoginBtnDisabled = false;
 
         $scope.login = function login() {
-            console.log("fn");
-
+            $scope.isLoginBtnDisabled = true;
             userManager.login($scope.user.name, $scope.user.password).then(
                 function (status) {
                     if (status.ok) {
@@ -26,47 +25,53 @@ angular.module('hdbApp')
                         );
                         $location.path("/");
                     } else {
-                        _loginFailed($scope, $log, userManager, $location, appDB, $scope.user.name, $scope.user.password);
+                        _loginFailed();
                     }
                 }, function (err) {
-                    _loginFailed($scope, userManager, $location, $log, appDB, $scope.user.name, $scope.user.password);
+                    _loginFailed();
                 }
             );
+
+            function _loginFailed() {
+                $log.debug("Login failed");
+
+                appDB.login($scope.user.name, $scope.user.password).then(
+                    function () {
+                        $log.debug("Trying to sync...");
+                        appDB.sync().then(
+                            function () {
+                                userManager.login($scope.user.name, $scope.user.password).then(
+                                    function (status) {
+                                        if (status.ok) {
+                                            $log.debug("Second login successful");
+                                            $location.path("/");
+                                            appDB.syncLive();
+                                        }
+                                        else {
+                                            $scope.error = status.message;
+                                            $scope.isLoginBtnDisabled = false;
+                                        }
+                                    },
+                                    function (err) {
+                                        $scope.error = err.message;
+                                        $scope.isLoginBtnDisabled = false;
+                                    }
+                                )
+                            },
+                            function (err) {
+                                $scope.error = err.message;
+                                $scope.isLoginBtnDisabled = false;
+                            }
+                        )
+                    },
+                    function (err) {
+                        $scope.error = err.message;
+                        $scope.isLoginBtnDisabled = false;
+                    }
+                );
+            }
 
         };
     }]);
 
-function _loginFailed(scope, userManager, location, log, appDB, user, password) {
-    log.debug("Login failed");
 
-    appDB.login(user, password).then(
-        function () {
-            log.debug("Trying to sync...");
-            appDB.sync().then(
-                function () {
-                    userManager.login(user, password).then(
-                        function (status) {
-                            if (status.ok) {
-                                log.debug("Second login successful");
-                                location.path("/");
-                                appDB.syncLive();
-                            }
-                            else {
-                                scope.error = status.message;
-                            }
-                        },
-                        function (err) {
-                            scope.error = err.message;
-                        }
-                    )
-                },
-                function (err) {
-                    scope.error = err.message;
-                }
-            )
-        },
-        function (err) {
-            scope.error = err.message;
-        }
-    );
-}
