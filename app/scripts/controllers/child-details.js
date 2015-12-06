@@ -8,8 +8,8 @@
  * Controller of the hdbApp
  */
 angular.module('hdbApp')
-    .controller('ChildDetailsCtrl', ['$scope', '$sce', '$location', '$filter', '$log', '$routeParams', 'ngTableParams', 'childManager', 'Child', 'userManager', 'schoolManager', '$modal',
-        function ($scope, $sce, $location, $filter, $log, $routeParams, ngTableParams, childManager, Child, userManager, schoolManager, $modal) {
+    .controller('ChildDetailsCtrl', ['$scope', '$sce', '$location', '$filter', '$log', '$routeParams', 'ngTableParams', 'childManager', 'Child', 'userManager', 'schoolManager', '$modal', '$timeout',
+        function ($scope, $sce, $location, $filter, $log, $routeParams, ngTableParams, childManager, Child, userManager, schoolManager, $modal, $timeout) {
             var loadEnrollments = function (child) {
                 $scope.tableEnrollments = new ngTableParams(
                     {
@@ -60,7 +60,6 @@ angular.module('hdbApp')
                 );
             };
 
-
             var param = $routeParams.pn;
             if (param === "new") {
                 $scope.child = {};
@@ -107,10 +106,17 @@ angular.module('hdbApp')
 
             $scope.save = function () {
                 var child = $scope.child;
+
                 if ($scope.new) {
                     child = new Child(child);
                 }
+
                 child.update();
+
+                $scope.savedMsg = true;
+                $timeout(function () {
+                    $scope.savedMsg = false;
+                }, 3000);
             };
 
             $scope.showEnrollment = function (enrollment) {
