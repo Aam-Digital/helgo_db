@@ -17,35 +17,38 @@ angular.module('hdbApp')
             userManager.login($scope.user.name, $scope.user.password).then(
                 function (status) {
                     if (status.ok) {
-                        $log.debug("Login success");
+                        $log.debug("Local login successful.");
                         appDB.login($scope.user.name, $scope.user.password).then(
                             function () {
-                                appDB.syncLive();
+                                appDB.sync(true);
+                            }, function (err) {
+                                $log.debug("Remote login failed: ");
+                                $log.debug(err);
                             }
                         );
                         $location.path("/");
                     } else {
                         _loginFailed();
                     }
-                }, function (err) {
+                }, function () {
                     _loginFailed();
                 }
             );
 
             function _loginFailed() {
-                $log.debug("Login failed");
+                $log.debug("Local login failed, is a local database available?");
 
                 appDB.login($scope.user.name, $scope.user.password).then(
                     function () {
-                        $log.debug("Trying to sync...");
-                        appDB.sync().then(
+                        $log.debug("Remote login successful, trying to sync the database...");
+                        appDB.sync(false).then(
                             function () {
                                 userManager.login($scope.user.name, $scope.user.password).then(
                                     function (status) {
                                         if (status.ok) {
-                                            $log.debug("Second login successful");
+                                            $log.debug("Local login successful.");
                                             $location.path("/");
-                                            appDB.syncLive();
+                                            appDB.sync(true);
                                         }
                                         else {
                                             $scope.error = status.message;
