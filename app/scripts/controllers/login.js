@@ -14,6 +14,10 @@ angular.module('hdbApp')
 
         $scope.login = function login() {
             $scope.isLoginBtnDisabled = true;
+
+            if (!$scope.user.password) {
+                $scope.user.password = "";
+            }
             userManager.login($scope.user.name, $scope.user.password).then(
                 function (status) {
                     if (status.ok) {
