@@ -61,8 +61,8 @@ angular.module('hdbApp')
                         // renew login with updated credentials
                         appDB.login(user.name, newPassword);
 
-                        user.password = "" + CryptoJS.PBKDF2(newPassword, appConfig.crypto.salt, //TODO: newPassword instead password?!?
-                            {keySize: appConfig.crypto.keysize, iterations: appConfig.crypto.iterations});
+                        user.password.hash = "" + CryptoJS.PBKDF2(newPassword, user.password.salt,
+                                {keySize: user.password.keysize, iterations: user.password.iterations});
                         user.update().then(
                             function () {
                                 $log.debug("Changed local password");
