@@ -46,6 +46,10 @@ angular.module('hdbApp')
 
             /* Public Methods */
             update: function () {
+                if(this._id != prefix + this.pn) {
+                    throw "Child data inconsistent: 'pn' ("+this.pn+") does not match '_id' ("+this._id+").";
+                }
+
                 var data = angular.copy(this);
                 appDB.put(data);
 

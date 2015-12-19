@@ -77,7 +77,9 @@
                             <div class="form-group">
                                 <label>Project Number</label>
                                 <input type="number" class="form-control" ng-model="child.pn"
-                                       value="{{child.pn |number:0}}">
+                                       value="{{child.pn |number:0}}" ng-readonly="!new"
+                                       tooltip="Uniquely identifies the child and cannot be changed once the record is created."
+                                       required>
                             </div>
 
                             <div class="form-group">
