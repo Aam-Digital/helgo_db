@@ -10,7 +10,7 @@
 angular.module('hdbApp')
     .factory('appConfig', function () {
         return {
-            'version': "1.0.0",
+            'version': "1.0.1",
             'github': {
                 'user': "sebastian-leidig",
                 'repository': "helgo_db"
