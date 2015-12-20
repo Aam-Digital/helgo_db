@@ -18,11 +18,6 @@ angular.module('hdbApp')
             'database': {
                 'name': "dev",
                 'remote_url': "http://demo-db.sinnfragen.org/db/"
-            },
-            'crypto': {
-                'salt': "helgo_db",
-                'iterations': 128,
-                'keysize': 256/32
             }
         };
     });

@@ -25,8 +25,11 @@ angular.module('hdbApp')
 
         User.prototype = angular.extend({}, AbstractModel, {
             authenticate: function (password) {
-                return (CryptoJS.PBKDF2(password, appConfig.crypto.salt,
-                    {keySize: appConfig.crypto.keysize, iterations: appConfig.crypto.iterations}) == this.password);
+                return (CryptoJS.PBKDF2(password, this.password.salt,
+                    {
+                        keySize: this.password.keysize,
+                        iterations: this.password.iterations
+                    }).toString() === this.password.hash);
             },
         });
 
