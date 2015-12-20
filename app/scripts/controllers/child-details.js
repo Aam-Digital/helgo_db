@@ -112,6 +112,7 @@ angular.module('hdbApp')
                 }
 
                 child.update();
+                $scope.new = false;
 
                 $scope.savedMsg = true;
                 $timeout(function () {
