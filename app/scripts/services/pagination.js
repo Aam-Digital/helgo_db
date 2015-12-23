@@ -9,10 +9,10 @@
  */
 angular.module('hdbApp')
     .service('pagination', ['$filter', function ($filter) {
-        this.paginate = function ($defer, params, scope, data) {
+        this.paginate = function (params, data) {
             params.total(data.length);
-            scope.count = data.length;
-            scope.items = data.slice((params.page() - 1) * params.count(), params.page() * params.count());
-            $defer.resolve($filter('orderBy')(scope.items, params.orderBy()));
+            var items = $filter('orderBy')(data, params.orderBy());
+            items = items.slice((params.page() - 1) * params.count(), params.page() * params.count());
+            return items;
         }
     }]);

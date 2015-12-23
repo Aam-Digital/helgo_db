@@ -18,7 +18,8 @@ angular.module('hdbApp')
                 getData: function ($defer, params) {
                     schoolManager.getAll().then(
                         function (data) {
-                            pagination.paginate($defer, params, $scope, data);
+                            $scope.count = data.length;
+                            $defer.resolve(pagination.paginate(params, data));
                         },
                         $log.error);
                 },
