@@ -35,7 +35,10 @@ module.exports = function(config) {
       'bower_components/ng-table/dist/ng-table.min.js',
       'bower_components/pouchdb-authentication/dist/pouchdb.authentication.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js',
+        'bower_components/SHA-1/sha1.js',
+        'bower_components/angulartics/src/angulartics.js',
       // endbower
+        'bower_components/angulartics/src/angulartics-piwik.js',
       "app/scripts/**/*.js",
       "test/mock/**/*.js",
       "test/spec/**/*.js"

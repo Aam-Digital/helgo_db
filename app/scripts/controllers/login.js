@@ -8,7 +8,7 @@
  * Controller of the hdbApp
  */
 angular.module('hdbApp')
-    .controller('LoginCtrl', ['$scope', '$location', '$log', 'userManager', 'appDB', function ($scope, $location, $log, userManager, appDB) {
+    .controller('LoginCtrl', ['$scope', '$analytics', '$location', '$log', 'userManager', 'appDB', function ($scope, $analytics, $location, $log, userManager, appDB) {
 
         $scope.isLoginBtnDisabled = false;
 
@@ -30,6 +30,7 @@ angular.module('hdbApp')
                                 $log.debug(err);
                             }
                         );
+                        $analytics.eventTrack($scope.user.name, {category: 'user', label: $scope.user.name});
                         $location.path("/");
                     } else {
                         _loginFailed();

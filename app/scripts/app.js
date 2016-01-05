@@ -12,7 +12,9 @@ angular
         'ngSanitize',
         'ngTable',
         'ui.bootstrap',
-        'pouchdb'
+        'pouchdb',
+        'angulartics',
+        'angulartics.piwik'
     ])
 
     .config(['$routeProvider', function ($routeProvider) {
@@ -52,14 +54,37 @@ angular
             .otherwise({redirectTo: '/'});
     }])
 
-    .run(['$rootScope', '$location', '$log', 'userManager', function ($rootScope, $location, $log, userManager) {
-        $rootScope.$on('$locationChangeStart', function (/*event, next, current*/) {
+    .run(['$rootScope', '$location', '$log', 'userManager', '$window', 'appConfig', function ($rootScope, $location, $log, userManager, $window, appConfig) {
+        $rootScope.$on('$locationChangeStart', preventUnauthorizedAccess);
+        if (appConfig.analytics.enabled) {
+            setupPiwikAnalytics();
+        }
+
+
+        function preventUnauthorizedAccess() {
             // redirect to login page if not logged in and trying to access a restricted page
             var restrictedPage = (['/login', '/register'].indexOf($location.path()) === -1);
             if (restrictedPage && !userManager.isLoggedIn()) {
                 $location.path('/login');
             }
-        });
+        }
+
+        function setupPiwikAnalytics() {
+            $window._paq = $window._paq || [];
+            //_paq.push(['trackPageView']); //automatically handled by angulartics
+            $window._paq.push(['enableLinkTracking']);
+            (function () {
+                var u = appConfig.analytics.piwik_url;
+                $window._paq.push(['setTrackerUrl', u + 'piwik.php']);
+                $window._paq.push(['setSiteId', appConfig.analytics.site_id]);
+                var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+                g.type = 'text/javascript';
+                g.async = true;
+                g.defer = true;
+                g.src = u + 'piwik.js';
+                s.parentNode.insertBefore(g, s);
+            })();
+        }
     }]);
 
 
