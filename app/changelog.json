@@ -1,0 +1,16 @@
+[
+    {
+        "tag_name": "v1.0.1",
+        "name": "",
+        "published_at": "2015-12-20",
+        "body": "-UI now gives feedback on saving changes\n- Pagination in lists now working\n- First login on a new computer now works properly\n- More secure password encryption",
+        "html_url": "https://github.com/NGO-DB/helgo_db/releases/tag/v1.0.1"
+    },
+    {
+        "tag_name": "v1.0.0",
+        "name": "First Release",
+        "published_at": "2015-10-05",
+        "body": "This is the first fully functional version with all basic features:\n- Manage children's basic information\n- Manage children's family members\n- Manage children's enrollments (school, class)\n- Manage schools\n- Change user password\n- access protected through user/password\n- encrypted sync (https) with remote server database\n- fully functional offline (just visit the URL regardless of internet connectivity)",
+        "html_url": "https://github.com/NGO-DB/helgo_db/releases/tag/v1.0.0"
+    }
+]
