@@ -42,7 +42,7 @@ angular.module('hdbApp.latestChanges')
         function showLatestChanges() {
             $modal.open({
                 animation: true,
-                templateUrl: 'modules/latest-changes/latest-changes.html',
+                templateUrl: 'scripts/module_latest-changes/latest-changes.html',
                 controller: 'LatestChangesCtrl'
             });
         }

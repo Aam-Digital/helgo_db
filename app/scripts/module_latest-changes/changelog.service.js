@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc service
- * @name hdbApp.appConfig
+ * @name changelog
  * @description
- * # appConfig
- * The custom app settings.
+ * # changelog
+ * Reads and returns the 'changelog.json' file in the root directory.
  */
 angular.module('hdbApp.latestChanges')
     .factory('changelog', ['$http', '$q', '$log', function ($http, $q, $log) {
