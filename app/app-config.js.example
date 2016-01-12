@@ -10,7 +10,7 @@
 angular.module('hdbApp')
     .factory('appConfig', function () {
         return {
-            'version': "1.0.0",
+            'version': "1.0.1",
             'github': {
                 'user': "sebastian-leidig",
                 'repository': "helgo_db"
@@ -18,11 +18,6 @@ angular.module('hdbApp')
             'database': {
                 'name': "dev",
                 'remote_url': "http://demo-db.sinnfragen.org/db/"
-            },
-            'crypto': {
-                'salt': "helgo_db",
-                'iterations': 128,
-                'keysize': 256/32
             }
         };
     });

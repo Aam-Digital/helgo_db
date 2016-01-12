@@ -357,7 +357,7 @@ module.exports = function (grunt) {
                 options: {
                     collapseWhitespace: true,
                     conservativeCollapse: true,
-                    collapseBooleanAttributes: true,
+                    collapseBooleanAttributes: false,
                     removeCommentsFromCDATA: true
                 },
                 files: [{
@@ -507,6 +507,8 @@ module.exports = function (grunt) {
         }
     });
 
+
+    grunt.loadNpmTasks('grunt-bump');
 
     grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
         if (target === 'dist') {
