@@ -7,7 +7,7 @@
  * Provides access to User entities in the database.
  */
 angular.module('hdbApp')
-    .factory('userManager', ['appDB', 'DbManager', '$q', '$log', 'User', 'latestChanges', 'appConfig', function (appDB, DbManager, $q, $log, User, latestChanges, appConfig) {
+    .factory('userManager', ['appDB', 'DbManager', '$q', '$log', 'User', function (appDB, DbManager, $q, $log, User) {
         var manager = new DbManager(User);
 
         angular.extend(manager, {
@@ -23,14 +23,6 @@ angular.module('hdbApp')
                     function (user) {
                         if (user.authenticate(password)) {
                             scope._currentUser = user;
-
-                            latestChanges.check(user.settings.lastKnownVersion);
-                            if (user.settings.lastKnownVersion != appConfig.version) {
-                                user.settings.lastKnownVersion = appConfig.version;
-                                user.update();
-                                $log.info("Updated to new version.");
-                            }
-
                             deferred.resolve({ok: true});
                         }
                         else {

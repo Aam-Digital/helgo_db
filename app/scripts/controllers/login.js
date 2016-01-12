@@ -8,7 +8,7 @@
  * Controller of the hdbApp
  */
 angular.module('hdbApp')
-    .controller('LoginCtrl', ['$scope', '$location', '$log', 'userManager', 'appDB', function ($scope, $location, $log, userManager, appDB) {
+    .controller('LoginCtrl', ['$scope', '$location', '$log', 'userManager', 'appDB', 'latestChanges', function ($scope, $location, $log, userManager, appDB, latestChanges) {
 
         $scope.isLoginBtnDisabled = false;
 
@@ -30,16 +30,16 @@ angular.module('hdbApp')
                                 $log.debug(err);
                             }
                         );
-                        $location.path("/");
+                        onLoginComplete();
                     } else {
-                        _loginFailed();
+                        _localLoginFailed();
                     }
                 }, function () {
-                    _loginFailed();
+                    _localLoginFailed();
                 }
             );
 
-            function _loginFailed() {
+            function _localLoginFailed() {
                 $log.debug("Local login failed, is a local database available?");
 
                 appDB.login($scope.user.name, $scope.user.password).then(
@@ -51,7 +51,7 @@ angular.module('hdbApp')
                                     function (status) {
                                         if (status.ok) {
                                             $log.debug("Local login successful.");
-                                            $location.path("/");
+                                            onLoginComplete();
                                             appDB.sync(true);
                                         }
                                         else {
@@ -79,6 +79,20 @@ angular.module('hdbApp')
             }
 
         };
+
+        function onLoginComplete() {
+            $location.path("/");
+
+            var user = userManager.getCurrentUser();
+            latestChanges.check(user.settings.lastKnownVersion).then(function (res) {
+                if (res) {
+                    user.settings.lastKnownVersion = res;
+                    user.update();
+                    $log.info("Updated to new version.");
+                }
+            });
+        }
+
     }]);
 
 

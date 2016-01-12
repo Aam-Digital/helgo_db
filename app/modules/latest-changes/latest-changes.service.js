@@ -15,19 +15,35 @@ angular.module('hdbApp.latestChanges')
         };
 
 
+        /**
+         * Checks if the current version is more recent than the given lastKnownVersion and shows a modal displaying
+         * the latest changes in that case.
+         * @param lastKnownVersion The version last seen by the user which is to be compared with current version.
+         * @returns {*} promise: false if there is no newer version; string of the latest version otherwise.
+         */
         function checkLatestVersion(lastKnownVersion) {
-            changelog.getCurrentReleaseDetails().then(function(release) {
-                if (release.version != lastKnownVersion) {
+            var deferred = $q.defer();
+
+            changelog.getCurrentReleaseDetails().then(function (release) {
+                if (release.tag_name != lastKnownVersion) {
                     showLatestChanges();
+                    deferred.resolve(release.tag_name);
+                } else {
+                    deferred.resolve(false);
                 }
             });
-        };
 
+            return deferred.promise;
+        }
+
+        /**
+         * Shows a modal displaying the latest changes of the most recent version.
+         */
         function showLatestChanges() {
-            var modalInstance = $modal.open({
+            $modal.open({
                 animation: true,
                 templateUrl: 'modules/latest-changes/latest-changes.html',
-                controller: 'LatestChangesCtrl',
+                controller: 'LatestChangesCtrl'
             });
-        };
+        }
     }]);
