@@ -15,7 +15,7 @@ angular.module('hdbApp')
                 this.setData(data);
                 this._id = prefix + data.name;
             }
-        };
+        }
 
         School.prefix = prefix;
 
@@ -26,7 +26,7 @@ angular.module('hdbApp')
                     extMedium = " (" + this.medium + " Medium)";
                 }
                 return this.name + extMedium;
-            },
+            }
         });
 
         return School;

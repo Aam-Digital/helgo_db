@@ -24,7 +24,7 @@ angular.module('hdbApp')
 
                 this.setData(childData);
             }
-        };
+        }
 
         Child.prefix = prefix;
 
@@ -46,8 +46,8 @@ angular.module('hdbApp')
 
             /* Public Methods */
             update: function () {
-                if(this._id != prefix + this.pn) {
-                    throw "Child data inconsistent: 'pn' ("+this.pn+") does not match '_id' ("+this._id+").";
+                if (this._id != prefix + this.pn) {
+                    throw "Child data inconsistent: 'pn' (" + this.pn + ") does not match '_id' (" + this._id + ").";
                 }
 
                 var data = angular.copy(this);
@@ -82,18 +82,19 @@ angular.module('hdbApp')
                 var scope = this;
                 appDB.allDocs({include_docs: true, startkey: enrollmentPrefix, endkey: enrollmentPrefix + "\ufff0"})
                     .then(function (dataArray) {
-                        var items = [];
-                        dataArray.rows.forEach(function (row) {
-                            var data = row.doc;
-                            var o = scope._retrieveEnrollment(data._id, data);
-                            items.push(o);
-                        });
+                            var items = [];
+                            dataArray.rows.forEach(function (row) {
+                                var data = row.doc;
+                                var o = scope._retrieveEnrollment(data._id, data);
+                                items.push(o);
+                            });
 
-                        deferred.resolve(items);
-                    },
-                    function (err) {
-                        deferred.reject();
-                    });
+                            deferred.resolve(items);
+                        },
+                        function (err) {
+                            $log.error(err);
+                            deferred.reject();
+                        });
 
                 return deferred.promise;
             },
@@ -101,7 +102,7 @@ angular.module('hdbApp')
             getCurrentEnrollment: function () {
                 var deferred = $q.defer();
 
-                var enrollments = this.getEnrollments().then(
+                this.getEnrollments().then(
                     function (data) {
                         var now = new Date();
                         data.forEach(function (enrollment) {
@@ -153,7 +154,7 @@ angular.module('hdbApp')
                 }
                 $q.all(promises).then(function () {
                     deferred.resolve(family);
-                })
+                });
 
                 return deferred.promise;
             },
