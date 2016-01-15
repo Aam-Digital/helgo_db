@@ -1,20 +1,20 @@
 {
-    "name": "hdb",
-    "description": "HELGO DB: A simple database system for a NGO",
-    "version": "1.0.1",
-    "homepage": "https://github.com/sebastian-leidig/helgo_db",
-    "private": true,
-    "dependencies": {
-        "angular": "~1.4.0",
-        "angular-bootstrap": "~0.13.4",
-        "angular-loader": "~1.4.0",
-        "angular-mocks": "~1.4.0",
-        "angular-pouchdb": "~3.0.0",
-        "angular-route": "~1.4.0",
-        "angular-sanitize": "~1.4.6",
-        "ng-table": "~0.8.3",
-        "pouchdb-authentication": "~0.4.1",
-        "bootstrap-sass-official": "~3.3.6",
-        "font-awesome": "~4.4.0"
-    }
+  "name": "hdb",
+  "description": "HELGO DB: A simple database system for a NGO",
+  "version": "1.0.1",
+  "homepage": "https://github.com/sebastian-leidig/helgo_db",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.4.0",
+    "angular-bootstrap": "~0.13.4",
+    "angular-loader": "~1.4.0",
+    "angular-mocks": "~1.4.0",
+    "angular-pouchdb": "~3.0.0",
+    "angular-route": "~1.4.0",
+    "angular-sanitize": "~1.4.6",
+    "ng-table": "~0.8.3",
+    "pouchdb-authentication": "~0.4.1",
+    "bootstrap-sass-official": "~3.3.6",
+    "font-awesome": "~4.4.0"
+  }
 }
