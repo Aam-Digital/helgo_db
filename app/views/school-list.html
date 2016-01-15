@@ -21,6 +21,7 @@
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
+
                 <table ng-table="tableParams" class="table table-condensed table-bordered table-striped"
                        show-filter="true">
                     <tr ng-repeat="school in $data" ng-click="show(school.name)" class="link-row">
@@ -30,8 +31,9 @@
                         <td title="'Medium'" sortable="'medium'">
                             {{school.medium}}
                         </td>
-                        </a></tr>
+                    </tr>
                 </table>
+                Number of schools (total): {{count}}
             </div>
             <!-- /.panel-body -->
         </div>
