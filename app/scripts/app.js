@@ -24,8 +24,8 @@ angular
                 controller: 'DashboardCtrl',
             })
             .when('/login', {
-              templateUrl: 'views/login.html',
-              controller: 'LoginCtrl',
+                templateUrl: 'views/login.html',
+                controller: 'LoginCtrl',
             })
             .when('/logout', {
                 templateUrl: 'views/login.html',
@@ -36,20 +36,20 @@ angular
                 controller: 'UserAccountCtrl',
             })
             .when('/school', {
-              templateUrl: 'views/school-list.html',
-              controller: 'SchoolListCtrl',
+                templateUrl: 'views/school-list.html',
+                controller: 'SchoolListCtrl',
             })
             .when('/school/:name', {
-              templateUrl: 'views/school-details.html',
-              controller: 'SchoolDetailsCtrl',
+                templateUrl: 'views/school-details.html',
+                controller: 'SchoolDetailsCtrl',
             })
             .when('/child', {
-              templateUrl: 'views/child-list.html',
-              controller: 'ChildListCtrl',
+                templateUrl: 'views/child-list.html',
+                controller: 'ChildListCtrl',
             })
             .when('/child/:pn', {
-              templateUrl: 'views/child-details.html',
-              controller: 'ChildDetailsCtrl',
+                templateUrl: 'views/child-details.html',
+                controller: 'ChildDetailsCtrl',
             })
             .otherwise({redirectTo: '/'});
     }])
