@@ -19,7 +19,7 @@ angular.module('hdbApp')
         pouchDBProvider.methods = angular.extend({}, POUCHDB_METHODS, authMethods);
     })
 
-    .factory('appDB', ['$log', 'pouchDB', 'appConfig', function ($log, pouchDB, appConfig) {
+    .factory('appDB', ['$log', 'pouchDB', 'appConfig', 'cookie', function ($log, pouchDB, appConfig, cookie) {
 
         var remoteDB = pouchDB(appConfig.database.remote_url + appConfig.database.name, {
             skipSetup: true,
@@ -46,13 +46,29 @@ angular.module('hdbApp')
                     });
         };
 
-        db.sync = function (syncLive) {
+        db.sync = function () {
+            // Try a single database replication first.
+            $log.debug("Trying database replication.");
+
             return PouchDB.sync(db, remoteDB, {
-                live: syncLive,
-                retry: syncLive
+                live: false,
+                retry: false
             }).then(
                 function () {
-                    $log.debug("sync successfully");
+                    $log.debug("Replication has been successful, trying live sync now.");
+                    cookie.setLastSyncCompleted();
+
+                    PouchDB.sync(db, remoteDB, {
+                        live: true,
+                        retry: true
+                    }).then(
+                        function () {
+                            $log.debug("Live sync is running.")
+                        }, function (err) {
+                            $log.debug("Cannot activate live sync:");
+                            $log.debug(err);
+                        }
+                    );
                 }, function (err) {
                     $log.debug("sync failed:");
                     $log.debug(err);
@@ -62,6 +78,14 @@ angular.module('hdbApp')
                     $log.debug(notify);
                 }
             );
+        };
+
+        db.isOutdated = function () {
+            var lastSyncCompleted = cookie.getLastSyncCompleted();
+            var currentDate = new Date();
+            var outdatedThreshold = appConfig.outdated_threshold_days * 24 * 60 * 60 * 1000;
+
+            return (currentDate.getTime() - lastSyncCompleted.getTime()) > outdatedThreshold;
         };
 
         db.logout = function () {

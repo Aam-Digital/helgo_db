@@ -9,6 +9,7 @@
 angular
     .module('hdbApp', [
         'ngRoute',
+        'ngCookies',
         'ngSanitize',
         'ngTable',
         'ui.bootstrap',

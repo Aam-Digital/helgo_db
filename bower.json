@@ -16,6 +16,7 @@
     "pouchdb-authentication": "~0.4.1",
     "bootstrap-sass-official": "~3.3.6",
     "font-awesome": "~4.4.0",
-    "angulartics": "~1.0.2"
+    "angulartics": "~1.0.2",
+    "angular-cookies": "^1.4.9"
   }
 }
