@@ -8,8 +8,8 @@
  * Controller of the hdbApp
  */
 angular.module('hdbApp')
-    .controller('LatestChangesCtrl', function ($scope, $modalInstance) {
+    .controller('LatestChangesCtrl', ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
         $scope.ok = function () {
-            $modalInstance.close();
+            $uibModalInstance.close();
         };
-    });
+    }]);

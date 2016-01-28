@@ -8,8 +8,8 @@
  * Controller of the hdbApp
  */
 angular.module('hdbApp')
-    .controller('ChildDetailsCtrl', ['$scope', '$sce', '$location', '$filter', '$log', '$routeParams', 'ngTableParams', 'childManager', 'Child', 'userManager', 'schoolManager', '$modal', '$timeout',
-        function ($scope, $sce, $location, $filter, $log, $routeParams, ngTableParams, childManager, Child, userManager, schoolManager, $modal, $timeout) {
+    .controller('ChildDetailsCtrl', ['$scope', '$sce', '$location', '$filter', '$log', '$routeParams', 'ngTableParams', 'childManager', 'Child', 'userManager', 'schoolManager', '$uibModal', '$timeout',
+        function ($scope, $sce, $location, $filter, $log, $routeParams, ngTableParams, childManager, Child, userManager, schoolManager, $uibModal, $timeout) {
             var loadEnrollments = function (child) {
                 $scope.tableEnrollments = new ngTableParams(
                     {
@@ -30,7 +30,7 @@ angular.module('hdbApp')
                                     $log.error("Could not load enrollment information. (" + err.message + ")");
                                 }
                             )
-                        },
+                        }
                     }
                 );
             };
@@ -45,7 +45,7 @@ angular.module('hdbApp')
                     },
                     {
                         getData: function ($defer, params) {
-                            var data = child.getFamilyMembers().then(
+                            child.getFamilyMembers().then(
                                 function (data) {
                                     $scope.items = data;
                                     params.total(data.length);
@@ -55,7 +55,7 @@ angular.module('hdbApp')
                                     $log.error("Could not load enrollment information. (" + err.message + ")");
                                 }
                             );
-                        },
+                        }
                     }
                 );
             };
@@ -83,6 +83,7 @@ angular.module('hdbApp')
                     },
                     function (err) {
                         $scope.error = "The given child could not be loaded.";
+                        $log.error(err);
 
                         $scope.child = {};
                         $scope.new = true;
@@ -120,6 +121,12 @@ angular.module('hdbApp')
                 }, 3000);
             };
 
+            $scope.cancel = function () {
+                childManager.uncache(param);
+                $scope.child = {};
+                $location.path("/child");
+            };
+
             $scope.showEnrollment = function (enrollment) {
                 if (enrollment == "new") {
                     showEnrollmentModal(enrollment);
@@ -133,12 +140,12 @@ angular.module('hdbApp')
                     var confirmScope = $scope.$new(true);
                     confirmScope.dialog = {
                         title: "Do you really want to edit?",
-                        body: msg,
+                        body: msg
                     };
-                    var confirmationModal = $modal.open({
+                    var confirmationModal = $uibModal.open({
                         animation: true,
                         templateUrl: 'views/confirmation-modal.html',
-                        scope: confirmScope,
+                        scope: confirmScope
                     });
                     confirmationModal.result.then(function (res) {
                         showEnrollmentModal(enrollment);
@@ -151,11 +158,11 @@ angular.module('hdbApp')
                 modalScope.selectedEnrollment = enrollment;
                 modalScope.selectedChild = $scope.child;
 
-                var modalInstance = $modal.open({
+                var modalInstance = $uibModal.open({
                     animation: false,
                     templateUrl: 'views/enrollment.html',
                     controller: 'EnrollmentCtrl',
-                    scope: modalScope,
+                    scope: modalScope
                 });
 
                 modalInstance.result.then(function (res) {
@@ -169,11 +176,11 @@ angular.module('hdbApp')
                 modalScope.selectedFamilyMember = familyMember;
                 modalScope.selectedChild = $scope.child;
 
-                var modalInstance = $modal.open({
+                var modalInstance = $uibModal.open({
                     animation: false,
                     templateUrl: 'views/familymember.html',
                     controller: 'FamilymemberCtrl',
-                    scope: modalScope,
+                    scope: modalScope
                 });
 
                 modalInstance.result.then(function (res) {

@@ -8,7 +8,7 @@
  * Provides details about the current app version's latest changes.
  */
 angular.module('hdbApp')
-    .factory('latestChanges', ['$q', '$http', '$log', '$rootScope', '$modal', 'appConfig', function ($q, $http, $log, $rootScope, $modal, appConfig) {
+    .factory('latestChanges', ['$q', '$http', '$log', '$rootScope', '$uibModal', 'appConfig', function ($q, $http, $log, $rootScope, $uibModal, appConfig) {
         var latestChanges = {};
 
         latestChanges.check = function (lastKnownVersion) {
@@ -21,10 +21,10 @@ angular.module('hdbApp')
             $http.get('https://api.github.com/repos/' + appConfig.github.user + '/' + appConfig.github.repository + '/releases/latest').then(
                 function (githubRelease) {
                     $rootScope.release = githubRelease.data;
-                    var modalInstance = $modal.open({
+                    $uibModal.open({
                         animation: true,
                         templateUrl: 'views/latest-changes.html',
-                        controller: 'LatestChangesCtrl',
+                        controller: 'LatestChangesCtrl'
                     });
                 },
                 function (err) {

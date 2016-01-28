@@ -8,7 +8,7 @@
  * Controller of the FamilyMember details of a Child (displayed as a Modal)
  */
 angular.module('hdbApp')
-    .controller('FamilymemberCtrl', ['$scope', '$modalInstance', 'FamilyMember', function ($scope, $modalInstance, FamilyMember) {
+    .controller('FamilymemberCtrl', ['$scope', '$uibModalInstance', 'FamilyMember', function ($scope, $uibModalInstance, FamilyMember) {
         if ($scope.selectedFamilyMember === "new") {
             $scope.selectedFamilyMember = {};
             $scope.newFamilyMember = true;

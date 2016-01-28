@@ -11,7 +11,7 @@ angular.module('hdbApp')
         function DbManager(Model) {
             this._prefix = Model.prefix;
             this._model = Model;
-        };
+        }
 
         DbManager.prototype = {
             _pool: {},
@@ -67,6 +67,11 @@ angular.module('hdbApp')
                 return deferred.promise;
             },
 
+            uncache: function(name) {
+                var id = this._prefix + name;
+                delete this._pool[id];
+            },
+
             getAll: function () {
                 var deferred = $q.defer();
                 var scope = this;
@@ -84,10 +89,11 @@ angular.module('hdbApp')
                         deferred.resolve(items);
                     },
                     function (err) {
+                        $log.error(err);
                         deferred.reject();
                     });
                 return deferred.promise;
-            },
+            }
         };
 
         return DbManager;
