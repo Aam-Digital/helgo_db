@@ -8,8 +8,8 @@
  * Controller of the hdbApp
  */
 angular.module('hdbApp')
-    .controller('ChildDetailsCtrl', ['$scope', '$sce', '$location', '$filter', '$log', '$routeParams', 'ngTableParams', 'childManager', 'Child', 'userManager', 'schoolManager', '$modal', '$timeout',
-        function ($scope, $sce, $location, $filter, $log, $routeParams, ngTableParams, childManager, Child, userManager, schoolManager, $modal, $timeout) {
+    .controller('ChildDetailsCtrl', ['$scope', '$sce', '$location', '$filter', '$log', '$routeParams', 'ngTableParams', 'childManager', 'Child', 'userManager', 'schoolManager', '$uibModal', '$timeout',
+        function ($scope, $sce, $location, $filter, $log, $routeParams, ngTableParams, childManager, Child, userManager, schoolManager, $uibModal, $timeout) {
             var loadEnrollments = function (child) {
                 $scope.tableEnrollments = new ngTableParams(
                     {
@@ -142,7 +142,7 @@ angular.module('hdbApp')
                         title: "Do you really want to edit?",
                         body: msg
                     };
-                    var confirmationModal = $modal.open({
+                    var confirmationModal = $uibModal.open({
                         animation: true,
                         templateUrl: 'views/confirmation-modal.html',
                         scope: confirmScope
@@ -158,7 +158,7 @@ angular.module('hdbApp')
                 modalScope.selectedEnrollment = enrollment;
                 modalScope.selectedChild = $scope.child;
 
-                var modalInstance = $modal.open({
+                var modalInstance = $uibModal.open({
                     animation: false,
                     templateUrl: 'views/enrollment.html',
                     controller: 'EnrollmentCtrl',
@@ -176,7 +176,7 @@ angular.module('hdbApp')
                 modalScope.selectedFamilyMember = familyMember;
                 modalScope.selectedChild = $scope.child;
 
-                var modalInstance = $modal.open({
+                var modalInstance = $uibModal.open({
                     animation: false,
                     templateUrl: 'views/familymember.html',
                     controller: 'FamilymemberCtrl',
