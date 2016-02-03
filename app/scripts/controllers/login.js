@@ -8,7 +8,7 @@
  * Controller of the hdbApp
  */
 angular.module('hdbApp')
-    .controller('LoginCtrl', ['$scope', '$location', '$log', 'userManager', 'appDB', 'latestChanges', function ($scope, $location, $log, userManager, appDB, latestChanges) {
+    .controller('LoginCtrl', ['$scope', '$analytics', '$location', '$log', 'userManager', 'appDB', 'latestChanges', function ($scope, $analytics, $location, $log, userManager, appDB, latestChanges) {
 
         $scope.isLoginBtnDisabled = false;
 
@@ -82,6 +82,8 @@ angular.module('hdbApp')
 
         function onLoginComplete() {
             $location.path("/");
+
+            $analytics.eventTrack($scope.user.name, {category: 'user', label: $scope.user.name});
 
             var user = userManager.getCurrentUser();
             latestChanges.check(user.settings.lastKnownVersion).then(function (res) {

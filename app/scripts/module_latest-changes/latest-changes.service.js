@@ -8,7 +8,7 @@
  * Provides details about the current app version's latest changes.
  */
 angular.module('hdbApp.latestChanges')
-    .factory('latestChanges', ['$q', '$http', '$log', '$rootScope', '$modal', 'changelog', function ($q, $http, $log, $rootScope, $modal, changelog) {
+    .factory('latestChanges', ['$q', '$http', '$log', '$rootScope', '$uibModal', 'changelog', function ($q, $http, $log, $rootScope, $uibModal, changelog) {
         return {
             check: checkLatestVersion,
             show: showLatestChanges
@@ -40,7 +40,7 @@ angular.module('hdbApp.latestChanges')
          * Shows a modal displaying the latest changes of the most recent version.
          */
         function showLatestChanges() {
-            $modal.open({
+            $uibModal.open({
                 animation: true,
                 templateUrl: 'scripts/module_latest-changes/latest-changes.html',
                 controller: 'LatestChangesCtrl'

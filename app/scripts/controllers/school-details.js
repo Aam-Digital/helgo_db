@@ -23,7 +23,7 @@ angular.module('hdbApp')
 
                         $scope.tableStudents = new ngTableParams(
                             {
-                                count: 25,
+                                count: 25
                             },
                             {
                                 getData: function ($defer, params) {
@@ -34,13 +34,13 @@ angular.module('hdbApp')
                                             $defer.resolve($filter('orderBy')(data, params.orderBy()));
                                         }
                                     );
-                                },
+                                }
                             }
                         );
                     },
                     function (err) {
                         $scope.error = "The given school could not be loaded.";
-
+                        $log.error(err);
                         $scope.school = {};
                         $scope.new = true;
                     }
@@ -61,8 +61,15 @@ angular.module('hdbApp')
                     $scope.savedMsg = false;
                 }, 3000);
             };
+
             $scope.showChild = function (pn) {
                 $location.path("/child/" + pn);
             };
+
+            $scope.cancel = function () {
+                schoolManager.uncache(param);
+                $scope.school = {};
+                $location.path("/school");
+            }
 
         }]);

@@ -10,9 +10,6 @@ angular.module('hdbApp')
     .directive('searchSchool', ['$location', 'schoolManager', function ($location, schoolManager) {
         return {
             restrict: 'E',
-            scope: {
-                itemExecute: '=',
-            },
             template: '<search items="schools" item-execute="itemExecute"></search>',
 
             link: function (scope, element, attrs) {
@@ -23,8 +20,7 @@ angular.module('hdbApp')
                             $location.path("/school/" + item.name);
                         };
                     }
-                    ;
                 });
-            },
+            }
         };
     }]);

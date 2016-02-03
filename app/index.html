@@ -43,8 +43,8 @@
         <!-- /.navbar-header -->
 
         <ul class="nav navbar-top-links navbar-right" ng-if="loggedIn">
-            <li class="dropdown" dropdown>
-                <a id="btn-dropdown-user" dropdown-toggle>
+            <li class="dropdown" uib-dropdown>
+                <a id="btn-dropdown-user" uib-dropdown-toggle>
                     <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
 
@@ -80,7 +80,7 @@
 
 
     <!-- Main Page -->
-    <div id="page-wrapper" ng-view></div>
+    <div id="page-wrapper" ng-view autoscroll="true"></div>
 
 
     <!-- Footer -->
@@ -109,7 +109,10 @@
 <script src="bower_components/ng-table/dist/ng-table.min.js"></script>
 <script src="bower_components/pouchdb-authentication/dist/pouchdb.authentication.js"></script>
 <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
+<script src="bower_components/SHA-1/sha1.js"></script>
+<script src="bower_components/angulartics/src/angulartics.js"></script>
 <!-- endbower -->
+<script src="bower_components/angulartics/src/angulartics-piwik.js"></script>
 <!-- endbuild -->
 
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
@@ -147,6 +150,7 @@
 <script src="scripts/module_latest-changes/latest-changes.controller.js"></script>
 <script src="scripts/module_latest-changes/newlines.filter.js"></script>
 <script src="scripts/vendor/pbkdf2.js"></script>
+<script src="scripts/services/pagination.js"></script>
 <!-- endbuild -->
 
 </body>

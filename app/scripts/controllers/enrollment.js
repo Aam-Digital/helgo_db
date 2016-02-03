@@ -8,7 +8,7 @@
  * Controller of the enrollment details of a Child (displayed as a Modal)
  */
 angular.module('hdbApp')
-    .controller('EnrollmentCtrl', ['$scope', '$modalInstance', 'schoolManager', 'Enrollment', function ($scope, $modalInstance, schoolManager, Enrollment) {
+    .controller('EnrollmentCtrl', ['$scope', '$uibModalInstance', 'schoolManager', 'Enrollment', function ($scope, $uibModalInstance, schoolManager, Enrollment) {
         if ($scope.selectedEnrollment === "new") {
             $scope.selectedEnrollment = {};
             $scope.newEnrollment = true;
