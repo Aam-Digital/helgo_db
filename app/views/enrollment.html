@@ -11,7 +11,7 @@
                 <label>From</label>
 
                 <p class="input-group">
-                    <input type="text" class="form-control" datepicker-popup="{{format}}"
+                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
                            ng-model="selectedEnrollment.from" is-open="dateFrom.opened" required/>
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default" ng-click="dateFrom.opened=true">
@@ -24,7 +24,7 @@
                 <label>Until</label>
 
                 <p class="input-group">
-                    <input type="text" class="form-control" datepicker-popup="{{format}}"
+                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
                            ng-model="selectedEnrollment.until" is-open="dateUntil.opened"/>
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default" ng-click="dateUntil.opened=true">
