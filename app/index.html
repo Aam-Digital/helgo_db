@@ -43,8 +43,8 @@
         <!-- /.navbar-header -->
 
         <ul class="nav navbar-top-links navbar-right" ng-if="loggedIn">
-            <li class="dropdown" dropdown>
-                <a id="btn-dropdown-user" dropdown-toggle>
+            <li class="dropdown" uib-dropdown>
+                <a id="btn-dropdown-user" uib-dropdown-toggle>
                     <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
 
@@ -80,7 +80,7 @@
 
 
     <!-- Main Page -->
-    <div id="page-wrapper" ng-view></div>
+    <div id="page-wrapper" ng-view autoscroll="true"></div>
 
 
     <!-- Footer -->
@@ -144,10 +144,12 @@
 <script src="scripts/controllers/enrollment.js"></script>
 <script src="scripts/controllers/familymember.js"></script>
 <script src="scripts/directives/search.js"></script>
-<script src="scripts/directives/version-label.js"></script>
-<script src="scripts/services/latest-changes.js"></script>
-<script src="scripts/controllers/latest-changes.js"></script>
-<script src="scripts/filters/newlines.js"></script>
+<script src="scripts/module_latest-changes/latest-changes.module.js"></script>
+<script src="scripts/module_latest-changes/changelog.service.js"></script>
+<script src="scripts/module_latest-changes/version-label.directive.js"></script>
+<script src="scripts/module_latest-changes/latest-changes.service.js"></script>
+<script src="scripts/module_latest-changes/latest-changes.controller.js"></script>
+<script src="scripts/module_latest-changes/newlines.filter.js"></script>
 <script src="scripts/vendor/pbkdf2.js"></script>
 <script src="scripts/services/pagination.js"></script>
 <script src="scripts/services/cookie.js"></script>

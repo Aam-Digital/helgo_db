@@ -8,6 +8,7 @@
  */
 angular
     .module('hdbApp', [
+        'hdbApp.latestChanges',
         'ngRoute',
         'ngCookies',
         'ngSanitize',

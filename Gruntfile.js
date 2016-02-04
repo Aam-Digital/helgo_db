@@ -39,7 +39,7 @@ module.exports = function (grunt) {
                 tasks: ['wiredep']
             },
             js: {
-                files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+                files: ['<%= yeoman.app %>/*/{,*/}*.js'],
                 tasks: ['newer:jshint:all', 'newer:jscs:all'],
                 options: {
                     livereload: '<%= connect.options.livereload %>'
@@ -377,7 +377,7 @@ module.exports = function (grunt) {
                     usemin: 'scripts/scripts.js'
                 },
                 cwd: '<%= yeoman.app %>',
-                src: 'views/{,*/}*.html',
+                src: ['views/{,*/}*.html', 'scripts/*/{,*/}*.html'],
                 dest: '.tmp/templateCache.js'
             }
         },
@@ -414,7 +414,8 @@ module.exports = function (grunt) {
                         '*.{ico,png,txt}',
                         '*.html',
                         'images/{,*/}*.{webp}',
-                        'styles/fonts/{,*/}*.*'
+                        'styles/fonts/{,*/}*.*',
+                        '*.json'
                     ]
                 }, {
                     expand: true,
@@ -482,7 +483,8 @@ module.exports = function (grunt) {
                     '**/**.html',
                     '**/**.js',
                     '**/**.css',
-                    '**/**.ttf'
+                    '**/**.ttf',
+                    '**/**.json'
                 ],
                 dest: 'dist/manifest.appcache'
             }
@@ -490,11 +492,11 @@ module.exports = function (grunt) {
 
         bump: {
             options: {
-                files: ['package.json', 'bower.json', 'app/app-config.js', 'app/app-config.js.example'],
+                files: ['package.json', 'bower.json'],
                 updateConfigs: [],
                 commit: true,
                 commitMessage: 'Release v%VERSION%',
-                commitFiles: ['package.json', 'bower.json', 'app/app-config.js.example'],
+                commitFiles: ['package.json', 'bower.json'],
                 createTag: true,
                 tagName: 'v%VERSION%',
                 tagMessage: 'Version %VERSION%',
