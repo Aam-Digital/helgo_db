@@ -8,8 +8,8 @@
  * Controller of the hdbApp
  */
 angular.module('hdbApp')
-    .controller('ChildDetailsCtrl', ['$scope', '$sce', '$location', '$filter', '$log', '$routeParams', 'ngTableParams', 'childManager', 'Child', 'userManager', 'schoolManager', '$uibModal', '$timeout',
-        function ($scope, $sce, $location, $filter, $log, $routeParams, ngTableParams, childManager, Child, userManager, schoolManager, $uibModal, $timeout) {
+    .controller('ChildDetailsCtrl', ['$scope', '$sce', '$location', '$filter', '$log', '$routeParams', 'ngTableParams', 'childManager', 'Child', 'userManager', 'schoolManager', '$uibModal', '$timeout', 'alertManager',
+        function ($scope, $sce, $location, $filter, $log, $routeParams, ngTableParams, childManager, Child, userManager, schoolManager, $uibModal, $timeout, alertManager) {
             var loadEnrollments = function (child) {
                 $scope.tableEnrollments = new ngTableParams(
                     {
@@ -84,6 +84,7 @@ angular.module('hdbApp')
                     function (err) {
                         $scope.error = "The given child could not be loaded.";
                         $log.error(err);
+                        alertManager.addDanger('The given child could not be loaded.');
 
                         $scope.child = {};
                         $scope.new = true;
@@ -111,10 +112,11 @@ angular.module('hdbApp')
                 if ($scope.new) {
                     child = new Child(child);
                 }
-
+                alertManager.addSuccess('Creating a new child record.');
                 child.update();
                 $scope.new = false;
 
+                alertManager.addSuccess('Saved changes!');
                 $scope.savedMsg = true;
                 $timeout(function () {
                     $scope.savedMsg = false;
