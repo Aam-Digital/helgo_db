@@ -8,13 +8,14 @@
  * Controller of the hdbApp
  */
 angular.module('hdbApp')
-    .controller('SchoolDetailsCtrl', ['$scope', '$location', '$filter', '$routeParams', '$log', 'ngTableParams', 'schoolManager', 'School', 'childManager', '$timeout',
-        function ($scope, $location, $filter, $routeParams, $log, ngTableParams, schoolManager, School, childManager, $timeout) {
+    .controller('SchoolDetailsCtrl', ['$scope', '$location', '$filter', '$routeParams', '$log', 'ngTableParams', 'schoolManager', 'School', 'childManager', '$timeout', 'alertManager',
+        function ($scope, $location, $filter, $routeParams, $log, ngTableParams, schoolManager, School, childManager, $timeout, alertManager) {
 
             var param = $routeParams.name;
             if (param === "new") {
                 $scope.school = {};
                 $scope.new = true;
+                alertManager.addAlert('Creating a new school record.', alertManager.ALERT_SUCCESS);
             }
             else {
                 schoolManager.get(param).then(
@@ -40,6 +41,7 @@ angular.module('hdbApp')
                     },
                     function (err) {
                         $scope.error = "The given school could not be loaded.";
+                        alertManager.addAlert('The given school could not be loaded', alertManager.ALERT_DANGER);
                         $log.error(err);
                         $scope.school = {};
                         $scope.new = true;
@@ -55,11 +57,8 @@ angular.module('hdbApp')
                 }
 
                 school.update();
-
-                $scope.savedMsg = true;
-                $timeout(function () {
-                    $scope.savedMsg = false;
-                }, 3000);
+                alertManager.addAlert('Saved changes', alertManager.ALERT_SUCCESS);
+                $location.path("/school");
             };
 
             $scope.showChild = function (pn) {

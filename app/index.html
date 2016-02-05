@@ -69,7 +69,7 @@
                     <!-- App Navigation Menu Control -->
                     <li ng-repeat="item in menu_main">
                         <a href="#{{ item.url }}"><i class="fa {{ item.icon }} fa-fw"></i> {{ item.title }}<span
-                                class="fa arrow" ng-if="item.submenu.length > 0"></a>
+                                class="fa arrow" ng-if="item.submenu.length > 0"/></a>
                     </li>
                 </ul>
             </div>
@@ -78,10 +78,17 @@
         <!-- /.navbar-static-side -->
     </nav>
 
-
     <!-- Main Page -->
     <div id="page-wrapper" ng-view autoscroll="true"></div>
 
+    <!-- Alerts -->
+    <div class="alerts" ng-controller="AlertCtrl" ng-hide="alerts.length == 0">
+        <div ng-repeat="alert in alerts">
+            <uib-alert type="success" ng-if="alert.type == 'success'" dismiss-on-timeout="3000" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+            <uib-alert type="warning" ng-if="alert.type == 'warning'" dismiss-on-timeout="5000" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+            <uib-alert type="danger" ng-if="alert.type == 'danger'" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -153,6 +160,8 @@
 <script src="scripts/vendor/pbkdf2.js"></script>
 <script src="scripts/services/pagination.js"></script>
 <script src="scripts/services/cookie.js"></script>
+<script src="scripts/controllers/alert.js"></script>
+<script src="scripts/services/alertmanager.js"></script>
 <!-- endbuild -->
 
 </body>
