@@ -57,8 +57,8 @@ angular.module('hdbApp')
                 }
 
                 school.update();
-
                 alertManager.addAlert('Saved changes', alertManager.ALERT_SUCCESS);
+                $location.path("/school");
             };
 
             $scope.showChild = function (pn) {

@@ -117,10 +117,7 @@ angular.module('hdbApp')
                 $scope.new = false;
 
                 alertManager.addAlert('Saved changes!', alertManager.ALERT_SUCCESS);
-                $scope.savedMsg = true;
-                $timeout(function () {
-                    $scope.savedMsg = false;
-                }, 3000);
+                $location.path("/child");
             };
 
             $scope.cancel = function () {
