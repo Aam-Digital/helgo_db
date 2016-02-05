@@ -23,7 +23,10 @@ angular.module('hdbApp')
 
         var remoteDB = pouchDB(appConfig.database.remote_url + appConfig.database.name, {
             skipSetup: true,
-            ajax: {rejectUnauthorized: false}
+            ajax: {
+                rejectUnauthorized: false,
+                timeout: appConfig.database.timeout
+            }
         });
 
         var db = pouchDB(appConfig.database.name);
