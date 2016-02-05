@@ -8,9 +8,10 @@
  * Controller of the hdbApp
  */
 angular.module('hdbApp.latestChanges')
-    .controller('LatestChangesCtrl', ['$scope', '$uibModalInstance', 'changelog', function ($scope, $uibModalInstance, changelog) {
-        $scope.ok = $uibModalInstance.close;
-        changelog.getCurrentReleaseDetails().then(function(release) {
-            $scope.release = release;
-        });
-    }]);
+    .controller('LatestChangesCtrl', ['$scope', '$uibModalInstance', 'changelog',
+        function ($scope, $uibModalInstance, changelog) {
+            $scope.ok = $uibModalInstance.close;
+            changelog.getCurrentReleaseDetails().then(function (release) {
+                $scope.release = release;
+            });
+        }]);

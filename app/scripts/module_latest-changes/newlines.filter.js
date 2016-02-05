@@ -11,7 +11,7 @@
 angular.module('hdbApp.latestChanges')
     .filter('newlines', function () {
         return function (text) {
-            if(!text) {
+            if (!text) {
                 return "";
             }
 
