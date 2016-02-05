@@ -10,4 +10,8 @@
 angular.module('hdbApp')
       .controller('AlertCtrl', ['$scope', 'alertManager', function ($scope, alertManager) {
             $scope.alerts = alertManager.alerts;
+
+            $scope.closeAlert = function(index) {
+                alertManager.removeAlert(index);
+            }
       }]);

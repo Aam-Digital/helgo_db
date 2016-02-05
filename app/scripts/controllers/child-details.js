@@ -64,6 +64,7 @@ angular.module('hdbApp')
             if (param === "new") {
                 $scope.child = {};
                 $scope.new = true;
+                alertManager.addAlert('Creating a new child record.', alertManager.ALERT_SUCCESS);
             }
             else {
                 childManager.get(param).then(
@@ -82,9 +83,7 @@ angular.module('hdbApp')
                         loadEnrollments(child);
                     },
                     function (err) {
-                        $scope.error = "The given child could not be loaded.";
-                        $log.error(err);
-                        alertManager.addDanger('The given child could not be loaded.');
+                        alertManager.addAlert('The given child could not be loaded.', alertManager.ALERT_DANGER);
 
                         $scope.child = {};
                         $scope.new = true;
@@ -111,12 +110,13 @@ angular.module('hdbApp')
 
                 if ($scope.new) {
                     child = new Child(child);
+                    alertManager.addAlert('Creating a new child record.', alertManager.ALERT_SUCCESS);
                 }
-                alertManager.addSuccess('Creating a new child record.');
+
                 child.update();
                 $scope.new = false;
 
-                alertManager.addSuccess('Saved changes!');
+                alertManager.addAlert('Saved changes!', alertManager.ALERT_SUCCESS);
                 $scope.savedMsg = true;
                 $timeout(function () {
                     $scope.savedMsg = false;

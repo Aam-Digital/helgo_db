@@ -85,8 +85,10 @@
 
     <!-- Alerts -->
     <div id="alerts" ng-controller="AlertCtrl">
-        <div ng-repeat="(key,val) in alerts">
-            <div ng-repeat="msg in val" class="alert {{key}}">{{msg}}</div>
+        <div ng-repeat="alert in alerts">
+            <uib-alert type="success" ng-if="alert.type == 'success'" dismiss-on-timeout="3000" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+            <uib-alert type="warning" ng-if="alert.type == 'warning'" dismiss-on-timeout="5000" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+            <uib-alert type="danger" ng-if="alert.type == 'danger'" close="closeAlert($index)">{{alert.msg}}</uib-alert>
         </div>
     </div>
 
