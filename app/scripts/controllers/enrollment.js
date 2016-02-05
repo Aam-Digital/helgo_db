@@ -23,17 +23,17 @@ angular.module('hdbApp')
             }
 
             $scope.selectedEnrollment.update();
-            $modalInstance.close();
+            $uibModalInstance.close();
         };
 
         $scope.deleteEnrollment = function () {
             //TODO: confirm
 
             $scope.selectedEnrollment.delete();
-            $modalInstance.close();
+            $uibModalInstance.close();
         };
         $scope.cancel = function () {
-            $modalInstance.dismiss();
+            $uibModalInstance.dismiss();
         };
 
 

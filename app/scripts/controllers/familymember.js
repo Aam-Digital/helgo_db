@@ -8,7 +8,7 @@
  * Controller of the FamilyMember details of a Child (displayed as a Modal)
  */
 angular.module('hdbApp')
-    .controller('FamilymemberCtrl', ['$scope', '$uibModalInstance', 'FamilyMember', function ($scope, $uibModalInstance, FamilyMember) {
+    .controller('FamilymemberCtrl', ['$scope', '$log', '$uibModalInstance', 'FamilyMember', function ($scope, $log, $uibModalInstance, FamilyMember) {
         if ($scope.selectedFamilyMember === "new") {
             $scope.selectedFamilyMember = {};
             $scope.newFamilyMember = true;
@@ -32,7 +32,7 @@ angular.module('hdbApp')
                     $log.error("Error saving family member (" + $scope.selectedFamilyMember._id + "): " + err.message);
                 }
             );
-            $modalInstance.close();
+            $uibModalInstance.close();
         };
 
         $scope.deleteFamilyMember = function () {
@@ -46,9 +46,9 @@ angular.module('hdbApp')
 
             $scope.selectedFamilyMember.delete();
 
-            $modalInstance.close();
+            $uibModalInstance.close();
         };
         $scope.cancel = function () {
-            $modalInstance.dismiss();
+            $uibModalInstance.dismiss();
         };
     }]);
