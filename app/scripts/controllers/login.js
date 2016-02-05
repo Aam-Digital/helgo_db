@@ -8,8 +8,8 @@
  * Controller of the hdbApp
  */
 angular.module('hdbApp')
-    .controller('LoginCtrl', ['$scope', '$analytics', '$location', '$log', '$uibModal', 'userManager', 'appDB', 'latestChanges',
-        function ($scope, $analytics, $location, $log, $uibModal, userManager, appDB, latestChanges) {
+    .controller('LoginCtrl', ['$scope', '$analytics', '$location', '$log', '$uibModal', 'userManager', 'appDB', 'latestChanges', 'alertManager',
+        function ($scope, $analytics, $location, $log, $uibModal, userManager, appDB, latestChanges, alertManager) {
 
             $scope.isLoginBtnDisabled = false;
             var modal;
@@ -33,10 +33,11 @@ angular.module('hdbApp')
                                         // if sync failed, check if database is outdated
                                         function (err) {
                                             if (appDB.isOutdated()) {
-                                                // TODO replace logging with alert
-                                                $log.debug("Database is outdated, please go online to synchronize");
+                                                alertManager.addAlert('You are working on an outdated database, please ' +
+                                                    'online as soon as possible to synchronize the database!', alertManager.ALERT_WARNING);
                                             }
-                                            // TODO show info icon: you are working offline
+                                            $log.debug(err);
+                                            // TODO show info icon: you are working offline?
                                         });
                                 }, function (err) {
                                     $log.debug("Remote login failed: ");

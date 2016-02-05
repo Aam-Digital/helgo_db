@@ -18,6 +18,7 @@ angular.module('hdbApp')
             'database': {
                 'name': "dev",
                 'remote_url': "http://demo-db.sinnfragen.org/db/",
+                // days until a database counts as outdated
                 'outdated_threshold': 14
                 // timeout for http requests in seconds
                 'timeout': 60000
