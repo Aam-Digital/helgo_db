@@ -78,13 +78,11 @@
         <!-- /.navbar-static-side -->
     </nav>
 
-
-
     <!-- Main Page -->
     <div id="page-wrapper" ng-view autoscroll="true"></div>
 
     <!-- Alerts -->
-    <div id="alerts" ng-controller="AlertCtrl">
+    <div class="alerts" ng-controller="AlertCtrl" ng-hide="alerts.length == 0">
         <div ng-repeat="alert in alerts">
             <uib-alert type="success" ng-if="alert.type == 'success'" dismiss-on-timeout="3000" close="closeAlert($index)">{{alert.msg}}</uib-alert>
             <uib-alert type="warning" ng-if="alert.type == 'warning'" dismiss-on-timeout="5000" close="closeAlert($index)">{{alert.msg}}</uib-alert>

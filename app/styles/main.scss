@@ -95,3 +95,12 @@ footer {
   padding: 10px;
   width: 220px;
 }
+
+.alerts {
+    position: fixed;
+    top: 30px;
+    left: 30px;
+    width: 300px;
+    height: 100px;
+    z-index: 1000;
+}

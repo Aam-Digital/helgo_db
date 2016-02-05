@@ -8,7 +8,7 @@
  * Service in the hdbApp.
  */
 angular.module('hdbApp')
-    .service('alertManager', ['$timeout', function ($timeout) {
+    .service('alertManager', function () {
         var alerts = [];
         return {
             alerts: alerts,
@@ -24,4 +24,4 @@ angular.module('hdbApp')
         function removeAlert(index) {
             alerts.splice(index, 1);
         }
-  }]);
+  });

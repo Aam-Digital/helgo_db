@@ -13,5 +13,5 @@ angular.module('hdbApp')
 
             $scope.closeAlert = function(index) {
                 alertManager.removeAlert(index);
-            }
+            };
       }]);

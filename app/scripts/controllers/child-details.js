@@ -84,7 +84,7 @@ angular.module('hdbApp')
                     },
                     function (err) {
                         alertManager.addAlert('The given child could not be loaded.', alertManager.ALERT_DANGER);
-
+                        $log.error('The given child could not be loaded (' + err.message + ')');
                         $scope.child = {};
                         $scope.new = true;
                     }
