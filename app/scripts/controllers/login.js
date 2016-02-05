@@ -8,10 +8,11 @@
  * Controller of the hdbApp
  */
 angular.module('hdbApp')
-    .controller('LoginCtrl', ['$scope', '$analytics', '$location', '$log', 'userManager', 'appDB', 'latestChanges',
-        function ($scope, $analytics, $location, $log, userManager, appDB, latestChanges) {
+    .controller('LoginCtrl', ['$scope', '$analytics', '$location', '$log', '$uibModal', 'userManager', 'appDB', 'latestChanges',
+        function ($scope, $analytics, $location, $log, $uibModal, userManager, appDB, latestChanges) {
 
             $scope.isLoginBtnDisabled = false;
+            var modal;
 
             $scope.login = function login() {
                 $scope.isLoginBtnDisabled = true;
@@ -35,6 +36,7 @@ angular.module('hdbApp')
                                                 // TODO replace logging with alert
                                                 $log.debug("Database is outdated, please go online to synchronize");
                                             }
+                                            // TODO show info icon: you are working offline
                                         });
                                 }, function (err) {
                                     $log.debug("Remote login failed: ");
@@ -50,9 +52,12 @@ angular.module('hdbApp')
                     }
                 );
 
+                // local login using the database failed
                 function _localLoginFailed() {
                     $log.debug("Local login failed, is a local database available?");
+                    showDownloadProgress();
 
+                    // try remote login
                     appDB.login($scope.user.name, $scope.user.password).then(
                         function () {
                             $log.debug("Remote login successful, trying to sync the database...");
@@ -73,17 +78,20 @@ angular.module('hdbApp')
                                             $scope.error = err.message;
                                             $scope.isLoginBtnDisabled = false;
                                         }
-                                    )
+                                    );
+                                    modal.close();
                                 },
                                 function (err) {
                                     $scope.error = err.message;
                                     $scope.isLoginBtnDisabled = false;
+                                    modal.close();
                                 }
                             )
                         },
                         function (err) {
                             $scope.error = err.message;
                             $scope.isLoginBtnDisabled = false;
+                            modal.close();
                         }
                     );
                 }
@@ -100,6 +108,14 @@ angular.module('hdbApp')
                             user.update();
                             $log.info("Updated to new version.");
                         }
+                    });
+                }
+
+                function showDownloadProgress() {
+                    modal = $uibModal.open({
+                        animation: true,
+                        templateUrl: 'views/download-progress.html',
+                        controller: 'LoginCtrl'
                     });
                 }
             };
