@@ -22,9 +22,14 @@ body {
     #page-wrapper {
         position: inherit;
         margin: 0 0 0 250px;
-        padding: 0 30px;
+        padding: 30px 30px;
         border-left: 1px solid #e7e7e7;
     }
+}
+
+.navbar {
+    position: fixed;
+    width: 100%;
 }
 
 .navbar-top-links {

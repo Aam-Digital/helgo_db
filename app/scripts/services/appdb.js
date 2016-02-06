@@ -19,7 +19,6 @@ angular.module('hdbApp')
         pouchDBProvider.methods = angular.extend({}, POUCHDB_METHODS, authMethods);
     })
 
-
     .factory('appDB', ['$log', 'pouchDB', 'appConfig', function ($log, pouchDB, appConfig) {
         var fileDbName = appConfig.database.name + "_files";
 
@@ -41,7 +40,10 @@ angular.module('hdbApp')
         function setupRemoteDB(dbName) {
             return pouchDB(appConfig.database.remote_url + dbName, {
                 skipSetup: true,
-                ajax: {rejectUnauthorized: false}
+                ajax: {
+                    rejectUnauthorized: false,
+                    timeout: appConfig.database.timeout
+                }
             });
         }
 

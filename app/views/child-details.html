@@ -9,18 +9,6 @@
     <!-- /.col-lg-12 -->
 </div>
 
-
-<div class="alert alert-success" ng-if="new">
-    Creating a new child record.
-</div>
-<div class="alert alert-success" ng-if="savedMsg">
-    Saved changes.
-</div>
-<div class="alert alert-danger" ng-if="error">
-    {{ error }}
-</div>
-
-
 <div class="panel panel-default">
     <div class="panel-heading">
         Basic Information
@@ -88,7 +76,7 @@
                                 <label>Date of Birth</label>
 
                                 <p class="input-group">
-                                    <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
                                            ng-model="child.dateOfBirth" is-open="dateDoB.opened"/>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default" ng-click="dateDoB.opened=true"><i
@@ -108,7 +96,7 @@
                                 <label>Admission Date</label>
 
                                 <p class="input-group">
-                                    <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
                                            ng-model="child.admission" is-open="dateAdmission.opened"/>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default"
