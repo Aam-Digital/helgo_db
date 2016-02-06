@@ -21,7 +21,8 @@ angular.module('hdbApp')
         function addAlert(message, type) {
             alerts.push({type: type, msg: message});
         }
+
         function removeAlert(index) {
             alerts.splice(index, 1);
         }
-  });
+    });
