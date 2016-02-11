@@ -8,8 +8,8 @@
  * Controller of the hdbApp
  */
 angular.module('hdbApp')
-    .controller('ChildDetailsCtrl', ['$scope', '$sce', '$location', '$filter', '$log', '$routeParams', 'ngTableParams', 'childManager', 'Child', 'userManager', 'schoolManager', '$uibModal', '$timeout',
-        function ($scope, $sce, $location, $filter, $log, $routeParams, ngTableParams, childManager, Child, userManager, schoolManager, $uibModal, $timeout) {
+    .controller('ChildDetailsCtrl', ['$scope', '$sce', '$location', '$filter', '$log', '$routeParams', 'ngTableParams', 'childManager', 'Child', 'userManager', 'schoolManager', '$uibModal', '$timeout', 'alertManager',
+        function ($scope, $sce, $location, $filter, $log, $routeParams, ngTableParams, childManager, Child, userManager, schoolManager, $uibModal, $timeout, alertManager) {
             var loadEnrollments = function (child) {
                 $scope.tableEnrollments = new ngTableParams(
                     {
@@ -64,6 +64,7 @@ angular.module('hdbApp')
             if (param === "new") {
                 $scope.child = {};
                 $scope.new = true;
+                alertManager.addAlert('Creating a new child record.', alertManager.ALERT_SUCCESS);
             }
             else {
                 childManager.get(param).then(
@@ -82,9 +83,8 @@ angular.module('hdbApp')
                         loadEnrollments(child);
                     },
                     function (err) {
-                        $scope.error = "The given child could not be loaded.";
-                        $log.error(err);
-
+                        alertManager.addAlert('The given child could not be loaded.', alertManager.ALERT_DANGER);
+                        $log.error('The given child could not be loaded (' + err.message + ')');
                         $scope.child = {};
                         $scope.new = true;
                     }
@@ -110,15 +110,14 @@ angular.module('hdbApp')
 
                 if ($scope.new) {
                     child = new Child(child);
+                    alertManager.addAlert('Creating a new child record.', alertManager.ALERT_SUCCESS);
                 }
 
                 child.update();
                 $scope.new = false;
 
-                $scope.savedMsg = true;
-                $timeout(function () {
-                    $scope.savedMsg = false;
-                }, 3000);
+                alertManager.addAlert('Saved changes!', alertManager.ALERT_SUCCESS);
+                $location.path("/child");
             };
 
             $scope.cancel = function () {
