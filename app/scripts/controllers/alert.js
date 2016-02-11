@@ -23,7 +23,7 @@ angular.module('hdbApp')
                 case 'warning':
                     return 5000;
                 default:
-                    return false;
+                    return null;
             }
         }
     }]);
