@@ -8,7 +8,7 @@
  * Controller of the hdbApp
  */
 angular.module('hdbApp')
-    .controller('UserAccountCtrl', ['$scope', '$log', 'userManager', function ($scope, $log, userManager) {
+    .controller('UserAccountCtrl', ['$scope', '$log', 'alertManager', 'userManager', function ($scope, $log, alertManager, userManager) {
         $scope.user = userManager.getCurrentUser();
         $scope.save = function () {
             $scope.user.update();
@@ -19,16 +19,16 @@ angular.module('hdbApp')
                 return;
             }
             if ($scope.newPassword == "" || $scope.newPassword != $scope.newPassword2) {
-                alert("The password in the new password and the verification field must be identical.");
+                alertManager.addAlert("The password in the new password and the verification field must be identical.", alertManager.ALERT_WARNING);
                 return;
             }
 
             userManager.changePassword($scope.user, $scope.newPassword).then(
                 function () {
-                    alert("Password sucessfully changed");
+                    alertManager.addAlert("Password sucessfully changed", alertManager.ALERT_SUCCESS);
                 },
                 function (err) {
-                    alert("Could not change the password. Please check the error log or try again.");
+                    alertManager.addAlert("Could not change the password: " + err.message, alertManager.ALERT_DANGER);
                     $log.error("Failed to change password: " + err);
                 }
             );
