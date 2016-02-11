@@ -20,7 +20,7 @@ angular.module('hdbApp')
     })
 
 
-    .factory('appDB', ['$log', 'pouchDB', 'appConfig', function ($log, pouchDB, appConfig) {
+    .factory('appDB', ['$log', '$q', 'pouchDB', 'appConfig', function ($log, $q, pouchDB, appConfig) {
         var fileDbName = appConfig.database.name + "_files";
 
         var db = pouchDB(appConfig.database.name);
@@ -94,30 +94,34 @@ angular.module('hdbApp')
 
 
         function putFile(fileId, file, overwrite) {
+            var deferred = $q.defer();
+
             if (overwrite) {
-                return db._fileDB.get(fileId).then(
+                db._fileDB.get(fileId).then(
                     function (doc) {
-                        return db._fileDB.putAttachment(fileId, 'file', doc._rev, file, file.type)
-                            .catch(function (err) {
-                                $log.error("Could not save file to database: " + err.message);
-                                return err;
-                            });
+                        handleDeferredResult(db._fileDB.putAttachment(fileId, 'file', "doc._rev", file, file.type));
                     },
                     function (err) {
                         if (err.status === 404) {
-                            return db._fileDB.putAttachment(fileId, 'file', file, file.type)
-                                .catch(function (err) {
-                                    $log.error("Could not save file to database: " + err.message);
-                                    return err;
-                                });
+                            handleDeferredResult(db._fileDB.putAttachment(fileId, 'file', file, file.type));
                         }
                     }
                 )
             } else {
-                return db._fileDB.putAttachment(fileId, 'file', file, file.type)
-                    .catch(function (err) {
+                handleDeferredResult(db._fileDB.putAttachment(fileId, 'file', file, file.type));
+            }
+
+            return deferred.promise;
+
+
+            function handleDeferredResult(promise) {
+                promise.then(
+                    function () {
+                        deferred.resolve();
+                    },
+                    function (err) {
                         $log.error("Could not save file to database: " + err.message);
-                        return err;
+                        deferred.reject(err);
                     });
             }
         }

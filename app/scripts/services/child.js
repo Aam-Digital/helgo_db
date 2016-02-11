@@ -226,7 +226,7 @@ angular.module('hdbApp')
 
 
             changePhoto: function (photo) {
-                appDB.putFile(this._id + ":photo", photo, true);
+                return appDB.putFile(this._id + ":photo", photo, true);
             },
 
             getPhoto: function () {
@@ -235,7 +235,7 @@ angular.module('hdbApp')
 
 
             setBirthCertificate: function (file) {
-                appDB.putFile(this._id + ":birthCertificate", file, true);
+                return appDB.putFile(this._id + ":birthCertificate", file, true);
             },
 
             getBirthCertificate: function () {

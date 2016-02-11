@@ -135,7 +135,7 @@
                                     <a ng-if="birthCertificate" ng-href="{{birthCertificate}}"
                                        download="{{child.pn}}_{{child.name}}_birth_certificate">Download Document</a>
                                     <input type="file"
-                                           onchange="angular.element(this).scope().child.setBirthCertificate(this.files[0]);"/>
+                                           onchange="angular.element(this).scope().setBirthCertificate(this);"/>
                                 </p>
                             </div>
                         </div>
