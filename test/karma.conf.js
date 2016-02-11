@@ -37,6 +37,7 @@ module.exports = function(config) {
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js',
       'bower_components/SHA-1/sha1.js',
       'bower_components/angulartics/src/angulartics.js',
+        'bower_components/angular-animate/angular-animate.js',
       // endbower
         'bower_components/angulartics/src/angulartics-piwik.js',
       "app/scripts/**/*.js",

@@ -11,6 +11,7 @@ angular
         'ngRoute',
         'ngSanitize',
         'ngTable',
+        'ngAnimate',
         'ui.bootstrap',
         'pouchdb',
         'angulartics',
