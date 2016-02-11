@@ -46,6 +46,7 @@ angular.module('hdbApp')
                     },
                     function (error) {
                         $log.error("Could not log in to the remote database. (" + error.message + ")");
+                        throw( error );
                     });
         };
 
@@ -86,7 +87,7 @@ angular.module('hdbApp')
         db.isOutdated = function () {
             var lastSyncCompleted = cookie.getLastSyncCompleted();
             var currentDate = new Date();
-            var outdatedThreshold = appConfig.outdated_threshold_days * 24 * 60 * 60 * 1000;
+            var outdatedThreshold = appConfig.database.warn_database_outdated_after_days * 24 * 60 * 60 * 1000;
 
             return (currentDate.getTime() - lastSyncCompleted.getTime()) > outdatedThreshold;
         };
