@@ -17,7 +17,7 @@ angular.module('hdbApp')
                     this._id = prefix + date;
                 }
             }
-        };
+        }
 
         Enrollment.prototype = angular.extend({}, AbstractModel, {
             update: function () {

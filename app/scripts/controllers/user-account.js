@@ -8,11 +8,11 @@
  * Controller of the hdbApp
  */
 angular.module('hdbApp')
-    .controller('UserAccountCtrl', ['$scope', 'userManager', function ($scope, userManager) {
+    .controller('UserAccountCtrl', ['$scope', '$log', 'userManager', function ($scope, $log, userManager) {
         $scope.user = userManager.getCurrentUser();
         $scope.save = function () {
             $scope.user.update();
-        }
+        };
 
         $scope.changePassword = function () {
             if (!$scope.formPasswordChange.$valid) {
@@ -24,11 +24,12 @@ angular.module('hdbApp')
             }
 
             userManager.changePassword($scope.user, $scope.newPassword).then(
-                function (response) {
+                function () {
                     alert("Password sucessfully changed");
                 },
                 function (err) {
                     alert("Could not change the password. Please check the error log or try again.");
+                    $log.error("Failed to change password: " + err);
                 }
             );
         };
