@@ -17,7 +17,7 @@ angular
         'angulartics.piwik'
     ])
 
-    .config(['$routeProvider', function ($routeProvider) {
+    .config(['$routeProvider', '$compileProvider', function ($routeProvider, $compileProvider) {
         $routeProvider
             .when('/', {
                 templateUrl: 'views/dashboard.html',
@@ -52,6 +52,8 @@ angular
                 controller: 'ChildDetailsCtrl',
             })
             .otherwise({redirectTo: '/'});
+
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|blob):/);
     }])
 
     .run(['$rootScope', '$location', '$log', 'userManager', '$window', 'appConfig', function ($rootScope, $location, $log, userManager, $window, appConfig) {
