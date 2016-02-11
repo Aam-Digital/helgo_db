@@ -102,7 +102,7 @@ angular.module('hdbApp')
             if (overwrite) {
                 db._fileDB.get(fileId).then(
                     function (doc) {
-                        handleDeferredResult(db._fileDB.putAttachment(fileId, 'file', "doc._rev", file, file.type));
+                        handleDeferredResult(db._fileDB.putAttachment(fileId, 'file', doc._rev, file, file.type));
                     },
                     function (err) {
                         if (err.status === 404) {
