@@ -83,15 +83,9 @@
 
     <!-- Alerts -->
     <div class="alerts" ng-controller="AlertCtrl" ng-hide="alerts.length == 0">
-        <div ng-repeat="alert in alerts">
-            <uib-alert type="success" ng-if="alert.type == 'success'" dismiss-on-timeout="3000"
-                       close="closeAlert($index)">{{alert.msg}}
-            </uib-alert>
-            <uib-alert type="warning" ng-if="alert.type == 'warning'" dismiss-on-timeout="5000"
-                       close="closeAlert($index)">{{alert.msg}}
-            </uib-alert>
-            <uib-alert type="danger" ng-if="alert.type == 'danger'" close="closeAlert($index)">{{alert.msg}}</uib-alert>
-        </div>
+        <uib-alert type="{{ alert.type }}" ng-repeat="alert in alerts" class="alert"
+                   dismiss-on-timeout="{{ getDismissTimeout(alert.type); }}" close="closeAlert($index)">{{ alert.msg }}
+        </uib-alert>
     </div>
 
     <!-- Footer -->
@@ -123,6 +117,7 @@
 <script src="bower_components/SHA-1/sha1.js"></script>
 <script src="bower_components/angulartics/src/angulartics.js"></script>
 <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
 <!-- endbower -->
 <script src="bower_components/angulartics/src/angulartics-piwik.js"></script>
 <!-- endbuild -->

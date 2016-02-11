@@ -17,6 +17,7 @@
     "bootstrap-sass-official": "~3.3.x",
     "font-awesome": "~4.5.x",
     "angulartics": "~1.0.x",
+    "angular-animate": "^1.5.0",
     "angular-cookies": "^1.4.9"
   }
 }
