@@ -111,7 +111,7 @@ angular.module('hdbApp')
             function checkAndWarnOutdatedLocalDatabase() {
                 if (appDB.isOutdated()) {
                     alertManager.addAlert('You are working on an outdated database, please ' +
-                        'online as soon as possible to synchronize the database!', alertManager.ALERT_WARNING);
+                        'online as soon as possible to synchronize the database!', alertManager.ALERT_DANGER);
                 }
                 // TODO show info icon: you are working offline?
             }
