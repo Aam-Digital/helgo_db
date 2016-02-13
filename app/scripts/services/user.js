@@ -7,7 +7,7 @@
  * Class for User entity. Provides entity specific functions.
  */
 angular.module('hdbApp')
-    .factory('User', ['AbstractModel', 'appConfig', function (AbstractModel, appConfig) {
+    .factory('User', ['AbstractModel', function (AbstractModel) {
         var prefix = "user:";
 
         function User(data) {
@@ -19,7 +19,7 @@ angular.module('hdbApp')
                     this.settings = {};
                 }
             }
-        };
+        }
 
         User.prefix = prefix;
 
