@@ -2,7 +2,7 @@
 
 /**
  * @ngdoc service
- * @name hdbApp.appDb
+ * @name appDb
  * @description
  * # appDb
  * Database access object using PouchDB.
@@ -19,72 +19,84 @@ angular.module('hdbApp')
         pouchDBProvider.methods = angular.extend({}, POUCHDB_METHODS, authMethods);
     })
 
-    .factory('appDB', ['$log', 'pouchDB', 'appConfig', 'cookie', function ($log, pouchDB, appConfig, cookie) {
 
-        var remoteDB = pouchDB(appConfig.database.remote_url + appConfig.database.name, {
-            skipSetup: true,
-            ajax: {
-                rejectUnauthorized: false,
-                timeout: appConfig.database.timeout
-            }
-        });
+    .factory('appDB', ['$log', '$q', 'pouchDB', 'appConfig', function ($log, $q, pouchDB, appConfig) {
+        var fileDbName = appConfig.database.name + "_files";
 
         var db = pouchDB(appConfig.database.name);
-        db.remoteDB = remoteDB;
+        db._remoteDB = setupRemoteDB(appConfig.database.name);
+        db._fileDB = pouchDB(fileDbName);
+        db._remoteFileDB = setupRemoteDB(fileDbName);
 
-        db.login = function (username, password) {
+        db.sync = sync;
+        db.login = login;
+        db.logout = logout;
+        db.isOutdated = isOutdated;
+
+        db.putFile = putFile;
+        db.getFile = getFile;
+
+        return db;
+
+
+        function setupRemoteDB(dbName) {
+            return pouchDB(appConfig.database.remote_url + dbName, {
+                skipSetup: true,
+                ajax: {
+                    rejectUnauthorized: false,
+                    timeout: appConfig.database.timeout
+                }
+            });
+        }
+
+        function login(username, password) {
             var ajaxOpts = {
                 ajax: {
                     headers: {
-                        Authorization: 'Basic ' + window.btoa(username + ':' + password),
+                        Authorization: 'Basic ' + window.btoa(username + ':' + password)
                     }
                 }
             };
-            return db.remoteDB.login(username, password, ajaxOpts)
-                .then(function () {
-                        $log.debug("Remote login successful.");
-                    },
-                    function (error) {
-                        $log.error("Could not log in to the remote database. (" + error.message + ")");
-                        throw( error );
-                    });
-        };
 
-        db.sync = function () {
-            // Try a single database replication first.
-            $log.debug("Trying database replication.");
-
-            return PouchDB.sync(db, remoteDB, {
-                live: false,
-                retry: false
-            }).then(
+            db._remoteFileDB.login(username, password, ajaxOpts).then(
                 function () {
-                    $log.debug("Replication has been successful, trying live sync now.");
-                    cookie.setLastSyncCompleted();
+                },
+                function (error) {
+                    $log.error("Could not log in to the remote file database. (" + error.message + ")");
+                });
 
-                    PouchDB.sync(db, remoteDB, {
-                        live: true,
-                        retry: true
-                    }).then(
-                        function () {
-                            $log.debug("Live sync is running.")
-                        }, function (err) {
-                            $log.debug("Cannot activate live sync:");
-                            $log.debug(err);
-                        }
-                    );
-                }, function (err) {
+            return db._remoteDB.login(username, password, ajaxOpts).then(
+                function () {
+                    $log.debug("Remote login successful.");
+                },
+                function (error) {
+                    $log.error("Could not log in to the remote database. (" + error.message + ")");
+                });
+        }
+
+        function sync(syncLive) {
+            PouchDB.sync(db._fileDB, db._remoteFileDB, {live: syncLive, retry: syncLive});
+
+            return PouchDB.sync(db, db._remoteDB, {live: syncLive, retry: syncLive}).then(
+                function () {
+                    $log.debug("sync successfully");
+                },
+                function (err) {
                     $log.debug("sync failed:");
                     $log.debug(err);
                 },
                 function (notify) {
                     $log.debug("sync notification:");
                     $log.debug(notify);
-                }
-            );
-        };
+                });
+        }
 
-        db.isOutdated = function () {
+        function logout() {
+            db._remoteDB.logout();
+            db._remoteFileDB.logout();
+        }
+
+        function isOutdated() {
             var lastSyncCompleted = cookie.getLastSyncCompleted();
             var currentDate = new Date();
             var outdatedThreshold = appConfig.database.warn_database_outdated_after_days * 24 * 60 * 60 * 1000;
@@ -92,9 +104,49 @@ angular.module('hdbApp')
             return (currentDate.getTime() - lastSyncCompleted.getTime()) > outdatedThreshold;
         };
 
-        db.logout = function () {
-            return db.remoteDB.logout();
-        };
+        function putFile(fileId, file, overwrite) {
+            var deferred = $q.defer();
 
-        return db;
+            if (overwrite) {
+                db._fileDB.get(fileId).then(
+                    function (doc) {
+                        handleDeferredResult(db._fileDB.putAttachment(fileId, 'file', doc._rev, file, file.type));
+                    },
+                    function (err) {
+                        if (err.status === 404) {
+                            handleDeferredResult(db._fileDB.putAttachment(fileId, 'file', file, file.type));
+                        }
+                    }
+                )
+            } else {
+                handleDeferredResult(db._fileDB.putAttachment(fileId, 'file', file, file.type));
+            }
+
+            return deferred.promise;
+
+
+            function handleDeferredResult(promise) {
+                promise.then(
+                    function () {
+                        deferred.resolve();
+                    },
+                    function (err) {
+                        $log.error("Could not save file to database: " + err.message);
+                        deferred.reject(err);
+                    });
+            }
+        }
+
+        function getFile(fileId) {
+            return db._fileDB.getAttachment(fileId, 'file').then(
+                function (blob) {
+                    return URL.createObjectURL(blob);
+                },
+                function (err) {
+                    if (err.status != 404) {
+                        $log.error("Could not load file (" + this._id + "): " + err.message);
+                    }
+                }
+            );
+        }
     }]);

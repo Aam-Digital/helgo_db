@@ -2,7 +2,7 @@
 
 /**
  * @ngdoc service
- * @name hdbApp.Child
+ * @name Child
  * @description
  * Class for Child entity. Provides entity specific functions.
  */
@@ -226,77 +226,20 @@ angular.module('hdbApp')
 
 
             changePhoto: function (photo) {
-                var photoId = this._id + ":photo";
-
-                appDB.get(photoId).then(
-                    function (doc) {
-                        appDB.putAttachment(photoId, 'photo', doc._rev, photo, photo.type)
-                            .catch(function (err) {
-                                $log.error("Could not save photo to database: " + err.message);
-                            });
-                    },
-                    function (err) {
-                        if (err.status === 404) {
-                            appDB.putAttachment(photoId, 'photo', photo, photo.type)
-                                .catch(function (err) {
-                                    $log.error("Could not save photo to database: " + err.message);
-                                });
-                        }
-                    }
-                );
-
-                var timestamp = (new Date()).toISOString();
-                appDB.putAttachment(photoId + ":" + timestamp, 'photo', photo, photo.type)
-                    .catch(function (err) {
-                        $log.error("Could not save photo version to database: " + err.message);
-                    });
+                return appDB.putFile(this._id + ":photo", photo, true);
             },
 
             getPhoto: function () {
-                var deferred = $q.defer();
-
-                var photoId = this._id + ":photo";
-                appDB.getAttachment(photoId, 'photo').then(
-                    function (blob) {
-                        var url = URL.createObjectURL(blob);
-                        deferred.resolve(url);
-                    },
-                    function (err) {
-                        if (err.status != 404) {
-                            $log.error("Could not load photo attachment (" + this._id + "): " + err.message);
-                        }
-                        deferred.reject(err);
-                    }
-                );
-
-                return deferred.promise;
+                return appDB.getFile(this._id + ":photo");
             },
 
 
             setBirthCertificate: function (file) {
-                appDB.putAttachment(this._id, 'birthCertificate', this._rev, file, file.type)
-                    .catch(function (err) {
-                        $log.error("Could not save birth certificate to database: " + err.message);
-                    });
+                return appDB.putFile(this._id + ":birthCertificate", file, true);
             },
 
             getBirthCertificate: function () {
-                var deferred = $q.defer();
-
-                appDB.getAttachment(this._id, 'birthCertificate').then(
-                    function (blob) {
-                        var url = URL.createObjectURL(blob);
-                        deferred.resolve(url);
-                    },
-                    function (err) {
-                        if (err.status != 404) {
-                            $log.error("Could not load birth certificate attachment (" + this._id + "): " + err.message);
-                        }
-                        deferred.reject(err);
-                    }
-                );
-
-                return deferred.promise;
+                return appDB.getFile(this._id + ":birthCertificate");
             }
 
         });

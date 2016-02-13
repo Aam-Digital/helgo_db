@@ -71,11 +71,9 @@ angular.module('hdbApp')
                     function (child) {
                         $scope.child = child;
                         child.getPhoto().then(function (photo) {
-                            console.log(photo);
                             $scope.childPhoto = photo;
                         });
                         child.getBirthCertificate().then(function (file) {
-                            console.log(file);
                             $scope.birthCertificate = file;
                         });
 
@@ -101,7 +99,24 @@ angular.module('hdbApp')
                     $scope.childPhoto = oFREvent.target.result;
                 };
 
-                $scope.child.changePhoto(photo);
+                $scope.child.changePhoto(photo).catch(function (err) {
+                    alertManager.addAlert("Couldn't save the photo to the database: " + err.message, alertManager.ALERT_DANGER);
+                });
+            };
+
+            $scope.setBirthCertificate = function (fileInput) {
+                var file = fileInput.files[0];
+
+                //display download link immidiately
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function (oFREvent) {
+                    $scope.birthCertificate = oFREvent.target.result;
+                };
+
+                $scope.child.setBirthCertificate(file).catch(function (err) {
+                    alertManager.addAlert("Couldn't save the file to the database: " + err.message, alertManager.ALERT_DANGER);
+                });
             };
 
 
