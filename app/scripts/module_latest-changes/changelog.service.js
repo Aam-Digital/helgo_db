@@ -13,7 +13,6 @@ angular.module('hdbApp.latestChanges')
            getCurrentReleaseDetails: getCurrentReleaseDetails
         };
 
-
         function getCurrentReleaseDetails() {
             var deferred = $q.defer();
 
@@ -23,6 +22,7 @@ angular.module('hdbApp.latestChanges')
                 },
                 function(err) {
                     $log.error("Failed to load changlog.json");
+                    $log.debug(err);
                     deferred.reject();
                 }
             );

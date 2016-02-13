@@ -16,7 +16,7 @@ angular.module('hdbApp.latestChanges')
 
             link: function (scope, element, attrs) {
                 scope.showLatestChanges = latestChanges.show;
-                changelog.getCurrentReleaseDetails().then(function(release) {
+                changelog.getCurrentReleaseDetails().then(function (release) {
                     scope.version = release.tag_name;
                 });
             },
