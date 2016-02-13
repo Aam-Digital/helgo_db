@@ -8,9 +8,12 @@
  */
 angular
     .module('hdbApp', [
+        'hdbApp.latestChanges',
         'ngRoute',
+        'ngCookies',
         'ngSanitize',
         'ngTable',
+        'ngAnimate',
         'ui.bootstrap',
         'pouchdb',
         'angulartics',

@@ -83,15 +83,9 @@
 
     <!-- Alerts -->
     <div class="alerts" ng-controller="AlertCtrl" ng-hide="alerts.length == 0">
-        <div ng-repeat="alert in alerts">
-            <uib-alert type="success" ng-if="alert.type == 'success'" dismiss-on-timeout="3000"
-                       close="closeAlert($index)">{{alert.msg}}
-            </uib-alert>
-            <uib-alert type="warning" ng-if="alert.type == 'warning'" dismiss-on-timeout="5000"
-                       close="closeAlert($index)">{{alert.msg}}
-            </uib-alert>
-            <uib-alert type="danger" ng-if="alert.type == 'danger'" close="closeAlert($index)">{{alert.msg}}</uib-alert>
-        </div>
+        <uib-alert type="{{ alert.type }}" ng-repeat="alert in alerts" class="alert"
+                   dismiss-on-timeout="{{ getDismissTimeout(alert.type); }}" close="closeAlert($index)">{{ alert.msg }}
+        </uib-alert>
     </div>
 
     <!-- Footer -->
@@ -122,6 +116,8 @@
 <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
 <script src="bower_components/SHA-1/sha1.js"></script>
 <script src="bower_components/angulartics/src/angulartics.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
 <!-- endbower -->
 <script src="bower_components/angulartics/src/angulartics-piwik.js"></script>
 <!-- endbuild -->
@@ -154,12 +150,15 @@
 <script src="scripts/controllers/enrollment.js"></script>
 <script src="scripts/controllers/familymember.js"></script>
 <script src="scripts/directives/search.js"></script>
-<script src="scripts/directives/version-label.js"></script>
-<script src="scripts/services/latest-changes.js"></script>
-<script src="scripts/controllers/latest-changes.js"></script>
-<script src="scripts/filters/newlines.js"></script>
+<script src="scripts/module_latest-changes/latest-changes.module.js"></script>
+<script src="scripts/module_latest-changes/changelog.service.js"></script>
+<script src="scripts/module_latest-changes/version-label.directive.js"></script>
+<script src="scripts/module_latest-changes/latest-changes.service.js"></script>
+<script src="scripts/module_latest-changes/latest-changes.controller.js"></script>
+<script src="scripts/module_latest-changes/newlines.filter.js"></script>
 <script src="scripts/vendor/pbkdf2.js"></script>
 <script src="scripts/services/pagination.js"></script>
+<script src="scripts/services/cookie.js"></script>
 <script src="scripts/controllers/alert.js"></script>
 <script src="scripts/services/alertmanager.js"></script>
 <!-- endbuild -->

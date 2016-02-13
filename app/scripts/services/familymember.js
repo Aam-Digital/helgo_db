@@ -7,7 +7,7 @@
  * Class for a Child's FamilyMember entities. Provides entity specific functions.
  */
 angular.module('hdbApp')
-    .factory('FamilyMember', ['AbstractModel', 'appDB', function (AbstractModel, appDB) {
+    .factory('FamilyMember', ['AbstractModel', function (AbstractModel) {
         function FamilyMember(data, child) {
             if (data) {
                 this.setData(data);
@@ -16,7 +16,7 @@ angular.module('hdbApp')
                     this._id = prefix + data.name;
                 }
             }
-        };
+        }
 
         FamilyMember.prototype = angular.extend({}, AbstractModel, {
             age: function () {

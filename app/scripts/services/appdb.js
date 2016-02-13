@@ -31,6 +31,7 @@ angular.module('hdbApp')
         db.sync = sync;
         db.login = login;
         db.logout = logout;
+        db.isOutdated = isOutdated;
 
         db.putFile = putFile;
         db.getFile = getFile;
@@ -95,6 +96,13 @@ angular.module('hdbApp')
             db._remoteFileDB.logout();
         }
 
+        function isOutdated() {
+            var lastSyncCompleted = cookie.getLastSyncCompleted();
+            var currentDate = new Date();
+            var outdatedThreshold = appConfig.database.warn_database_outdated_after_days * 24 * 60 * 60 * 1000;
+
+            return (currentDate.getTime() - lastSyncCompleted.getTime()) > outdatedThreshold;
+        };
 
         function putFile(fileId, file, overwrite) {
             var deferred = $q.defer();

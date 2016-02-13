@@ -17,7 +17,8 @@ angular.module('hdbApp')
             ALERT_WARNING: 'warning',
             addAlert: addAlert,
             removeAlert: removeAlert
-        }
+        };
+
         function addAlert(message, type) {
             alerts.push({type: type, msg: message});
         }
