@@ -99,7 +99,7 @@ All code directly written for the web app itself is in the `/app` folder.
 There is a "model class" for each complex data type saved in the database (e.g. `School` in `app/model/school.js`) and a "manager class" to retrieve a specific instance (or all instances) of that class from the database (e.g. `schoolManager` in `app/model/school.js`).
 
 Overview of the data model design:
-![](doc/model.png)
+![](doc/domain-model.png)
 
 #### Child
 Holds all information of a child, including photo. Links to `FamilyMember` and `Enrollment` instances.
