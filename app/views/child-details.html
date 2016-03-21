@@ -57,7 +57,8 @@
                             <div class="form-group">
                                 <label>Age</label>
                                 <input class="form-control" value="{{ child.age() }}"
-                                       tooltip="Age is automatically calculated based on the date of birth." readonly>
+                                       uib-tooltip="Age is automatically calculated based on the date of birth."
+                                       readonly>
                             </div>
                         </div>
                     </div>
@@ -68,7 +69,7 @@
                                 <label>Project Number</label>
                                 <input type="number" class="form-control" ng-model="child.pn"
                                        value="{{child.pn |number:0}}" ng-readonly="!new"
-                                       tooltip="Uniquely identifies the child and cannot be changed once the record is created."
+                                       uib-tooltip="Uniquely identifies the child and cannot be changed once the record is created."
                                        required>
                             </div>
 
