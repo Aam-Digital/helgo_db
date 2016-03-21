@@ -59,6 +59,14 @@ angular.module('hdbApp')
             setData: function (data) {
                 angular.extend(this, data);
 
+                //convert to Date objects (needed for uib-datepicker directives)
+                if (typeof this.dateOfBirth === 'string') {
+                    this.dateOfBirth = new Date(this.dateOfBirth);
+                }
+                if (typeof this.admission === 'string') {
+                    this.admission = new Date(this.admission);
+                }
+
                 return this;
             },
 
@@ -70,8 +78,7 @@ angular.module('hdbApp')
             age: function () {
                 if (this.dateOfBirth) {
                     var now = new Date();
-                    var birth = new Date(this.dateOfBirth);
-                    var diff = now.getTime() - birth.getTime();
+                    var diff = now.getTime() - this.dateOfBirth.getTime();
                     return Math.floor(diff / (1000 * 3600 * 24 * 365));
                 }
                 return null;
