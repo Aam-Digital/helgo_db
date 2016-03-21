@@ -15,6 +15,9 @@ angular.module('hdbApp')
                     var prefix = child._id + "familyMember:";
                     this._id = prefix + data.name;
                 }
+                if (this.isGuardian === undefined) {
+                    this.isGuardian = false;
+                }
             }
         }
 

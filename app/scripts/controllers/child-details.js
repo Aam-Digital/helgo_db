@@ -94,7 +94,7 @@ angular.module('hdbApp')
                     {
                         count: 25,
                         sorting: {
-                            isGuardian: 'asc'
+                            isGuardian: 'desc'
                         }
                     },
                     {
