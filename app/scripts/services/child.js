@@ -68,10 +68,13 @@ angular.module('hdbApp')
             },
 
             age: function () {
-                var now = new Date();
-                var birth = new Date(this.dateOfBirth);
-                var diff = now.getTime() - birth.getTime();
-                return Math.ceil(diff / (1000 * 3600 * 24 * 365));
+                if (this.dateOfBirth) {
+                    var now = new Date();
+                    var birth = new Date(this.dateOfBirth);
+                    var diff = now.getTime() - birth.getTime();
+                    return Math.floor(diff / (1000 * 3600 * 24 * 365));
+                }
+                return null;
             },
 
 
