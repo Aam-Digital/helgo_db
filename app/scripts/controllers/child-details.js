@@ -10,7 +10,61 @@
 angular.module('hdbApp')
     .controller('ChildDetailsCtrl', ['$scope', '$sce', '$location', '$filter', '$log', '$routeParams', 'ngTableParams', 'childManager', 'Child', 'userManager', 'schoolManager', '$uibModal', '$timeout', 'alertManager',
         function ($scope, $sce, $location, $filter, $log, $routeParams, ngTableParams, childManager, Child, userManager, schoolManager, $uibModal, $timeout, alertManager) {
-            var loadEnrollments = function (child) {
+            $scope.save = saveForm;
+            $scope.cancel = cancelForm;
+
+            $scope.changePhoto = setPhotoFile;
+            $scope.setBirthCertificate = setBirthCertificateFile;
+            $scope.showFamilyMember = showFamilyMember;
+            $scope.showEnrollment = showEnrollment;
+
+            $scope.centers = ['Tikiapara', 'Liluah'];
+            $scope.birthCertificateType = ['None', 'Gram Panchayat', 'Municipal Corporation', 'Court Affidavit', 'School Headmaster / Principal'];
+            userManager.getAllSocialworkers().then(function (users) {
+                $scope.socialworkers = users;
+            });
+
+            if ($routeParams.pn === "new") {
+                initNewChild();
+            }
+            else {
+                initExistingChild($routeParams.pn)
+            }
+
+
+            function initNewChild() {
+                $scope.child = {};
+                $scope.new = true;
+                alertManager.addAlert('Creating a new child record.', alertManager.ALERT_SUCCESS);
+            }
+
+            function initExistingChild(pn) {
+                childManager.get(pn).then(
+                    function (child) {
+                        loadChild2Scope(child);
+                        loadTableFamily2Scope(child);
+                        loadTableEnrollments2Scope(child);
+                    },
+                    function (err) {
+                        alertManager.addAlert('The given child could not be loaded.', alertManager.ALERT_DANGER);
+                        $log.error('The given child could not be loaded (' + err.message + ')');
+                        initNewChild();
+                    }
+                );
+            }
+
+
+            function loadChild2Scope(child) {
+                $scope.child = child;
+                child.getPhoto().then(function (photo) {
+                    $scope.childPhoto = photo;
+                });
+                child.getBirthCertificate().then(function (file) {
+                    $scope.birthCertificate = file;
+                });
+            }
+
+            function loadTableEnrollments2Scope(child) {
                 $scope.tableEnrollments = new ngTableParams(
                     {
                         count: 25,
@@ -33,14 +87,14 @@ angular.module('hdbApp')
                         }
                     }
                 );
-            };
+            }
 
-            var loadFamily = function (child) {
+            function loadTableFamily2Scope(child) {
                 $scope.tableFamily = new ngTableParams(
                     {
                         count: 25,
                         sorting: {
-                            isGuardian: 'asc'
+                            isGuardian: 'desc'
                         }
                     },
                     {
@@ -58,38 +112,10 @@ angular.module('hdbApp')
                         }
                     }
                 );
-            };
-
-            var param = $routeParams.pn;
-            if (param === "new") {
-                $scope.child = {};
-                $scope.new = true;
-                alertManager.addAlert('Creating a new child record.', alertManager.ALERT_SUCCESS);
-            }
-            else {
-                childManager.get(param).then(
-                    function (child) {
-                        $scope.child = child;
-                        child.getPhoto().then(function (photo) {
-                            $scope.childPhoto = photo;
-                        });
-                        child.getBirthCertificate().then(function (file) {
-                            $scope.birthCertificate = file;
-                        });
-
-                        loadFamily(child);
-                        loadEnrollments(child);
-                    },
-                    function (err) {
-                        alertManager.addAlert('The given child could not be loaded.', alertManager.ALERT_DANGER);
-                        $log.error('The given child could not be loaded (' + err.message + ')');
-                        $scope.child = {};
-                        $scope.new = true;
-                    }
-                );
             }
 
-            $scope.changePhoto = function (fileInput) {
+
+            function setPhotoFile(fileInput) {
                 var photo = fileInput.files[0];
 
                 //display photo immediately
@@ -102,9 +128,9 @@ angular.module('hdbApp')
                 $scope.child.changePhoto(photo).catch(function (err) {
                     alertManager.addAlert("Couldn't save the photo to the database: " + err.message, alertManager.ALERT_DANGER);
                 });
-            };
+            }
 
-            $scope.setBirthCertificate = function (fileInput) {
+            function setBirthCertificateFile(fileInput) {
                 var file = fileInput.files[0];
 
                 //display download link immidiately
@@ -117,31 +143,27 @@ angular.module('hdbApp')
                 $scope.child.setBirthCertificate(file).catch(function (err) {
                     alertManager.addAlert("Couldn't save the file to the database: " + err.message, alertManager.ALERT_DANGER);
                 });
-            };
+            }
 
 
-            $scope.save = function () {
-                var child = $scope.child;
+            function showFamilyMember(familyMember) {
+                var modalScope = $scope.$new(true);
+                modalScope.selectedFamilyMember = familyMember;
+                modalScope.selectedChild = $scope.child;
 
-                if ($scope.new) {
-                    child = new Child(child);
-                    alertManager.addAlert('Creating a new child record.', alertManager.ALERT_SUCCESS);
-                }
+                var modalInstance = $uibModal.open({
+                    animation: false,
+                    templateUrl: 'views/familymember.html',
+                    controller: 'FamilymemberCtrl',
+                    scope: modalScope
+                });
 
-                child.update();
-                $scope.new = false;
+                modalInstance.result.then(function () {
+                    loadTableFamily2Scope($scope.child);
+                });
+            }
 
-                alertManager.addAlert('Saved changes!', alertManager.ALERT_SUCCESS);
-                $location.path("/child");
-            };
-
-            $scope.cancel = function () {
-                childManager.uncache(param);
-                $scope.child = {};
-                $location.path("/child");
-            };
-
-            $scope.showEnrollment = function (enrollment) {
+            function showEnrollment(enrollment) {
                 if (enrollment == "new") {
                     showEnrollmentModal(enrollment);
                 }
@@ -161,13 +183,13 @@ angular.module('hdbApp')
                         templateUrl: 'views/confirmation-modal.html',
                         scope: confirmScope
                     });
-                    confirmationModal.result.then(function (res) {
+                    confirmationModal.result.then(function () {
                         showEnrollmentModal(enrollment);
                     });
                 }
-            };
+            }
 
-            var showEnrollmentModal = function (enrollment) {
+            function showEnrollmentModal(enrollment) {
                 var modalScope = $scope.$new(true);
                 modalScope.selectedEnrollment = enrollment;
                 modalScope.selectedChild = $scope.child;
@@ -179,35 +201,30 @@ angular.module('hdbApp')
                     scope: modalScope
                 });
 
-                modalInstance.result.then(function (res) {
-                    loadEnrollments($scope.child);
+                modalInstance.result.then(function () {
+                    loadTableEnrollments2Scope($scope.child);
                 });
-            };
+            }
 
 
-            $scope.showFamilyMember = function (familyMember) {
-                var modalScope = $scope.$new(true);
-                modalScope.selectedFamilyMember = familyMember;
-                modalScope.selectedChild = $scope.child;
+            function saveForm() {
+                var child = $scope.child;
 
-                var modalInstance = $uibModal.open({
-                    animation: false,
-                    templateUrl: 'views/familymember.html',
-                    controller: 'FamilymemberCtrl',
-                    scope: modalScope
-                });
+                if ($scope.new) {
+                    child = new Child(child);
+                    alertManager.addAlert('Creating a new child record.', alertManager.ALERT_SUCCESS);
+                }
 
-                modalInstance.result.then(function (res) {
-                    loadFamily($scope.child);
-                });
-            };
+                child.update();
+                $scope.new = false;
 
+                alertManager.addAlert('Saved changes!', alertManager.ALERT_SUCCESS);
+                $location.path("/child");
+            }
 
-            userManager.getAllSocialworkers().then(function (users) {
-                $scope.socialworkers = users;
-            });
-
-            $scope.centers = ['Tikiapara', 'Liluah'];
-            $scope.birthCertificateType = ['None', 'Gram Panchayat', 'Municipal Corporation', 'Court Affidavit', 'School Headmaster / Principal'];
-
+            function cancelForm() {
+                childManager.uncache($scope.child.pn);
+                $scope.child = {};
+                $location.path("/child");
+            }
         }]);
