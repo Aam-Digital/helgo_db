@@ -60,10 +60,10 @@ angular.module('hdbApp')
                 angular.extend(this, data);
 
                 //convert to Date objects (needed for uib-datepicker directives)
-                if (typeof this.dateOfBirth === 'string') {
+                if (typeof this.dateOfBirth === 'string' && this.dateOfBirth != "") {
                     this.dateOfBirth = new Date(this.dateOfBirth);
                 }
-                if (typeof this.admission === 'string') {
+                if (typeof this.admission === 'string' && this.admission != "") {
                     this.admission = new Date(this.admission);
                 }
 
