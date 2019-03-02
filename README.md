@@ -1,4 +1,7 @@
 # HELGO DB
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/NGO-DB/helgo_db.svg)](https://greenkeeper.io/)
+
 Empowering NGOs' social workers with simple to use (database) software.
 
 For a project outline, free demo system, etc. visit [ngo-db.sinnfragen.org](http://ngo-db.sinnfragen.org/)
